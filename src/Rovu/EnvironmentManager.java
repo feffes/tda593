@@ -5,19 +5,14 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Set;
 
-public class Robot implements IRobot {
+public class EnvironmentManager implements IEnvironmentManager {
     @Override
-    public void setMission(Set<Point3D> positionSet) {
+    public void addWall(Set<Point3D> boundary) {
         throw new NotImplementedException();
     }
 
     @Override
-    public Point3D getPosition() {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public void setPosition(Point3D position) {
+    public Set<Point3D> getRoute(Point3D start, Point3D end) {
         throw new NotImplementedException();
     }
 }
