@@ -8,6 +8,6 @@ import java.util.Set;
 public class Strategy implements IStrategy {
     @Override
     public Set<Point> ComputeStrategy(Set<Point> mission) {
-        throw new NotImplementedException();
+        return mission;//dumb strats yo
     }
 }
