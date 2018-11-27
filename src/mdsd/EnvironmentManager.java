@@ -1,18 +1,18 @@
-package Rovu;
+package mdsd;
 
-import javafx.geometry.Point3D;
+import project.Point;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Set;
 
 public class EnvironmentManager implements IEnvironmentManager {
     @Override
-    public void addWall(Set<Point3D> boundary) {
+    public void addWall(Set<Point> boundary) {
         throw new NotImplementedException();
     }
 
     @Override
-    public Set<Point3D> getRoute(Point3D start, Point3D end) {
+    public Set<Point> getRoute(Point start, Point end) {
         throw new NotImplementedException();
     }
 }

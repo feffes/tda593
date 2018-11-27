@@ -1,13 +1,13 @@
-package Rovu;
+package mdsd;
 
-import javafx.geometry.Point3D;
+import project.Point;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Set;
 
 public class Strategy implements IStrategy {
     @Override
-    public Set<Point3D> ComputeStrategy(Set<Point3D> mission) {
+    public Set<Point> ComputeStrategy(Set<Point> mission) {
         throw new NotImplementedException();
     }
 }

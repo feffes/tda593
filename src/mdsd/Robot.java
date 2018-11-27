@@ -2,8 +2,10 @@ package mdsd;
 
 import project.AbstractRobotSimulator;
 import project.Point;
+import simbad.sim.*;
+import java.util.Set;
 
-public class Robot extends AbstractRobotSimulator {
+public class Robot extends AbstractRobotSimulator implements IRobot {
 
 	
 	
@@ -17,4 +19,13 @@ public class Robot extends AbstractRobotSimulator {
 		return "Robot " + this.getName();
 	}
 
+	@Override
+	public void setMission(Set<Point> positionSet) {
+
+	}
+
+	@Override
+	public void setPosition(Point position) {
+
+	}
 }
