@@ -18,20 +18,13 @@ public class Robot extends AbstractRobotSimulator implements IRobot {
 		return "Robot " + this.getName();
 	}
 
-	public void setMission(Set<Point> positionSet) {
-
-	} // kill this
-
     @Override
     public void setDestination(Point dest){
 	    this.dest = dest;
 	    super.setDestination(dest);
     }
-	public void setPosition(Point position) {
 
-	}
 	public boolean isAtDestination(){
-	    return this.isAtPosition(dest);
+	    return this.getPosition().dist(dest) <= this.getAgent().getRadius();
     }
-
 }
