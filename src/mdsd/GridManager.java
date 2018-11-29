@@ -27,11 +27,42 @@ public class GridManager {
          while(x <= sizeX-1){
              z = 0;
              while(z <= sizeZ-1){
-                grid[x][z] = new GridElement(x,z);
+                grid[x][z] = new GridElement(x,z,true);
                 z++;
              }
              x++;
          }
+    }
+
+    public List<GridElement> getNeighbors(GridElement e){
+        List<GridElement> neighbors = new ArrayList<GridElement>();
+
+        for(int i = -1 ;i<2;i++){
+            for(int j = -1; j<2 ;j++){
+                if(! (i==0 && j==0))  {
+                    GridElement n = getFreeNeighbor(e,i,j);
+                    if(n != null){
+                        neighbors.add(n);
+                    }
+                }
+            }
+        }
+        return neighbors;
+
+    }
+
+    public GridElement getFreeNeighbor(GridElement e , int offsetX, int offsetZ){
+        try{
+            GridElement neighbor = grid[e.getX()+offsetX][e.getZ()+offsetZ];
+            if(neighbor.isFree()){
+                return neighbor;
+            }else{
+                return null;
+            }
+        }catch(Exception exp){
+            return null; //maybe imporve this
+        }
+
     }
 
     public GridElement[][] getGrid(){
