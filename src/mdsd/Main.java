@@ -50,6 +50,10 @@ public class Main {
         AbstractWall roomWall9 = new HorizontalWall(0f, -5f, -3.5f, e, color);
         AbstractWall roomWall10 = new HorizontalWall(0f, 3.5f, 5f, e, color);
 
+        GridManager gridManager = new GridManager();
+        gridManager.generateGrid(-10,-10,10,10,0.5);
+        System.out.println(gridManager.gridToString());
+
         Set<Robot> robots = new HashSet<>();
 		Robot robot1 = new Robot(new Point(0, 0), "Robot 1");
 		Robot robot2 = new Robot(new Point(1, 3), "Robot 2");
