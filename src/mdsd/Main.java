@@ -55,8 +55,6 @@ public class Main {
         gm.addHorizantalWall(new HorizontalWall(0f, -5f, -3.5f, e, color));
         gm.addHorizantalWall(new HorizontalWall(0f, 3.5f, 5f, e, color));
 
-
-
         GridElement[][] grid = gm.getGrid();
         System.out.println("HElloHELLOHEllo");
         System.out.println( gm.gridToString());
