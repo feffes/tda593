@@ -21,6 +21,8 @@ public class GridManager {
     private int worldZ2;
 
 
+
+
     GridManager(List<GridElement> allElements){
         this.allElements = allElements;
     }
@@ -104,7 +106,9 @@ public class GridManager {
          while(x <= sizeX-1){
              z = 0;
              while(z <= sizeZ-1){
-                grid[x][z] = new GridElement(x,z,true);
+                 GridElement e = new GridElement(x,z,true);
+                 grid[x][z] = e;
+                 allElements.add(e);
                 z++;
              }
              x++;
@@ -124,6 +128,44 @@ public class GridManager {
                 }
             }
         }
+        return neighbors;
+
+    }
+
+    public List<GridElement> getDiagonalNeighbors(GridElement e){
+        List<GridElement> neighbors = new ArrayList<GridElement>();
+        int[] offsets = {1,-1};
+
+        for (int i : offsets) {
+            for (int j : offsets) {
+                    GridElement n = getFreeNeighbor(e,i,j);
+                    if(n != null){
+                        neighbors.add(n);
+                    }
+            }
+        }
+
+        return neighbors;
+
+    }
+
+    public List<GridElement> getOpposingNeighbors(GridElement e){
+        List<GridElement> neighbors = new ArrayList<GridElement>();
+        int[] offsets = {1,-1,0};
+
+        for (int i : offsets) {
+            for (int j : offsets) {
+                if(! ( (i==0 && j==0) || (i==1 && j==1) || (i==1 && j==-1)
+                        || (i==-1 && j==1) || (i==-1 && j==-1))) {
+                    GridElement n = getFreeNeighbor(e,i,j);
+                    if(n != null){
+                        neighbors.add(n);
+                    }
+                }
+
+            }
+        }
+
         return neighbors;
 
     }
@@ -159,6 +201,22 @@ public class GridManager {
         for(int i = 0; i < grid.length ; i++){
             for( int j = 0; j < grid[i].length ; j++){
                 builder.append(grid[j][i].toString());
+            }
+            builder.append("\n");
+        }
+        return builder.toString();
+    }
+
+    public String gridToString(List<GridElement> gridList) {
+        StringBuilder builder = new StringBuilder();
+        for(int i = 0; i < grid.length ; i++){
+            for( int j = 0; j < grid[i].length ; j++){
+                if(gridList.contains(grid[j][i])){
+                    builder.append("x");
+                }else{
+                    builder.append(grid[j][i].toString());
+                }
+
             }
             builder.append("\n");
         }
