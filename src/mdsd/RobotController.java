@@ -36,7 +36,7 @@ public class RobotController {
             while (bool){
                 for (IRobot robot: robots){
                     if (robot.isAtDestination()){
-                        // do the updating of the stuff here
+
                     }
                 }
             }

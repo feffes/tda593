@@ -14,6 +14,7 @@ public class Mission {
     public Mission(){
         this.s = new LinkedList<>();
     }
+
     public boolean reachedGoal(Point point){
         if (s.peekFirst().isReached(point))
         {
