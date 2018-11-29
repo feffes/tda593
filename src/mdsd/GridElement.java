@@ -47,6 +47,6 @@ public class GridElement {
 
     @Override
     public String toString() {
-        return "[" + x +":"+ z + "-" + free + "]" ;
+        return (free) ? "o" : "x"  ;
     }
 }

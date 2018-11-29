@@ -7,18 +7,27 @@ public class GridManager {
 
     private List<GridElement> allElements = new ArrayList<GridElement>(); //dont need??
     private GridElement[][] grid;
+    private double elementSize;
 
     GridManager(List<GridElement> allElements){
         this.allElements = allElements;
     }
 
-    GridManager(){ }
+    public GridManager(){
+
+    }
+
 
     //Possible imporovement: decide the distance between the points. 1 for now
-    public void generateGrid(int x1, int z1, int x2, int z2){
+    public void generateGrid(int x1, int z1, int x2, int z2, double elementSize){
 
-        int sizeX = Math.abs(x2 - x1);
-        int sizeZ = Math.abs(z2 - z1);
+        //assuming user knows wtf he's doing
+        this.elementSize = elementSize;
+
+        Double tempx = Math.abs(x2 - x1) / elementSize;
+        Double tempz = Math.abs(z2 - z1) / elementSize;
+        int sizeX = (int) Math.round(tempx);
+        int sizeZ = (int) Math.round(tempz);
         grid = new GridElement[sizeX][sizeZ];
         int x;
         int z;
