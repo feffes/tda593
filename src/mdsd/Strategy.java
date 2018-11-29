@@ -7,7 +7,9 @@ import java.util.Set;
 
 public class Strategy implements IStrategy {
     @Override
-    public Set<Point> ComputeStrategy(Set<Point> mission) {
-        return mission;//dumb strats yo
+    public Set<Point> ComputeStrategy(Set<Point>  points) {
+
+        return null;
     }
+
 }
