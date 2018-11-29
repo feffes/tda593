@@ -47,6 +47,6 @@ public class GridElement {
 
     @Override
     public String toString() {
-        return (free) ? "o" : "x"  ;
+        return (free) ? " " : "#"  ;
     }
 }
