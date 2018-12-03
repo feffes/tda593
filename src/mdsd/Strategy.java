@@ -3,11 +3,10 @@ package mdsd;
 import project.Point;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.Set;
+import java.util.List;
 
 public class Strategy implements IStrategy {
-    @Override
-    public Set<Point> ComputeStrategy(Set<Point>  points) {
+    public List<Point> ComputeStrategy(List<Point> points) {
 
         return null;
     }
