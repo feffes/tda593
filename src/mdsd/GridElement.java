@@ -21,6 +21,11 @@ public class GridElement {
 
     }
 
+    public Boolean isDiagonalNeighbor(GridElement e){
+        return Math.abs(e.getX() - this.x) == 1
+               && Math.abs(e.getZ() - this.z) == 1;
+    }
+
     public Point getPoint(){
         return new Point(x,z);
     }
