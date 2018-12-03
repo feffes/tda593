@@ -10,7 +10,33 @@ public class MissionTest {
 
     @Test
     public void DoMission() {
-        IEnvironmentManager environmentManager = initTestEnvironment();
+        IEnvironmentManager environmentManager = new EnvironmentManager();
+
+        environmentManager.addHorizontalWall(-10.0f, -10.0f, 10.0f);
+        environmentManager.addHorizontalWall(10.0f, -10.0f, 10.0f);
+        environmentManager.addVerticalWall(10.0f, -10.0f, 10.0f);
+        environmentManager.addVerticalWall(-10.0f, -10.0f, 10.0f);
+
+        environmentManager.addHorizontalWall(-5f, -1.5f, 1.5f);
+        environmentManager.addHorizontalWall(-5f, -5f, -3.5f);
+        environmentManager.addHorizontalWall(-5f, 3.5f, 5f);
+        //gm.addVerticalWall( new HorizontalWall(-5.3f, 3.5f, 5f, e, Color.CYAN);
+
+        environmentManager.addHorizontalWall(5f, -1.5f, 1.5f);
+        environmentManager.addHorizontalWall(5f, -5f, -3.5f);
+        environmentManager.addHorizontalWall(5f, 3.5f, 5f);
+
+        environmentManager.addVerticalWall(5f, -5f, 5f);
+        environmentManager.addVerticalWall(-5f, -5f, 5f);
+
+        //inner vertical walls
+        environmentManager.addVerticalWall(0f, -1.5f, 1.5f);
+        environmentManager.addVerticalWall(0f, -5f, -3.5f);
+        environmentManager.addVerticalWall(0f, 3.5f, 5f);
+        //inner horizontal walls
+        environmentManager.addHorizontalWall(0f, -1.5f, 1.5f);
+        environmentManager.addHorizontalWall(0f, -5f, -3.5f);
+        environmentManager.addHorizontalWall(0f, 3.5f, 5f);
 
         Point startPoint = new Point(5, 2.5);
         Point exitRoom2 = new Point(-5, 2.5);
@@ -47,38 +73,6 @@ public class MissionTest {
         mission3.addGoal(exitGoalRoom4);
 
 
-    }
-
-    private IEnvironmentManager initTestEnvironment() {
-        IEnvironmentManager environmentManager = new EnvironmentManager();
-
-        environmentManager.addHorizontalWall(-10.0f, -10.0f, 10.0f);
-        environmentManager.addHorizontalWall(10.0f, -10.0f, 10.0f);
-        environmentManager.addVerticalWall(10.0f, -10.0f, 10.0f);
-        environmentManager.addVerticalWall(-10.0f, -10.0f, 10.0f);
-
-        environmentManager.addHorizontalWall(-5f, -1.5f, 1.5f);
-        environmentManager.addHorizontalWall(-5f, -5f, -3.5f);
-        environmentManager.addHorizontalWall(-5f, 3.5f, 5f);
-        //gm.addVerticalWall( new HorizontalWall(-5.3f, 3.5f, 5f, e, Color.CYAN);
-
-        environmentManager.addHorizontalWall(5f, -1.5f, 1.5f);
-        environmentManager.addHorizontalWall(5f, -5f, -3.5f);
-        environmentManager.addHorizontalWall(5f, 3.5f, 5f);
-
-        environmentManager.addVerticalWall(5f, -5f, 5f);
-        environmentManager.addVerticalWall(-5f, -5f, 5f);
-
-        //inner vertical walls
-        environmentManager.addVerticalWall(0f, -1.5f, 1.5f);
-        environmentManager.addVerticalWall(0f, -5f, -3.5f);
-        environmentManager.addVerticalWall(0f, 3.5f, 5f);
-        //inner horizontal walls
-        environmentManager.addHorizontalWall(0f, -1.5f, 1.5f);
-        environmentManager.addHorizontalWall(0f, -5f, -3.5f);
-        environmentManager.addHorizontalWall(0f, 3.5f, 5f);
-
-        return environmentManager;
     }
 }
 

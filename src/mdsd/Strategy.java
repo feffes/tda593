@@ -6,9 +6,14 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.List;
 
 public class Strategy implements IStrategy {
-    public List<Point> ComputeStrategy(List<Point> points) {
 
+    @Override
+    public List<Point> ComputeNext(IGoal goal, List<Point> otherRobots, Point robotPosition) {
         return null;
     }
 
+    @Override
+    public void addRestrictedArea(Area area, int numberOfRobots) {
+
+    }
 }

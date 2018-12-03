@@ -35,9 +35,9 @@ public class RobotController {
             boolean bool = true;
             while (bool){
                 for (IRobot robot: robots){
-                    if (robot.isAtDestination()){
-
-                    }
+//                    if (robot.isAtDestination()){
+//
+//                    }
                 }
             }
         }
