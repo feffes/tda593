@@ -2,23 +2,45 @@ package mdsd;
 
 import project.Point;
 
+import java.util.Set;
+
 public class ExitGoal implements IGoal {
 
-    private IEnvironmentManager environmentManager;
+    private Point goalPosition;
+    private Set<Area> areas;
 
-    public ExitGoal(IEnvironmentManager environmentManager) {
-
-        this.environmentManager = environmentManager;
+    public ExitGoal(Set<Area> areas) {
+        this.areas = areas;
     }
 
     @Override
     public Point getGoalPosition() {
-        return null;
+        return goalPosition;
     }
 
     @Override
     public void setGoalPosition(IRobot robot) {
+        Point robotPosition = robot.getPosition();
+        double closestDistance = Double.POSITIVE_INFINITY;
+        Point closestExit = null;
 
+        for (Area area : areas) {
+            if (area.isInside(robot)) {
+                for (Point exit : area.getExits()) {
+                    double distance = robotPosition.dist(exit);
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        closestExit = exit;
+                    }
+                }
+            }
+        }
+
+        if (closestExit == null) {
+            this.goalPosition = robotPosition;
+        } else {
+            this.goalPosition = closestExit;
+        }
     }
 
     @Override
