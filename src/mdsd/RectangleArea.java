@@ -6,12 +6,14 @@ import java.util.Set;
 
 public class RectangleArea implements Area {
 
+    private String name;
     private final float lower_x;
     private final float upper_x;
     private final float lower_z;
     private final float upper_z;
 
-    public RectangleArea(float lower_x, float upper_x, float lower_z, float upper_z) {
+    public RectangleArea(String name, float lower_x, float upper_x, float lower_z, float upper_z) {
+        this.name = name;
         this.lower_x = lower_x;
         this.upper_x = upper_x;
         this.lower_z = lower_z;
@@ -28,11 +30,11 @@ public class RectangleArea implements Area {
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
     public void setName(String name) {
-
+        this.name = name;
     }
 }

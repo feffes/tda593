@@ -9,7 +9,9 @@ public interface IRobot {
 
     Point getPosition();
 
-    void setDestination(Point point);
+    public Point getDestination();
+
+    public void setDestination(Point point);
 
     void addObserver(RobotObserver observer);
 

@@ -29,12 +29,12 @@ public class MissionTest {
         room1Boundary.add(new Point(5, 0));
         room1Boundary.add(new Point(5, 5));
 
-        Area room1 = new RectangleArea(0, 5, 0, 5);
+        Area room1 = new RectangleArea("Room 1",0, 5, 0, 5);
         Set<Area> areas = new HashSet<>();
         areas.add(room1);
 
-        IRobot robot1 = new Robot(new Point(5, 2.5), "Robot1");
-        IRobot robot2 = new Robot(new Point(6, 2.5), "Robot2");
+        IRobot robot1 = new Robot(new Point(5, 2.5), "Robot1", 10);
+        IRobot robot2 = new Robot(new Point(6, 2.5), "Robot2", 10);
 
         Set<Robot> robots = new HashSet<>();
         robots.add((Robot) robot1);
@@ -50,18 +50,26 @@ public class MissionTest {
         robot1.setDestination(new Point(-6, 2.5));
         robot2.setDestination(new Point(-6, 2.5));
 
-
+        // wait till Robot 2 reaches boundary
         while (robot2.getPosition().getX() > 5) {
-            // wait till Robot 2 reaches boundary
+            Thread.sleep(100);
         }
 
+        Point lastPos = robot2.getPosition();
+
         while (room1.isInside(robot1)) {
-            System.out.println(robot2.getPosition().getX());
-            assertTrue(Math.abs(robot2.getPosition().getX() - 5) < .001);
+            Thread.sleep(10);
+            assertEquals(lastPos.getX(), robot2.getPosition().getX(), .01);
+            lastPos = robot2.getPosition();
+            //assertTrue(Math.abs(robot2.getPosition().getX() - 5) < .1);
         }
 
         assertFalse(room1.isInside(robot1));
         assertTrue(room1.isInside(robot2));
+
+        Thread.sleep(200);
+
+        assertEquals(-6, robot2.getDestination().getX(), .01);
     }
 
     @Test
@@ -92,10 +100,10 @@ public class MissionTest {
 
         IGoal exitGoal = new ExitGoal(environmentManager);
 
-        IRobot robot1 = new Robot(new Point(5, 2.5), "Robot1");
-        IRobot robot2 = new Robot(new Point(6, 2.5), "Robot2");
-        IRobot robot3 = new Robot(new Point(7, 2.5), "Robot3");
-        IRobot robot4 = new Robot(new Point(8, 2.5), "Robot4");
+        IRobot robot1 = new Robot(new Point(5, 2.5), "Robot1", 100);
+        IRobot robot2 = new Robot(new Point(6, 2.5), "Robot2", 100);
+        IRobot robot3 = new Robot(new Point(7, 2.5), "Robot3", 100);
+        IRobot robot4 = new Robot(new Point(8, 2.5), "Robot4", 100);
 
         IMission mission1 = new Mission();
         mission1.addGoal(goalRoom1);
