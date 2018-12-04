@@ -7,9 +7,13 @@ import java.util.Set;
 
 public interface IRobot {
 
-    public Point getPosition();
+    Point getPosition();
 
-    public void setDestination(Point point);
+    void setDestination(Point point);
 
-    public void addObserver(RobotObserver observer);
+    void addObserver(RobotObserver observer);
+
+    double getRadius();
+
+    boolean isAtDestination();
 }

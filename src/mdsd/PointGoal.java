@@ -25,6 +25,8 @@ public class PointGoal implements IGoal {
 
     @Override
     public boolean isReached(IRobot robot) {
+        if (point.dist(robot.getPosition()) <= robot.getRadius())
+            return true;
         return false;
     }
 }

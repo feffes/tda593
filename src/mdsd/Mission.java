@@ -3,29 +3,30 @@ package mdsd;
 import project.Point;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class Mission implements IMission {
-    private LinkedList<IGoal> s;
+    private LinkedList<IGoal> gls;
 
-    public Mission(LinkedList<IGoal> s) {
-        this.s = s;
+    public Mission(LinkedList<IGoal> gls) {
+        this.gls = gls;
     }
     public Mission(){
-        this.s = new LinkedList<>();
+        this.gls = new LinkedList<>();
     }
 
-//    public boolean reachedGoal(Point point){
-//        if (s.peekFirst().isReached(point))
-//        {
-//            s.removeFirst();
-//            return true;
-//        }
-//        return false;
-//    }
+    public boolean reachedGoal(IRobot robot){
+        if (gls.peekFirst().isReached(robot))
+        {
+            gls.removeFirst();
+            return true;
+        }
+        return false;
+    }
+
+
 
     public void addGoal(IGoal goal){
-        s.addLast(goal);
+        gls.addLast(goal);
     }
 
     @Override
@@ -39,6 +40,6 @@ public class Mission implements IMission {
     }
 
     public void addGoal(int i,IGoal goal){
-        s.add(i, goal);
+        gls.add(i, goal);
     }
 }

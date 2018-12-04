@@ -3,7 +3,9 @@ package mdsd;
 import project.Point;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class DijkstraStrategy implements IStrategy {
     DijkstraSolver solver;
@@ -14,8 +16,8 @@ public class DijkstraStrategy implements IStrategy {
     }
 
     @Override
-    public List<Point> ComputeNext(IGoal goal, List<Point> otherRobots, Point robotPosition) {
-        return gm.translateToPoints(solver.solve(robotPosition,goal.getGoalPosition()));
+    public Iterator<Point> ComputeNext(IGoal goal, Point robotPosition) {
+        return gm.translateToPoints(solver.solve(robotPosition,goal.getGoalPosition())).iterator();
     }
 
     @Override
