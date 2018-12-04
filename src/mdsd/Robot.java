@@ -24,6 +24,11 @@ public class Robot extends AbstractRobotSimulator implements IRobot {
 	    super.setDestination(dest);
     }
 
+	@Override
+	public void addObserver(RobotObserver observer) {
+
+	}
+
 	public boolean isAtDestination(){
 	    return this.getPosition().dist(dest) <= this.getAgent().getRadius();
     }

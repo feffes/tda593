@@ -2,15 +2,13 @@ package mdsd;
 
 import project.Point;
 
-public class PointGoal implements IGoal {
-    private Point point;
+public class ExitGoal implements IGoal {
 
-    public PointGoal(Point point) {
-        this.point = point;
-    }
+    private IEnvironmentManager environmentManager;
 
-    public Point getPoint() {
-        return point;
+    public ExitGoal(IEnvironmentManager environmentManager) {
+
+        this.environmentManager = environmentManager;
     }
 
     @Override
