@@ -17,10 +17,6 @@ public class AreaController implements RobotObserver {
     @Override
     public void update(IRobot robot) {
         for(Area a: areas){
-            if(a.isInside(robot) && a.getRobotsInside().size() > 1){
-                // stop robot
-                robot.setDestination(robot.getPosition());
-            }
         }
     }
 }
