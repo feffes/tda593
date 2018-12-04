@@ -75,6 +75,16 @@ public class GridManager {
         double newZ = z *elementSize;
         return new Point(newX,newZ);
     }
+    public Point translateToPoint (GridElement grd){
+        return translateToPoint(grd.getX(), grd.getZ());
+    }
+    public List<Point> translateToPoints (List<GridElement> grds){
+        List<Point> pnts = new ArrayList<>();
+        for (GridElement grd: grds) {
+            pnts.add(translateToPoint(grd));
+        }
+        return pnts;
+    }
 
     public GridElement translateToGrid(double x, double z){
         int newX = (int) Math.round((x - worldX1) / elementSize);
@@ -82,6 +92,10 @@ public class GridManager {
         return grid[newX][newZ];
 
     }
+    public GridElement translateToGrid(Point p){
+        return translateToGrid(p.getX(), p.getZ());
+    }
+
 
 
     //Possible imporovement: decide the distance between the points. 1 for now

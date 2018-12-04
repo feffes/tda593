@@ -1,5 +1,7 @@
 package mdsd;
 
+import project.Point;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.Map;
 public class DijkstraSolver {
     private GridElement[][] grid;
     private List<GridElement> elems;
-    private GridManager man;
+    private GridManager gm;
     private List<DijkstraObject> unvisited;
     private Map<GridElement, DijkstraObject> map;
     private List<DijkstraObject> nodes ;
@@ -18,11 +20,11 @@ public class DijkstraSolver {
     private double diagonalDist = 1.4142; //good enough???
     private double INF = Double.MAX_VALUE;
 
-    public DijkstraSolver(GridManager man){
-        this.man = man;
+    public DijkstraSolver(GridManager gm){
+        this.gm = gm;
         map =  new HashMap<>();
-        grid = man.getGrid();
-        elems = man.getAllElements();
+        grid = gm.getGrid();
+        elems = gm.getAllElements();
         nodes = new ArrayList<>();
         unvisited = new ArrayList<DijkstraObject>();
         //in beging we have not visited any nodes
@@ -35,6 +37,10 @@ public class DijkstraSolver {
     }
 
     //need to see if start and end is inside grid
+    public List<GridElement> solve (Point start,Point end ){
+        return solve(gm.translateToGrid(start), gm.translateToGrid(end));
+    }
+
 
     public List<GridElement> solve(GridElement startGE, GridElement endGE){
         DijkstraObject start = map.get(startGE);
@@ -91,7 +97,7 @@ public class DijkstraSolver {
 
     private List<DijkstraObject> getUnvisitedNeighbors(DijkstraObject e) {
        // System.out.println(e.toString());
-        List<GridElement> neighors = man.getNeighbors(e.getElem());
+        List<GridElement> neighors = gm.getNeighbors(e.getElem());
         List<DijkstraObject> unvisitedNeighors = new ArrayList<DijkstraObject>();
 
         for (GridElement elem : neighors) {
