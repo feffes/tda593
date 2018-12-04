@@ -19,12 +19,8 @@ public class EnvironmentManager implements IEnvironmentManager {
     GridManager gm;
     DijkstraSolver ds;
 
-    public EnvironmentManager()
-    {
-        // TODO: remove this empty constructor?
-    }
 
-    EnvironmentManager(EnvironmentDescription ed, GridManager gm) {
+    public EnvironmentManager(EnvironmentDescription ed, GridManager gm) {
         this.ed = ed;
         this.gm = gm;
         ds = new DijkstraSolver(gm);
@@ -34,7 +30,17 @@ public class EnvironmentManager implements IEnvironmentManager {
         gm.addVerticalWall(new VerticalWall(p1z, p1x, p2x, ed, Color.GRAY));
     }
 
-    public void addHorizontalWall(float p1z, float p1x, float p2z) {
+    @Override
+    public void addHorizontalBoundary(float p1x, float p1z, float p2x) {
+
+    }
+
+    @Override
+    public void addVerticalBoundary(float p1x, float p1x2, float p2x) {
+
+    }
+
+    public void addHorizontalWall(float p1x, float p1z, float p2z) {
         gm.addHorizantalWall(new HorizontalWall(p1x, p1z, p2z, ed, Color.GRAY));
     }
 
