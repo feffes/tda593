@@ -9,8 +9,9 @@ public class DijkstraSolver {
     private GridElement[][] grid;
     private List<GridElement> elems;
     private GridManager man;
-    private List<GridElement> unvisited;
-    private Map<GridElement, DijkstraObject> nodes;
+    private List<DijkstraObject> unvisited;
+    private Map<GridElement, DijkstraObject> map;
+    private List<DijkstraObject> nodes ;
     private GridElement current;
 
     private double opposingDist = 1;
@@ -19,51 +20,60 @@ public class DijkstraSolver {
 
     DijkstraSolver(GridManager man){
         this.man = man;
+        map =  new HashMap<>();
         grid = man.getGrid();
         elems = man.getAllElements();
-        unvisited = new ArrayList<GridElement>();
-        nodes = new HashMap<>();
+        nodes = new ArrayList<>();
+        unvisited = new ArrayList<DijkstraObject>();
         //in beging we have not visited any nodes
         for (GridElement elem : elems){
-            nodes.put(elem,new DijkstraObject(INF,elem)); //switch to only list of dijkstraObjects
-            unvisited.add(elem);
+            DijkstraObject dijObj = new DijkstraObject(INF,elem);
+            map.put(elem, dijObj);
+            nodes.add(dijObj);
+            unvisited.add(dijObj);
         }
     }
 
+    //need to see if start and end is inside grid
 
+    public List<GridElement> solve(GridElement startGE, GridElement endGE){
+        DijkstraObject start = map.get(startGE);
+        DijkstraObject end = map.get(endGE);
 
-    public List<GridElement> solve(GridElement start, GridElement end){
         List<GridElement> path = new ArrayList<GridElement>();
 
-        nodes.get(start).setDistance(0);
+        start.setDistance(0);
+        DijkstraObject current;
         current = start;
 
         double tempDist;
-        GridElement smallest;
+        DijkstraObject smallest;
 
-        while(unvisited.contains(end)){
-            System.out.println("inside here");
+        while(current != end){ //maybe  a do while is better
             smallest = null;
-            for (GridElement uN : getUnvisitedNeighbors(current)) {
-                if(current.isDiagonalNeighbor(uN)){
-                    tempDist = nodes.get(current).getDistance() + diagonalDist;
+            for (DijkstraObject prospect : getUnvisitedNeighbors(current)) {
+
+                if(current.getElem().isDiagonalNeighbor(prospect.getElem())){
+                    tempDist = current.getDistance() + diagonalDist;
                 }else{ //opposing
-                    tempDist = nodes.get(current).getDistance() + opposingDist;
+                    tempDist = current.getDistance() + opposingDist;
 
                 }
-                if(nodes.get(uN).getDistance() > tempDist){
-                    nodes.get(uN).setDistance(tempDist);
+                if(prospect.getDistance() > tempDist){
+                    prospect.setPrevious(current);
+                    prospect.setDistance(tempDist);
                 }
-                if(smallest == null || nodes.get(smallest).getDistance() > nodes.get(uN).getDistance()){
-                    smallest = uN;
+                if(smallest == null || smallest.getDistance() > prospect.getDistance()){
+                    smallest = prospect;
                 }
             }
             unvisited.remove(current);
             current = smallest;
         }
         System.out.println("Made it out off the unvisited loop");
-        DijkstraObject next = nodes.get(end);
-        while(!path.contains(start)){
+        DijkstraObject next = end;
+        while(next != start){
+            System.out.println("hehej");
             path.add(next.getElem());
             next = next.getPrevious();
         }
@@ -72,35 +82,17 @@ public class DijkstraSolver {
     }
 
 
-    private List<GridElement> getUnvisitedNeighbors(GridElement e) {
-        List<GridElement> neighors = man.getNeighbors(e);
-        List<GridElement> unvisitedNeighors = new ArrayList<GridElement>();
+    private List<DijkstraObject> getUnvisitedNeighbors(DijkstraObject e) {
+        List<GridElement> neighors = man.getNeighbors(e.getElem());
+        List<DijkstraObject> unvisitedNeighors = new ArrayList<DijkstraObject>();
 
         for (GridElement elem : neighors) {
-            if (unvisited.contains(elem)) {
-                unvisitedNeighors.add(elem);
+            if (unvisited.contains(map.get(elem))) {
+                unvisitedNeighors.add(map.get(elem));
             }
         }
         return unvisitedNeighors;
     }
-
-    /*private GridElement findDiagonalNeighbor(GridElement e) {
-        List<GridElement> diagNeighors = man.getDiagonalNeighbors(e);
-        for (GridElement elem : diagNeighors) {
-            if (unvisited.contains(elem)) {
-                unvisited.remove(elem);
-                return elem;
-            }
-        }
-        return null;
-    }*/
-
-
-
-
-
-
-
 
 
 }
