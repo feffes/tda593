@@ -1,9 +1,7 @@
 package mdsd;
 
 import project.Point;
-import simbad.sim.EnvironmentDescription;
-import simbad.sim.HorizontalWall;
-import simbad.sim.VerticalWall;
+import simbad.sim.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.awt.Color;
@@ -31,13 +29,13 @@ public class EnvironmentManager implements IEnvironmentManager {
     }
 
     @Override
-    public void addHorizontalBoundary(float p1x, float p1z, float p2x) {
-
+    public void addHorizontalBoundary(float p1x, float p1z, float p2z) {
+        new HorizontalBoundary(p1x, p1z, p2z, ed, Color.GRAY);
     }
 
     @Override
-    public void addVerticalBoundary(float p1x, float p1x2, float p2x) {
-
+    public void addVerticalBoundary(float p1z, float p1x, float p2x) {
+        new VerticalBoundary(p1z, p1x, p2x, ed, Color.GRAY);
     }
 
     public void addHorizontalWall(float p1x, float p1z, float p2z) {
