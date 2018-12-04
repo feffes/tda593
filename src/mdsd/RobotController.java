@@ -19,7 +19,7 @@ public class RobotController {
 
     public IRobot getRobot(String name) {
 
-        return new Robot(new Point(1,2),"hej");
+        return new Robot(new Point(1,2),"hej", 10);
     }
     public void attachStrategy(IRobot robot, IStrategy strategy){
         strategyMap.put(robot, strategy);
