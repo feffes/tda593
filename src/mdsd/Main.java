@@ -55,9 +55,12 @@ public class Main {
         gm.addHorizantalWall(new HorizontalWall(0f, -5f, -3.5f, e, color));
         gm.addHorizantalWall(new HorizontalWall(0f, 3.5f, 5f, e, color));
 
+        DijkstraSolver solver = new DijkstraSolver(gm);
+
+
         GridElement[][] grid = gm.getGrid();
-        System.out.println("HElloHELLOHEllo");
-        System.out.println( gm.gridToString());
+        System.out.println(grid[0].length);
+        System.out.println(gm.gridToString(solver.solve(grid[0][0],grid[180][180])));
 
         Set<Robot> robots = new HashSet<>();
 		Robot robot1 = new Robot(new Point(2, 2), "Robot 1");

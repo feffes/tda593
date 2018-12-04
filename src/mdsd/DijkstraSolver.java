@@ -50,7 +50,6 @@ public class DijkstraSolver {
         DijkstraObject smallest;
 
         while(current != end){ //maybe  a do while is better
-            smallest = null;
             for (DijkstraObject prospect : getUnvisitedNeighbors(current)) {
 
                 if(current.getElem().isDiagonalNeighbor(prospect.getElem())){
@@ -63,12 +62,10 @@ public class DijkstraSolver {
                     prospect.setPrevious(current);
                     prospect.setDistance(tempDist);
                 }
-                if(smallest == null || smallest.getDistance() > prospect.getDistance()){
-                    smallest = prospect;
-                }
+
             }
             unvisited.remove(current);
-            current = smallest;
+            current = findShortestUnvisited();
         }
         System.out.println("Made it out off the unvisited loop");
         DijkstraObject next = end;
@@ -82,7 +79,18 @@ public class DijkstraSolver {
     }
 
 
+    DijkstraObject findShortestUnvisited(){
+        DijkstraObject tmp = null;
+        for (DijkstraObject obj : unvisited){
+            if(tmp == null || obj.getDistance() < tmp.getDistance()){
+                tmp = obj;
+            }
+        }
+        return tmp;
+    }
+
     private List<DijkstraObject> getUnvisitedNeighbors(DijkstraObject e) {
+       // System.out.println(e.toString());
         List<GridElement> neighors = man.getNeighbors(e.getElem());
         List<DijkstraObject> unvisitedNeighors = new ArrayList<DijkstraObject>();
 

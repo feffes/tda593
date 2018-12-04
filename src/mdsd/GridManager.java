@@ -212,7 +212,7 @@ public class GridManager {
         for(int i = 0; i < grid.length ; i++){
             for( int j = 0; j < grid[i].length ; j++){
                 if(gridList.contains(grid[j][i])){
-                    builder.append("x");
+                    builder.append("o");
                 }else{
                     builder.append(grid[j][i].toString());
                 }

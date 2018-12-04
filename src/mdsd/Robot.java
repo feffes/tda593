@@ -30,6 +30,7 @@ public class Robot extends AbstractRobotSimulator implements IRobot {
 	}
 
 	public boolean isAtDestination(){
+
 	    return this.getPosition().dist(dest) <= this.getAgent().getRadius();
     }
 }
