@@ -21,15 +21,9 @@ public class MissionTest {
     @Test
     public void TestOneRobotInEachArea() throws InterruptedException {
         EnvironmentDescription ed = new EnvironmentDescription();
-        IEnvironmentManager environmentManager = initEnvironment(ed);
+        IEnvironmentManager environmentManager = TestUtils.initEnvironment(ed);
 
-        Set<Point> room1Boundary = new HashSet<>();
-        room1Boundary.add(new Point(0, 0));
-        room1Boundary.add(new Point(0, 5));
-        room1Boundary.add(new Point(5, 0));
-        room1Boundary.add(new Point(5, 5));
-
-        Area room1 = new RectangleArea("Room 1",0, 5, 0, 5);
+        Area room1 = TestUtils.initRoom1();
         Set<Area> areas = new HashSet<>();
         areas.add(room1);
 
@@ -75,7 +69,7 @@ public class MissionTest {
     @Test
     public void DoMission() {
         EnvironmentDescription ed = new EnvironmentDescription();
-        IEnvironmentManager environmentManager = initEnvironment(ed);
+        IEnvironmentManager environmentManager = TestUtils.initEnvironment(ed);
         Map<IRobot, IMission> robotMissionMap = initRobotMissionMap(environmentManager);
         Set<Area> areas = initAreas();
 
@@ -97,8 +91,8 @@ public class MissionTest {
         IGoal goalRoom2 = new PointGoal(new Point(-2.5, 2.5));
         IGoal goalRoom3 = new PointGoal(new Point(-2.5, -2.5));
         IGoal goalRoom4 = new PointGoal(new Point(2.5, -2.5));
-
-        IGoal exitGoal = new ExitGoal(environmentManager);
+        IGoal exitGoal = new PointGoal(new Point(2.5, -2.5));
+        //IGoal exitGoal = new ExitGoal(environmentManager);
 
         IRobot robot1 = new Robot(new Point(5, 2.5), "Robot1", 100);
         IRobot robot2 = new Robot(new Point(6, 2.5), "Robot2", 100);
@@ -134,34 +128,6 @@ public class MissionTest {
         return robotMissionMap;
     }
 
-    private static IEnvironmentManager initEnvironment(EnvironmentDescription ed) {
 
-        GridManager gm = new GridManager();
-        gm.generateGrid(-10, -10, 10, 10, 0.1);
-        IEnvironmentManager environmentManager = new EnvironmentManager(ed, gm);
-
-        environmentManager.addHorizontalWall(-5f, -1.5f, 1.5f);
-        environmentManager.addHorizontalWall(-5f, -5f, -3.5f);
-        environmentManager.addHorizontalWall(-5f, 3.5f, 5f);
-        //gm.addVerticalWall( new HorizontalWall(-5.3f, 3.5f, 5f, e, Color.CYAN);
-
-        environmentManager.addHorizontalWall(5f, -1.5f, 1.5f);
-        environmentManager.addHorizontalWall(5f, -5f, -3.5f);
-        environmentManager.addHorizontalWall(5f, 3.5f, 5f);
-
-        environmentManager.addVerticalWall(5f, -5f, 5f);
-        environmentManager.addVerticalWall(-5f, -5f, 5f);
-
-        //inner vertical walls
-        environmentManager.addVerticalWall(0f, -1.5f, 1.5f);
-        environmentManager.addVerticalWall(0f, -5f, -3.5f);
-        environmentManager.addVerticalWall(0f, 3.5f, 5f);
-        //inner horizontal walls
-        environmentManager.addHorizontalWall(0f, -1.5f, 1.5f);
-        environmentManager.addHorizontalWall(0f, -5f, -3.5f);
-        environmentManager.addHorizontalWall(0f, 3.5f, 5f);
-
-        return environmentManager;
-    }
 }
 
