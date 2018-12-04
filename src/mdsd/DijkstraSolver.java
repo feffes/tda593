@@ -18,7 +18,7 @@ public class DijkstraSolver {
     private double diagonalDist = 1.4142; //good enough???
     private double INF = Double.MAX_VALUE;
 
-    DijkstraSolver(GridManager man){
+    public DijkstraSolver(GridManager man){
         this.man = man;
         map =  new HashMap<>();
         grid = man.getGrid();
