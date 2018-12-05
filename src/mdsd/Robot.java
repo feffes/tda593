@@ -6,7 +6,7 @@ import project.Point;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Robot extends AbstractRobotSimulator implements IRobot {
+public class Robot extends RoboSim implements IRobot {
 
 	private Point dest;
 	private Set<RobotObserver> observers;

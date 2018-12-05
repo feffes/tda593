@@ -22,7 +22,7 @@ public class GoalTest {
         Set<Robot> robots = new HashSet<>();
         robots.add(robot);
 
-        AbstractSimulatorMonitor controller = new SimulatorMonitor(robots, ed);
+        BetterAbstractSimulatorMonitor controller = new SimulatorMonitor(robots, ed);
 
         Area room1 = TestUtils.initRoom1();
         Set<Area> areas = new HashSet<>();

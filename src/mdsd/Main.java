@@ -67,7 +67,7 @@ public class Main {
 		robots.add(robot1);
 		//robots.add(robot2);
 				
-		AbstractSimulatorMonitor controller = new SimulatorMonitor(robots, e);
+		BetterAbstractSimulatorMonitor controller = new SimulatorMonitor(robots, e);
 		rbtctl.startUpdater();
 
 	}
