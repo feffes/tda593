@@ -17,7 +17,7 @@ public class RobotController implements RobotObserver, IRobotController{
         travelMap = new HashMap<>();
     }
 
-    public RobotController(List<IRobot> robots){
+    public RobotController(List<IRobot> robots, Map<String,Point> roomPointMap, Set<Area> areas){
 
     }
 

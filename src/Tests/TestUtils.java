@@ -4,8 +4,7 @@ import mdsd.*;
 import project.Point;
 import simbad.sim.EnvironmentDescription;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class TestUtils {
 
@@ -70,6 +69,69 @@ public class TestUtils {
 
         return new RectangleArea("Room 4", 0, 5, -5, 0, exits);
 
+    }
+
+    public static Map<String, Point> getRoomPointMap() {
+        Map<String, Point> map = new HashMap<>();
+        map.put("1", new Point(2.5, 2.5));
+        map.put("2", new Point(-2.5, 2.5));
+        map.put("3", new Point(-2.5, -2.5));
+        map.put("4", new Point(2.5, -2.5));
+
+        return map;
+    }
+
+    public static class DummyRobot implements IRobot {
+        Point destination;
+        Point position;
+        List<RobotObserver> observers;
+
+        public DummyRobot() {
+            observers = new ArrayList<>();
+        }
+
+        @Override
+        public Point getPosition() {
+            return position;
+        }
+
+        public void setPosition(Point position) {
+            this.position = position;
+
+            for (RobotObserver observer : observers) {
+                observer.update(this);
+            }
+        }
+
+        @Override
+        public Point getDestination() {
+            return destination;
+        }
+
+        @Override
+        public void setDestination(Point destination) {
+            this.destination = destination;
+        }
+
+        @Override
+        public void addObserver(RobotObserver observer) {
+            observers.add(observer);
+        }
+
+        @Override
+        public double getRadius() {
+            return 0;
+        }
+
+        @Override
+        public boolean isAtDestination() {
+            return position.getX() - destination.getX() < .01 && position.getZ() - destination.getZ() < .01;
+        }
+
+        @Override
+        public boolean isAtPosition(Point p) {
+            return false;
+        }
     }
 
 }

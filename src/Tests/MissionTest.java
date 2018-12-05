@@ -16,6 +16,37 @@ import java.util.*;
 public class MissionTest {
 
     @Test
+    public void TestSetMission() {
+        TestUtils.DummyRobot robot = new TestUtils.DummyRobot();
+        robot.setPosition(new Point(0,0));
+        List<IRobot> robots = Arrays.asList(robot);
+
+        Area room2 = TestUtils.initRoom2();
+        Set<Area> areas = new HashSet<>(Arrays.asList(room2));
+
+        Map<String, Point> roomPointMap = TestUtils.getRoomPointMap();
+
+        RobotController robotController = new RobotController(robots, roomPointMap, areas);
+        robot.addObserver(robotController);
+
+        robotController.setMission(1, Arrays.asList("Room 1", "Room 2", "exit"));
+
+        assertEquals(-2.5, robot.getDestination().getX(), .01);
+        assertEquals(2.5, robot.getDestination().getZ(), .01);
+
+        robot.setPosition(new Point(-2.5, 2.5));
+
+        assertEquals(2.5, robot.getDestination().getX(), .01);
+        assertEquals(5, robot.getDestination().getZ(), .01);
+
+        robot.setPosition(new Point(2.5, 5));
+
+        assertEquals(-5, robot.getDestination().getX(), .01);
+        assertEquals(2.5, robot.getDestination().getZ(), .01);
+
+    }
+
+    @Test
     public void TestOneRobotInEachArea() throws InterruptedException {
         EnvironmentDescription ed = new EnvironmentDescription();
         IEnvironmentManager environmentManager = TestUtils.initEnvironment(ed);
@@ -102,7 +133,9 @@ public class MissionTest {
         controlledRobots.add(robot3);
         controlledRobots.add(robot4);
 
-        RobotController robotController = new RobotController(controlledRobots);
+        Map<String, Point> roomPointMap = TestUtils.getRoomPointMap();
+
+        RobotController robotController = new RobotController(controlledRobots, roomPointMap, areas);
 
         AreaController areaController = new AreaController(areas);
 
@@ -111,10 +144,10 @@ public class MissionTest {
             r.addObserver(robotController);
         }
 
-        robotController.setMission(1, Arrays.asList("1", "2", "exit"));
-        robotController.setMission(2, Arrays.asList("2", "3", "exit"));
-        robotController.setMission(3, Arrays.asList("3", "4", "exit"));
-        robotController.setMission(4, Arrays.asList("4", "1", "exit"));
+        robotController.setMission(1, Arrays.asList("Room 1", "Room 2", "exit"));
+        robotController.setMission(2, Arrays.asList("Room 2", "Room 3", "exit"));
+        robotController.setMission(3, Arrays.asList("Room 3", "Room 4", "exit"));
+        robotController.setMission(4, Arrays.asList("Room 4", "Room 1", "exit"));
 
         while (!room2.isInside(robot1)) {
             Thread.sleep(100);
