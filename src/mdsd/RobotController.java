@@ -42,16 +42,16 @@ public class RobotController implements RobotObserver, IRobotController{
             IStrategy strt = strategyMap.get(robot);
             Iterator<Point> pnts = strt.ComputeNext(gl, robot.getPosition());
             travelMap.put(robot, pnts);
+        //    robot.setDestination(travelMap.get(robot).next());
         } catch (NullPointerException e){
             e.printStackTrace();
         }
-        robot.setDestination(travelMap.get(robot).next());
     }
     public void attachAll(IRobot r, IStrategy s, IMission m){
         addRobot(r);
         attachMission(r, m);
         attachStrategy(r, s);
-        updateTravelMap(r);
+       // updateTravelMap(r);
 
     }
     public void startUpdater(){
@@ -81,6 +81,8 @@ public class RobotController implements RobotObserver, IRobotController{
                             if(missionMap.get(robot).reachedGoal(robot)){
                                 updateTravelMap(robot);
                             }
+                            if (!travelMap.containsKey(robot))
+                                updateTravelMap(robot);
                             Point p = travelMap.get(robot).next();
                             System.out.println("####################");
                             System.out.println(p);
