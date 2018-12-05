@@ -18,4 +18,6 @@ public interface IRobot {
     double getRadius();
 
     boolean isAtDestination();
+
+    boolean isAtPosition(Point p);
 }

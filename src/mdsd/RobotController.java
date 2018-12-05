@@ -33,18 +33,26 @@ public class RobotController {
 
     private void updateTravelMap(IRobot robot){
         try {
-            travelMap.put(robot,
 
-                    strategyMap.get(robot).
-                    ComputeNext(missionMap.get(robot).
-                            getNext(), robot.getPosition()));
+            IGoal gl = missionMap.get(robot).getNext();
+            IStrategy strt = strategyMap.get(robot);
+            Iterator<Point> pnts = strt.ComputeNext(gl, robot.getPosition());
+            travelMap.put(robot, pnts);
         } catch (NullPointerException e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
+        robot.setDestination(travelMap.get(robot).next());
     }
     public void attachAll(IRobot r, IStrategy s, IMission m){
+        addRobot(r);
         attachMission(r, m);
         attachStrategy(r, s);
+        updateTravelMap(r);
+
+    }
+    public void startUpdater(){
+        RobotUpdater updtr = new RobotUpdater();
+        updtr.start();
     }
 
 
@@ -60,17 +68,22 @@ public class RobotController {
                             if(missionMap.get(robot).reachedGoal(robot)){
                                 updateTravelMap(robot);
                             }
-                        } catch (NullPointerException e){
-                            e.printStackTrace();
-                            break;
-                        }
-                        try{
-                            robot.setDestination(travelMap.get(robot).next());
+                            Point p = travelMap.get(robot).next();
+                            System.out.println("####################");
+                            System.out.println(p);
+                            System.out.println("#####################");
+                            robot.setDestination(p);
                         }catch (NullPointerException e){
-                            System.out.println(e.getMessage());
+                            e.printStackTrace();
                         }
                    }
                 }
+                try {
+                    this.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("one round");
             }
         }
     }

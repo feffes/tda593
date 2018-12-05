@@ -63,7 +63,7 @@ public class Main {
         System.out.println(gm.gridToString(solver.solve(grid[0][0],grid[180][180])));
 
         Set<Robot> robots = new HashSet<>();
-		Robot robot1 = new Robot(new Point(2, 2), "Robot 1", 10);
+		Robot robot1 = new Robot(new Point(2, 2), "Robot 1");
 		//Robot robot2 = new Robot(new Point(1, 3), "Robot 2");
         robot1.setDestination(new Point(-2,-2));
 		robots.add(robot1);

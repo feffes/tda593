@@ -71,9 +71,12 @@ public class GridManager {
     }
 
     public Point translateToPoint (int x, int z){
-        double newX = x * elementSize;
-        double newZ = z *elementSize;
+        double newX = x * elementSize+worldX1;
+        double newZ = z * elementSize+worldZ1;
         return new Point(newX,newZ);
+    }
+    public Point toCenter(Point p){
+        return new Point(p.getX()+(elementSize/2),p.getZ()+(elementSize/2));
     }
     public Point translateToPoint (GridElement grd){
         return translateToPoint(grd.getX(), grd.getZ());
@@ -81,7 +84,7 @@ public class GridManager {
     public List<Point> translateToPoints (List<GridElement> grds){
         List<Point> pnts = new ArrayList<>();
         for (GridElement grd: grds) {
-            pnts.add(translateToPoint(grd));
+            pnts.add(toCenter(translateToPoint(grd)));
         }
         return pnts;
     }

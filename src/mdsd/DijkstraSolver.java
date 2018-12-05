@@ -2,10 +2,7 @@ package mdsd;
 
 import project.Point;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DijkstraSolver {
     private GridElement[][] grid;
@@ -73,13 +70,12 @@ public class DijkstraSolver {
             unvisited.remove(current);
             current = findShortestUnvisited();
         }
-        System.out.println("Made it out off the unvisited loop");
         DijkstraObject next = end;
         while(next != start){
-            System.out.println("hehej");
             path.add(next.getElem());
             next = next.getPrevious();
         }
+        Collections.reverse(path);
 
         return path;
     }

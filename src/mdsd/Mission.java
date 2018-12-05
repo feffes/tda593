@@ -36,7 +36,7 @@ public class Mission implements IMission {
 
     @Override
     public IGoal getNext() {
-        return null;
+        return gls.getFirst();
     }
 
     public void addGoal(int i,IGoal goal){

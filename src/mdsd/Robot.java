@@ -50,10 +50,12 @@ public class Robot extends AbstractRobotSimulator implements IRobot {
 			r.update(this);
 		}
 	}
-
+    public boolean isAtPosition(Point p){
+	    return super.isAtPosition(p);
+    }
 	public boolean isAtDestination(){
-
-	    return this.getPosition().dist(dest) <= this.getAgent().getRadius();
+        return dest==null || super.isAtPosition(dest);
+	   // return dest==null || this.getPosition().dist(dest) <= this.getAgent().getRadius()+0.5;
     }
 
     class RobotPositionChecker extends Thread
