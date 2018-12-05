@@ -65,12 +65,12 @@ public class BetterRobotAgent<R extends RoboSim> extends Agent {
     public void performBehavior() {
         Vector3d position = this.getPosition();
         if (!this.isAtPosition(this.destination)) {
-            double angle = -Math.atan2(this.destination.getZ() - position.z, this.destination.getX() - position.x) * 180.0D / 3.141592653589793D;
+            double angle = -Math.atan2((this.destination.getZ() - position.z), (this.destination.getX() - position.x)) ;//* 180.0D / 3.141592653589793D;
             this.rotateY(angle);
             this.setTranslationalVelocity(1.0D);
         } else {
             this.setTranslationalVelocity(0.0D);
-            this.setRotationalVelocity(0.0D);
+//            this.setRotationalVelocity(0.0D);
         }
 
         if (this.changeColor) {
