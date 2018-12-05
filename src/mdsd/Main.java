@@ -27,10 +27,10 @@ public class Main {
         IEnvironmentManager env = new EnvironmentManager(e, gm);
 
 
-        Boundary w1 = new HorizontalBoundary(-10.0f, -10.0f, 10.0f;
-		Boundary w2 = new HorizontalBoundary(10.0f, -10.0f, 10.0f;
-		Boundary w3 = new VerticalBoundary(10.0f, -10.0f, 10.0f;
-		Boundary w4 = new VerticalBoundary(-10.0f, -10.0f, 10.0f;
+        env.addHorizontalBoundary(-10.0f, -10.0f, 10.0f);
+        env.addHorizontalBoundary(10.0f, -10.0f, 10.0f);
+        env.addVerticalBoundary(10.0f, -10.0f, 10.0f);
+		env.addVerticalBoundary(-10.0f, -10.0f, 10.0f);
 
         //thikness always 0.3f
         //The outer square
