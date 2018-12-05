@@ -11,10 +11,7 @@ import project.AbstractSimulatorMonitor;
 import project.Point;
 import simbad.sim.EnvironmentDescription;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class MissionTest {
 
@@ -67,57 +64,151 @@ public class MissionTest {
     }
 
     @Test
-    public void DoMission() {
+    public void DoMission() throws InterruptedException {
         EnvironmentDescription ed = new EnvironmentDescription();
         IEnvironmentManager environmentManager = TestUtils.initEnvironment(ed);
-        Map<IRobot, IMission> robotMissionMap = initRobotMissionMap(environmentManager);
-        Set<Area> areas = initAreas();
+        Set<Area> areas = new HashSet<>();
+
+        Area room1 = TestUtils.initRoom1();
+        areas.add(room1);
+
+        Area room2 = TestUtils.initRoom2();
+        areas.add(room2);
+
+        Area room3 = TestUtils.initRoom3();
+        areas.add(room3);
+
+        Area room4 = TestUtils.initRoom4();
+        areas.add(room4);
+
+        Robot robot1 = new Robot(new Point(-7, 2), "Robot1", 10);
+        Robot robot2 = new Robot(new Point(-7, 1), "Robot2", 10);
+        Robot robot3 = new Robot(new Point(-7, -1), "Robot3", 10);
+        Robot robot4 = new Robot(new Point(-7, -2), "Robot4", 10);
+
+        Set<Robot> robots = new HashSet<>();
+        robots.add(robot1);
+        robots.add(robot2);
+        robots.add(robot3);
+        robots.add(robot4);
+
+        Map<IRobot, IMission> robotMissionMap = initRobotMissionMap(areas, robot1, robot2, robot3, robot4);
+
+        AbstractSimulatorMonitor controller = new SimulatorMonitor(robots, ed);
+
+        List<IRobot> controlledRobots = new ArrayList<>();
+        controlledRobots.add(robot1);
+        controlledRobots.add(robot2);
+        controlledRobots.add(robot3);
+        controlledRobots.add(robot4);
+
+        RobotController robotController = new RobotController(controlledRobots);
 
         AreaController areaController = new AreaController(areas);
 
         for (IRobot r : robotMissionMap.keySet()) {
             r.addObserver(areaController);
+            r.addObserver(robotController);
         }
 
+        robotController.setMission(1, Arrays.asList("1", "2", "exit"));
+        robotController.setMission(2, Arrays.asList("2", "3", "exit"));
+        robotController.setMission(3, Arrays.asList("3", "4", "exit"));
+        robotController.setMission(4, Arrays.asList("4", "1", "exit"));
+
+        while (!room2.isInside(robot1)) {
+            Thread.sleep(100);
+        }
+
+        while (room2.isInside(robot1)) {
+            // Robot 1 in room 2
+            // Robot 2 waits to enter room 2
+            // Robot 3 waits to enter room 3
+            // Robot 4 in room 3
+
+            assertTrue(room3.isInside(robot4));
+
+            assertEquals(2.5, robot2.getPosition().getZ(), .01);
+            assertEquals(-5, robot2.getPosition().getX(), .01);
+
+            assertEquals(-2.5, robot3.getPosition().getZ(), .01);
+            assertEquals(-5, robot3.getPosition().getX(), .01);
+
+            Thread.sleep(100);
+        }
+
+        while (room1.isInside(robot1)) {
+            // Robot 1 in room 1
+            // Robot 2 in room 2
+
+            // Robot 3 in room 3
+            // Robot 4 in room 4
+            assertTrue(room4.isInside(robot4));
+            assertTrue(room2.isInside(robot2));
+            assertTrue(room3.isInside(robot3));
+
+            Thread.sleep(100);
+        }
+
+        while (room2.isInside(robot1)) {
+            // Robot 1 in room 2
+            // Robot 2 in room 3
+            // Robot 3 in room 4
+            // Robot 4 in room 1
+            assertTrue(room3.isInside(robot2));
+            assertTrue(room1.isInside(robot4));
+            assertTrue(room4.isInside(robot3));
+        }
+
+        // Robot 1 at exit in room 2
+        assertEquals(-5, robot1.getPosition().getX(), .01);
+        assertEquals(2.5, robot1.getPosition().getZ(), .01);
+
+        // Robot 2 at exit in room 3
+        assertEquals(-5, robot2.getPosition().getX(), .01);
+        assertEquals(-2.5, robot2.getPosition().getZ(), .01);
+
+        // Robot 3 at exit in room 4
+        assertEquals(5, robot1.getPosition().getX(), .01);
+        assertEquals(-2.5, robot1.getPosition().getZ(), .01);
+
+        // Robot 4 at exit in room 1
+        assertEquals(5, robot1.getPosition().getX(), .01);
+        assertEquals(2.5, robot1.getPosition().getZ(), .01);
 
     }
 
-    private static Set<Area> initAreas() {
-        return null;
-    }
-
-    private static Map<IRobot, IMission> initRobotMissionMap(IEnvironmentManager environmentManager) {
+    private static Map<IRobot, IMission> initRobotMissionMap(Set<Area> areas, IRobot robot1, IRobot robot2,
+                                                             IRobot robot3, IRobot robot4) {
         IGoal goalRoom1 = new PointGoal(new Point(2.5, 2.5));
         IGoal goalRoom2 = new PointGoal(new Point(-2.5, 2.5));
         IGoal goalRoom3 = new PointGoal(new Point(-2.5, -2.5));
         IGoal goalRoom4 = new PointGoal(new Point(2.5, -2.5));
-        IGoal exitGoal = new PointGoal(new Point(2.5, -2.5));
-        //IGoal exitGoal = new ExitGoal(environmentManager);
+        IGoal exitGoal1 = new ExitGoal(areas);
+        IGoal exitGoal2 = new ExitGoal(areas);
+        IGoal exitGoal3 = new ExitGoal(areas);
+        IGoal exitGoal4 = new ExitGoal(areas);
 
-        IRobot robot1 = new Robot(new Point(5, 2.5), "Robot1", 100);
-        IRobot robot2 = new Robot(new Point(6, 2.5), "Robot2", 100);
-        IRobot robot3 = new Robot(new Point(7, 2.5), "Robot3", 100);
-        IRobot robot4 = new Robot(new Point(8, 2.5), "Robot4", 100);
 
         IMission mission1 = new Mission();
         mission1.addGoal(goalRoom1);
         mission1.addGoal(goalRoom2);
-        mission1.addGoal(exitGoal);
+        mission1.addGoal(exitGoal1);
 
         IMission mission2 = new Mission();
         mission2.addGoal(goalRoom2);
         mission2.addGoal(goalRoom3);
-        mission2.addGoal(exitGoal);
+        mission2.addGoal(exitGoal2);
 
         IMission mission3 = new Mission();
         mission3.addGoal(goalRoom3);
         mission3.addGoal(goalRoom4);
-        mission3.addGoal(exitGoal);
+        mission3.addGoal(exitGoal3);
 
         IMission mission4 = new Mission();
         mission4.addGoal(goalRoom4);
         mission4.addGoal(goalRoom1);
-        mission4.addGoal(exitGoal);
+        mission4.addGoal(exitGoal4);
 
         Map<IRobot, IMission> robotMissionMap = new HashMap<>();
         robotMissionMap.put(robot1, mission1);

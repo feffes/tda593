@@ -39,15 +39,36 @@ public class TestUtils {
         return environmentManager;
     }
 
+
     public static Area initRoom1() {
         Set<Point> exits = new HashSet<>();
         exits.add(new Point(5, 2.5));
-        exits.add(new Point(0, 2.5));
-        exits.add(new Point(2.5, 0));
-
-
 
         return new RectangleArea("Room 1", 0, 5, 0, 5, exits);
+
+    }
+
+    public static Area initRoom2() {
+        Set<Point> exits = new HashSet<>();
+        exits.add(new Point(-5, 2.5));
+
+        return new RectangleArea("Room 2", -5, 0, 0, 5, exits);
+
+    }
+
+    public static Area initRoom3() {
+        Set<Point> exits = new HashSet<>();
+        exits.add(new Point(-5, -2.5));
+
+        return new RectangleArea("Room 3", -5, 0, -5, 0, exits);
+
+    }
+
+    public static Area initRoom4() {
+        Set<Point> exits = new HashSet<>();
+        exits.add(new Point(5, -2.5));
+
+        return new RectangleArea("Room 4", 0, 5, -5, 0, exits);
 
     }
 

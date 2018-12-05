@@ -4,7 +4,7 @@ import project.Point;
 
 import java.util.*;
 
-public class RobotController {
+public class RobotController implements RobotObserver, IRobotController{
     private List<IRobot> robots = new ArrayList<IRobot>();
     private Map<IRobot, IMission> missionMap;
     private Map<IRobot, IStrategy> strategyMap;
@@ -15,6 +15,10 @@ public class RobotController {
         missionMap = new HashMap<>();
         strategyMap = new HashMap<>();
         travelMap = new HashMap<>();
+    }
+
+    public RobotController(List<IRobot> robots){
+
     }
 
     public IRobot getRobot(String name) {
@@ -55,6 +59,15 @@ public class RobotController {
         updtr.start();
     }
 
+    @Override
+    public void update(IRobot robot) {
+
+    }
+
+    @Override
+    public void setMission(int robotId, List<String> missionStr) {
+
+    }
 
 
     class RobotUpdater extends Thread{
