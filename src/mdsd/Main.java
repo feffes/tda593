@@ -23,53 +23,52 @@ public class Main {
 		Color color = Color.GRAY;
 
         GridManager gm = new GridManager();
-        gm.generateGrid(-10,-10,10,10,0.1);
+        gm.generateGrid(-10,-10,10,10,0.5);
+        IEnvironmentManager env = new EnvironmentManager(e, gm);
 
 
-		Boundary w1 = new HorizontalBoundary(-10.0f, -10.0f, 10.0f, e, color);
-		Boundary w2 = new HorizontalBoundary(10.0f, -10.0f, 10.0f, e, color);
-		Boundary w3 = new VerticalBoundary(10.0f, -10.0f, 10.0f, e, color);
-		Boundary w4 = new VerticalBoundary(-10.0f, -10.0f, 10.0f, e, color);
+        Boundary w1 = new HorizontalBoundary(-10.0f, -10.0f, 10.0f;
+		Boundary w2 = new HorizontalBoundary(10.0f, -10.0f, 10.0f;
+		Boundary w3 = new VerticalBoundary(10.0f, -10.0f, 10.0f;
+		Boundary w4 = new VerticalBoundary(-10.0f, -10.0f, 10.0f;
 
-        //gm.addVerticalWall(new VerticalWall(1f, -4.5f, -1f, e, color);
         //thikness always 0.3f
         //The outer square
-		gm.addHorizantalWall(new HorizontalWall(-5f, -1.5f, 1.5f, e, Color.BLUE));
-        gm.addHorizantalWall(new HorizontalWall(-5f, -5f, -3.5f, e, color));
-        gm.addHorizantalWall(new HorizontalWall(-5f, 3.5f, 5f, e, color));
-        //gm.addVerticalWall( new HorizontalWall(-5.3f, 3.5f, 5f, e, Color.CYAN);
+		env.addHorizontalWall(-5f, -1.5f, 1.5f);
+        env.addHorizontalWall(-5f, -5f, -3.5f);
+        env.addHorizontalWall(-5f, 3.5f, 5f);
 
-        gm.addHorizantalWall(new HorizontalWall(5f, -1.5f, 1.5f, e, color));
-        gm.addHorizantalWall(new HorizontalWall(5f, -5f, -3.5f, e, color));
-        gm.addHorizantalWall( new HorizontalWall(5f, 3.5f, 5f, e, color));
+        env.addHorizontalWall(5f, -1.5f, 1.5f);
+        env.addHorizontalWall(5f, -5f, -3.5f);
+        env.addHorizontalWall( 5f, 3.5f, 5f);
 
-		gm.addVerticalWall(new VerticalWall(5f, -5f, 5f, e, color));
-		gm.addVerticalWall(new VerticalWall(-5f, -5f, 5f, e, color));
+		env.addVerticalWall(5f, -5f, 5f);
+		env.addVerticalWall(-5f, -5f, 5f);
 
 		//inner vertical walls
-        gm.addVerticalWall(new VerticalWall(0f, -1.5f, 1.5f, e, color));
-        gm.addVerticalWall(new VerticalWall(0f, -5f, -3.5f, e, color));
-        gm.addVerticalWall(new VerticalWall(0f, 3.5f, 5f, e, color));
+        env.addVerticalWall(0f, -1.5f, 1.5f);
+        env.addVerticalWall(0f, -5f, -3.5f);
+        env.addVerticalWall(0f, 3.5f, 5f);
         //inner horizontal walls
-        gm.addHorizantalWall(new HorizontalWall(0f, -1.5f, 1.5f, e, color));
-        gm.addHorizantalWall(new HorizontalWall(0f, -5f, -3.5f, e, color));
-        gm.addHorizantalWall(new HorizontalWall(0f, 3.5f, 5f, e, color));
+        env.addHorizontalWall(0f, -1.5f, 1.5f);
+        env.addHorizontalWall(0f, -5f, -3.5f);
+        env.addHorizontalWall(0f, 3.5f, 5f);
 
-        DijkstraSolver solver = new DijkstraSolver(gm);
-
-
-        GridElement[][] grid = gm.getGrid();
-        System.out.println(grid[0].length);
-        System.out.println(gm.gridToString(solver.solve(grid[0][0],grid[180][180])));
-
+        Robot robot1 = new Robot(new Point(2, 2), "Robot 1",100);
+        IStrategy strt = new DijkstraStrategy(gm);
+        IMission mission = new Mission();
+        mission.addGoal(new PointGoal(new Point(-7,-7)));
+        RobotController rbtctl = new RobotController();
+        rbtctl.addRobot(robot1);
+        rbtctl.attachAll(robot1,strt,mission);
         Set<Robot> robots = new HashSet<>();
-		Robot robot1 = new Robot(new Point(2, 2), "Robot 1");
+		robot1.setDestination(new Point(2.5,2.5));
 		//Robot robot2 = new Robot(new Point(1, 3), "Robot 2");
-        robot1.setDestination(new Point(-2,-2));
 		robots.add(robot1);
 		//robots.add(robot2);
 				
 		AbstractSimulatorMonitor controller = new SimulatorMonitor(robots, e);
+		rbtctl.startUpdater();
 
 	}
 
