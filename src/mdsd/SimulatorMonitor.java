@@ -6,7 +6,7 @@ import project.AbstractRobotSimulator;
 import project.AbstractSimulatorMonitor;
 import simbad.sim.EnvironmentDescription;
 
-public class SimulatorMonitor extends AbstractSimulatorMonitor<Robot> {
+public class SimulatorMonitor extends BetterAbstractSimulatorMonitor<Robot> {
 
 	public SimulatorMonitor(Set<Robot> robots, EnvironmentDescription e) {
 		super(robots, e);

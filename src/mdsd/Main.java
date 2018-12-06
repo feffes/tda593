@@ -23,7 +23,7 @@ public class Main {
 		Color color = Color.GRAY;
 
         GridManager gm = new GridManager();
-        gm.generateGrid(-10,-10,10,10,0.5);
+        gm.generateGrid(-10,-10,10,10,1.0);
         IEnvironmentManager env = new EnvironmentManager(e, gm);
 
 
@@ -58,16 +58,18 @@ public class Main {
         IStrategy strt = new DijkstraStrategy(gm);
         IMission mission = new Mission();
         mission.addGoal(new PointGoal(new Point(-7,-7)));
+        mission.addGoal(new PointGoal(new Point(7,7)));
+
         RobotController rbtctl = new RobotController();
         rbtctl.addRobot(robot1);
         rbtctl.attachAll(robot1,strt,mission);
         Set<Robot> robots = new HashSet<>();
-		robot1.setDestination(new Point(2.5,2.5));
+		//robot1.setDestination(new Point(2.5,2.5));
 		//Robot robot2 = new Robot(new Point(1, 3), "Robot 2");
 		robots.add(robot1);
 		//robots.add(robot2);
 				
-		AbstractSimulatorMonitor controller = new SimulatorMonitor(robots, e);
+		BetterAbstractSimulatorMonitor controller = new SimulatorMonitor(robots, e);
 		rbtctl.startUpdater();
 
 	}

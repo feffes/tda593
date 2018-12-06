@@ -84,7 +84,7 @@ public class MissionTest {
         robots.add((Robot) robot1);
         robots.add((Robot) robot2);
 
-        AbstractSimulatorMonitor controller = new SimulatorMonitor(robots, ed);
+        BetterAbstractSimulatorMonitor controller = new SimulatorMonitor(robots, ed);
 
         AreaController areaController = new AreaController(areas);
         robot1.addObserver(areaController);
@@ -151,7 +151,7 @@ public class MissionTest {
 
         Map<IRobot, IMission> robotMissionMap = initRobotMissionMap(areas, robot1, robot2, robot3, robot4);
 
-        AbstractSimulatorMonitor controller = new SimulatorMonitor(robots, ed);
+        BetterAbstractSimulatorMonitor controller = new SimulatorMonitor(robots, ed);
 
         List<IRobot> controlledRobots = Arrays.asList(robot1, robot2, robot3, robot4);
 
