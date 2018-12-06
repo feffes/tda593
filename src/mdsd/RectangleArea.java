@@ -23,7 +23,7 @@ public class RectangleArea implements Area {
         this.upper_z = upper_z;
         this.exits = exits;
 
-        representativePoint = new Point(upper_x - lower_x, upper_z - lower_z);
+        representativePoint = new Point((upper_x - lower_x)/2, (upper_z - lower_z)/2);
     }
 
     @Override
