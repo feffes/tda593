@@ -20,4 +20,8 @@ public interface IRobot {
     boolean isAtDestination();
 
     boolean isAtPosition(Point p);
+
+    public boolean isWaiting();
+
+    public void setWaiting();
 }

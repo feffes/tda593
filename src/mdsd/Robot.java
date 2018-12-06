@@ -11,10 +11,12 @@ public class Robot extends AbstractRobotSimulator implements IRobot {
 	private Point dest;
 	private Set<RobotObserver> observers;
 	private RobotPositionChecker positionChecker;
+	private boolean isWaiting;
 	
 	public Robot(Point position, String name, int updateMillis) {
 		super(position, name);
 		observers = new HashSet<>();
+		isWaiting = false;
 
 		positionChecker = new RobotPositionChecker(position, updateMillis);
 		positionChecker.start();
@@ -35,6 +37,7 @@ public class Robot extends AbstractRobotSimulator implements IRobot {
     public void setDestination(Point dest){
 	    this.dest = dest;
 	    super.setDestination(dest);
+	    isWaiting = false;
     }
     public double getRadius(){
 		return this.getAgent().getRadius();
@@ -45,14 +48,27 @@ public class Robot extends AbstractRobotSimulator implements IRobot {
 		observers.add(observer);
 	}
 
+	@Override
+	public void setWaiting(){
+		setDestination(this.getPosition());
+		isWaiting = true;
+	}
+
+	@Override
+	public boolean isWaiting(){
+		return isWaiting;
+	}
+
 	private void notifyObservers(){
 		for(RobotObserver r:observers){
 			r.update(this);
 		}
 	}
+
     public boolean isAtPosition(Point p){
 	    return super.isAtPosition(p);
     }
+
 	public boolean isAtDestination(){
         return dest==null || super.isAtPosition(dest);
 	   // return dest==null || this.getPosition().dist(dest) <= this.getAgent().getRadius()+0.5;

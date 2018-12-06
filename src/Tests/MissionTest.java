@@ -80,10 +80,10 @@ public class MissionTest {
         Point lastPos = robot2.getPosition();
 
         while (room1.isInside(robot1)) {
-            Thread.sleep(10);
+            assertTrue(robot2.isWaiting());
             assertEquals(lastPos.getX(), robot2.getPosition().getX(), .01);
             lastPos = robot2.getPosition();
-            //assertTrue(Math.abs(robot2.getPosition().getX() - 5) < .1);
+            Thread.sleep(10);
         }
 
         assertFalse(room1.isInside(robot1));
@@ -91,6 +91,7 @@ public class MissionTest {
 
         Thread.sleep(200);
 
+        assertFalse(robot2.isWaiting());
         assertEquals(-6, robot2.getDestination().getX(), .01);
     }
 
