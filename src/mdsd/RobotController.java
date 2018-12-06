@@ -18,6 +18,8 @@ public class RobotController implements RobotObserver, IRobotController {
         missionMap = new HashMap<>();
         strategyMap = new HashMap<>();
         travelMap = new HashMap<>();
+        this.robots = new ArrayList<>();
+
     }
 
     public RobotController(List<IRobot> robots, Set<Area> areas, Set<IStrategy> strategies) {
