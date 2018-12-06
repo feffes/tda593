@@ -16,12 +16,17 @@ public class DijkstraStrategy implements IStrategy {
     }
 
     @Override
-    public Iterator<Point> ComputeNext(IGoal goal, Point robotPosition) {
+    public Iterator<Point> ComputeRoute(IGoal goal, Point robotPosition) {
         return gm.translateToPoints(solver.solve(robotPosition,goal.getGoalPosition())).iterator();
     }
 
     @Override
-    public void addRestrictedArea(Area area, int numberOfRobots) {
+    public void setName(String name) {
 
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }

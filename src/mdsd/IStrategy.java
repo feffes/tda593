@@ -6,7 +6,9 @@ import java.util.Iterator;
 
 
 public interface IStrategy {
-    public Iterator<Point> ComputeNext(IGoal goal, Point robotPosition);
+    public Iterator<Point> ComputeRoute(IGoal goal, Point robotPosition);
 
-    public void addRestrictedArea(Area area, int numberOfRobots);
+    public void setName(String name);
+
+    public String getName();
 }
