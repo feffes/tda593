@@ -22,27 +22,49 @@ public class MissionTest {
         List<IRobot> robots = Arrays.asList(robot);
 
         Area room2 = TestUtils.initRoom2();
-        Set<Area> areas = new HashSet<>(Arrays.asList(room2));
+        Area room3 = TestUtils.initRoom3();
+        Area room4 = TestUtils.initRoom4();
+        Set<Area> areas = new HashSet<>(Arrays.asList(room2, room3, room4));
 
-        Map<String, Point> roomPointMap = TestUtils.getRoomPointMap();
+        Map<IGoal, List<Point>> dummyStrategyMap = new HashMap<>();
+        dummyStrategyMap.put(new PointGoal(room2.getRepresentativePoint()),
+                Arrays.asList(room2.getRepresentativePoint()));
+        dummyStrategyMap.put(new PointGoal(room4.getRepresentativePoint()),
+                Arrays.asList(room3.getRepresentativePoint(),room4.getRepresentativePoint()));
+        dummyStrategyMap.put(new ExitGoal(areas), Arrays.asList(new Point(5, -2.5)));
 
-        RobotController robotController = new RobotController(robots, roomPointMap, areas);
+        IStrategy dummyStrategy = new TestUtils.DummyStrategy(dummyStrategyMap);
+
+        Set<IStrategy> strategies = new HashSet<>(Arrays.asList(dummyStrategy));
+
+        RobotController robotController = new RobotController(robots, areas, strategies);
         robot.addObserver(robotController);
 
-        robotController.setMission(1, Arrays.asList("Room 1", "Room 2", "exit"));
+        robotController.setMission(0, Arrays.asList("Room 2", "Room 4", "exit"), "dummy");
 
-        assertEquals(-2.5, robot.getDestination().getX(), .01);
-        assertEquals(2.5, robot.getDestination().getZ(), .01);
+        assertEquals(0, robot.getDestination().dist(room2.getRepresentativePoint()), .0001);
 
-        robot.setPosition(new Point(-2.5, 2.5));
+        robot.setPosition(room2.getRepresentativePoint());
 
-        assertEquals(2.5, robot.getDestination().getX(), .01);
-        assertEquals(5, robot.getDestination().getZ(), .01);
+        assertEquals(0, robot.getDestination().dist(room3.getRepresentativePoint()), .0001);
 
-        robot.setPosition(new Point(2.5, 5));
+        robot.setPosition(room3.getRepresentativePoint());
 
-        assertEquals(-5, robot.getDestination().getX(), .01);
-        assertEquals(2.5, robot.getDestination().getZ(), .01);
+        assertEquals(0, robot.getDestination().dist(room4.getRepresentativePoint()), .0001);
+
+        robot.setPosition(room4.getRepresentativePoint());
+
+        Point exitRoom4 = room4.getExits().iterator().next();
+        assertEquals(0, robot.getDestination().dist(exitRoom4), .0001);
+
+        robot.setPosition(exitRoom4);
+
+        assertEquals(0, robot.getDestination().dist(exitRoom4), .0001);
+
+        // Restart mission
+        robotController.setMission(0, Arrays.asList("Room 2", "Room 4", "exit"), "dummy");
+
+        assertEquals(0, robot.getDestination().dist(room2.getRepresentativePoint()), .0001);
 
     }
 
@@ -101,6 +123,9 @@ public class MissionTest {
         IEnvironmentManager environmentManager = TestUtils.initEnvironment(ed);
         Set<Area> areas = new HashSet<>();
 
+        Map<IGoal, List<Point>> dummyStrategyMap = new HashMap<>();
+        IStrategy dummyStrategy = new TestUtils.DummyStrategy(dummyStrategyMap);
+
         Area room1 = TestUtils.initRoom1();
         areas.add(room1);
 
@@ -128,15 +153,11 @@ public class MissionTest {
 
         AbstractSimulatorMonitor controller = new SimulatorMonitor(robots, ed);
 
-        List<IRobot> controlledRobots = new ArrayList<>();
-        controlledRobots.add(robot1);
-        controlledRobots.add(robot2);
-        controlledRobots.add(robot3);
-        controlledRobots.add(robot4);
+        List<IRobot> controlledRobots = Arrays.asList(robot1, robot2, robot3, robot4);
 
-        Map<String, Point> roomPointMap = TestUtils.getRoomPointMap();
+        Set<IStrategy> strategies = new HashSet<>(Arrays.asList(dummyStrategy));
 
-        RobotController robotController = new RobotController(controlledRobots, roomPointMap, areas);
+        RobotController robotController = new RobotController(controlledRobots, areas, strategies);
 
         AreaController areaController = new AreaController(areas);
 
@@ -145,10 +166,10 @@ public class MissionTest {
             r.addObserver(robotController);
         }
 
-        robotController.setMission(1, Arrays.asList("Room 1", "Room 2", "exit"));
-        robotController.setMission(2, Arrays.asList("Room 2", "Room 3", "exit"));
-        robotController.setMission(3, Arrays.asList("Room 3", "Room 4", "exit"));
-        robotController.setMission(4, Arrays.asList("Room 4", "Room 1", "exit"));
+        robotController.setMission(1, Arrays.asList("Room 1", "Room 2", "exit"), "Dummy");
+        robotController.setMission(2, Arrays.asList("Room 2", "Room 3", "exit"), "Dummy");
+        robotController.setMission(3, Arrays.asList("Room 3", "Room 4", "exit"),"Dummy");
+        robotController.setMission(4, Arrays.asList("Room 4", "Room 1", "exit"), "Dummy");
 
         while (!room2.isInside(robot1)) {
             Thread.sleep(100);

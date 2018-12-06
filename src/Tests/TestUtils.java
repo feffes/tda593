@@ -71,16 +71,6 @@ public class TestUtils {
 
     }
 
-    public static Map<String, Point> getRoomPointMap() {
-        Map<String, Point> map = new HashMap<>();
-        map.put("1", new Point(2.5, 2.5));
-        map.put("2", new Point(-2.5, 2.5));
-        map.put("3", new Point(-2.5, -2.5));
-        map.put("4", new Point(2.5, -2.5));
-
-        return map;
-    }
-
     public static class DummyRobot implements IRobot {
         Point destination;
         Point position;
@@ -125,12 +115,46 @@ public class TestUtils {
 
         @Override
         public boolean isAtDestination() {
-            return position.getX() - destination.getX() < .01 && position.getZ() - destination.getZ() < .01;
+            return position.dist(destination) < .0001;
         }
 
         @Override
         public boolean isAtPosition(Point p) {
             return false;
+        }
+
+        @Override
+        public boolean isWaiting() {
+            return false;
+        }
+
+        @Override
+        public void setWaiting() {
+
+        }
+    }
+
+    public static class DummyStrategy implements IStrategy {
+
+        private Map<IGoal, List<Point>> iteratorMap;
+
+        public DummyStrategy(Map<IGoal, List<Point>> iteratorMap){
+            this.iteratorMap = iteratorMap;
+        }
+
+        @Override
+        public Iterator<Point> ComputeRoute(IGoal goal, Point robotPosition) {
+            return iteratorMap.get(goal).iterator();
+        }
+
+        @Override
+        public void setName(String name) {
+
+        }
+
+        @Override
+        public String getName() {
+            return "dummy";
         }
     }
 

@@ -44,6 +44,32 @@ public class ExitGoal implements IGoal {
     }
 
     @Override
+    public boolean equals(Object o){
+        if(!(o instanceof ExitGoal))
+            return false;
+        ExitGoal e = (ExitGoal) o;
+
+        for(Area a:areas){
+            if(!e.areas.contains(a)){
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 0;
+        for(Area a:areas){
+            hashCode += a.hashCode();
+        }
+
+        return hashCode;
+    }
+
+    @Override
     public boolean isReached(IRobot robot) {
         return false;
     }
