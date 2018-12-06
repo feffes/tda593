@@ -53,7 +53,7 @@ public class Main {
         env.addHorizontalWall(0f, 3.5f, 5f);
 
         Robot robot1 = new Robot(new Point(2, 2), "Robot 1",100);
-        IStrategy strt = new DijkstraStrategy(gm);
+        IStrategy strt = new DijkstraStrategy(gm, 2);
         IMission mission = new Mission();
         mission.addGoal(new PointGoal(new Point(-7,-7)));
         mission.addGoal(new PointGoal(new Point(7,7)));

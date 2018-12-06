@@ -21,4 +21,6 @@ public interface IRobot {
     public boolean isWaiting();
 
     public void setWaiting();
+
+    String toString();
 }

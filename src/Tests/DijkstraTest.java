@@ -20,7 +20,7 @@ public class DijkstraTest {
         gm.generateGrid(-5,-5,5,5,0.2);
         gm.addHorizantalWall(new HorizontalWall(0.0f,5.0f, 4.4f, ed, Color.GRAY));
         DijkstraSolver ds = new DijkstraSolver(gm);
-        List<GridElement> route = ds.solve(gm.translateToGrid(1.0d,0.0d),gm.translateToGrid(-1.0d,0.0d));
+        List<GridElement> route = ds.solve(gm.translateToGrid(1.0d,0.0d),gm.translateToGrid(-1.0d,0.0d),0);
         for (GridElement grd:route) {
             System.out.println(String.valueOf(grd.getX())+", "+String.valueOf(grd.getZ()));
         }
