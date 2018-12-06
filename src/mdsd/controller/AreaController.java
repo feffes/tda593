@@ -59,8 +59,7 @@ public class AreaController implements RobotObserver {
         queue.add(robot);
         waitingQueueMap.put(area, queue);
 
-        Point position = robot.getPosition();
-        robot.setDestination(position);
+        robot.setWaiting();
     }
 
     public void handleLeavingAreas(IRobot robot) {
