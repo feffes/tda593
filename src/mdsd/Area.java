@@ -8,7 +8,11 @@ import java.util.Set;
 public interface Area {
     public boolean isInside(IRobot robot);
 
-    public void setExists(Set<Point> exits);
+    public void setExits(Set<Point> exits);
+
+    public Point getRepresentativePoint();
+
+    public void setRepresentativePoint(Point point);
 
     public Set<Point> getExits();
 

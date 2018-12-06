@@ -13,6 +13,8 @@ public class RectangleArea implements Area {
     private final float upper_z;
     private Set<Point> exits;
 
+    private Point representativePoint;
+
     public RectangleArea(String name, float lower_x, float upper_x, float lower_z, float upper_z, Set<Point> exits) {
         this.name = name;
         this.lower_x = lower_x;
@@ -20,6 +22,8 @@ public class RectangleArea implements Area {
         this.lower_z = lower_z;
         this.upper_z = upper_z;
         this.exits = exits;
+
+        representativePoint = new Point(upper_x - lower_x, upper_z - lower_z);
     }
 
     @Override
@@ -31,8 +35,18 @@ public class RectangleArea implements Area {
     }
 
     @Override
-    public void setExists(Set<Point> exits) {
+    public void setExits(Set<Point> exits) {
         this.exits = exits;
+    }
+
+    @Override
+    public Point getRepresentativePoint() {
+        return representativePoint;
+    }
+
+    @Override
+    public void setRepresentativePoint(Point point) {
+        representativePoint = point;
     }
 
     @Override
