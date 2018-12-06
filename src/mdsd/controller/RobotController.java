@@ -145,11 +145,15 @@ public class RobotController implements RobotObserver, IRobotController {
                             }
                             if (!travelMap.containsKey(robot))
                                 updateTravelMap(robot);
-                            Point p = travelMap.get(robot).next();
-                            System.out.println("####################");
-                            System.out.println(p);
-                            System.out.println("#####################");
-                            robot.setDestination(p);
+                            try {
+                                Point p = travelMap.get(robot).next();
+                                System.out.println("####################");
+                                System.out.println(p);
+                                System.out.println("#####################");
+                                robot.setDestination(p);
+                            } catch (NullPointerException e){
+                                System.out.printf("%s: Travel map is empty \n", robot.toString());
+                            }
                         } catch (NullPointerException e) {
                             e.printStackTrace();
                         }

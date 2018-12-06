@@ -40,17 +40,6 @@ public class EnvironmentManager implements IEnvironmentManager {
         gm.addHorizantalWall(new HorizontalWall(p1x, p1z, p2z, ed, Color.GRAY));
     }
 
-    public void dijkstraSolve(Point start, Point dest) {
-        List<GridElement> gridList = ds.solve(
-                gm.translateToGrid(start.getX(), start.getZ()),
-                gm.translateToGrid(dest.getX(), dest.getZ()));
-        List<Point> points = new ArrayList<>();
-        for (GridElement gel : gridList) {
-            points.add(new Point(gm.translateToPoint(gel.getX(), gel.getZ()).getX(), gm.translateToPoint(gel.getX(), gel.getZ()).getZ()));
-        }
-
-    }
-
     @Override
     public Set<Point> getRoute(Point start, Point end) {
         throw new NotImplementedException();
