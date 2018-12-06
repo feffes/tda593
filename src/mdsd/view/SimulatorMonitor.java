@@ -1,9 +1,9 @@
-package mdsd;
+package mdsd.view;
 
 import java.util.Set;
 
-import project.AbstractRobotSimulator;
-import project.AbstractSimulatorMonitor;
+import mdsd.betterproject.BetterAbstractSimulatorMonitor;
+import mdsd.model.Robot;
 import simbad.sim.EnvironmentDescription;
 
 public class SimulatorMonitor extends BetterAbstractSimulatorMonitor<Robot> {

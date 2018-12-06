@@ -1,11 +1,8 @@
-package mdsd;
+package mdsd.model;
 
 import project.Point;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 public class DijkstraStrategy implements IStrategy {
     DijkstraSolver solver;

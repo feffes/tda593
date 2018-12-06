@@ -1,16 +1,14 @@
 package mdsd;
 import java.util.HashSet;
 import java.util.Set;
+
+import mdsd.betterproject.BetterAbstractSimulatorMonitor;
+import mdsd.controller.RobotController;
+import mdsd.model.*;
+import mdsd.view.SimulatorMonitor;
 import project.Point;
-import project.AbstractSimulatorMonitor;
-import project.AbstractRobotSimulator;
-import simbad.sim.AbstractWall;
-import simbad.sim.Boundary;
 import simbad.sim.EnvironmentDescription;
-import simbad.sim.HorizontalBoundary;
-import simbad.sim.HorizontalWall;
-import simbad.sim.VerticalBoundary;
-import simbad.sim.VerticalWall;
+
 import java.awt.Color;
 @SuppressWarnings("unused")
 public class Main {

@@ -1,12 +1,10 @@
-package mdsd;
+package mdsd.model;
 
 import project.Point;
 import simbad.sim.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.awt.Color;
-
-import project.Point;
 
 import java.util.ArrayList;
 import java.util.List;

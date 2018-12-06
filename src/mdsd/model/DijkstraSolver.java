@@ -1,5 +1,8 @@
-package mdsd;
+package mdsd.model;
 
+import mdsd.model.DijkstraObject;
+import mdsd.model.GridElement;
+import mdsd.model.GridManager;
 import project.Point;
 
 import java.util.*;

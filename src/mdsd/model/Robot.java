@@ -1,12 +1,12 @@
-package mdsd;
+package mdsd.model;
 
-import project.AbstractRobotSimulator;
+import mdsd.betterproject.BetterAbstractRobotSimulator;
 import project.Point;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class Robot extends RoboSim implements IRobot {
+public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 
 	private Point dest;
 	private Set<RobotObserver> observers;

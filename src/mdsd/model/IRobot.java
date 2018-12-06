@@ -1,9 +1,6 @@
-package mdsd;
+package mdsd.model;
 
-import project.AbstractRobotSimulator;
 import project.Point;
-
-import java.util.Set;
 
 public interface IRobot {
 

@@ -1,13 +1,15 @@
 
 package Tests;
 
-import mdsd.*;
+import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
+import mdsd.controller.RobotController;
+import mdsd.model.*;
+import mdsd.view.SimulatorMonitor;
 import org.junit.*;
 
 import static org.junit.Assert.*;
 
-import project.AbstractSimulatorMonitor;
 import project.Point;
 import simbad.sim.EnvironmentDescription;
 

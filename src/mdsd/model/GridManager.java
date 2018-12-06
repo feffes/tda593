@@ -1,4 +1,4 @@
-package mdsd;
+package mdsd.model;
 
 import project.Point;
 import simbad.sim.AbstractWall;

@@ -3,14 +3,12 @@
 // (powered by Fernflower decompiler)
 //
 
-package mdsd.BetterProject;
+package mdsd.betterproject;
 
 import java.awt.Color;
 import javax.vecmath.Color3f;
 import javax.vecmath.Vector3d;
 
-import mdsd.BetterProject.BetterAbstractRobotSimulator;
-import mdsd.BetterProject.BetterAbstractSimulatorMonitor;
 import project.Point;
 import simbad.sim.Agent;
 import simbad.sim.RobotFactory;

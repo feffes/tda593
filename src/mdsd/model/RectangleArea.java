@@ -1,5 +1,7 @@
-package mdsd;
+package mdsd.model;
 
+import mdsd.model.Area;
+import mdsd.model.IRobot;
 import project.Point;
 
 import java.util.Set;

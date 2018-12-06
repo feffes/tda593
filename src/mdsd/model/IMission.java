@@ -1,4 +1,4 @@
-package mdsd;
+package mdsd.model;
 
 public interface IMission {
     public void addGoal(IGoal goal);

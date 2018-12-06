@@ -1,6 +1,8 @@
-package mdsd;
+package mdsd.model;
 
-import project.Point;
+import mdsd.model.IGoal;
+import mdsd.model.IMission;
+import mdsd.model.IRobot;
 
 import java.util.LinkedList;
 

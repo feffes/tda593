@@ -1,8 +1,8 @@
 package mdsd.controller;
 
-import mdsd.Area;
-import mdsd.IRobot;
-import mdsd.RobotObserver;
+import mdsd.model.Area;
+import mdsd.model.IRobot;
+import mdsd.model.RobotObserver;
 import project.Point;
 
 import java.util.*;

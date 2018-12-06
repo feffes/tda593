@@ -1,4 +1,4 @@
-package mdsd;
+package mdsd.model;
 
 public class DijkstraObject {
 

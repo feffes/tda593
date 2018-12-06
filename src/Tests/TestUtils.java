@@ -1,6 +1,6 @@
 package Tests;
 
-import mdsd.*;
+import mdsd.model.*;
 import project.Point;
 import simbad.sim.EnvironmentDescription;
 

@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package mdsd;
+package mdsd.betterproject;
 
 import java.util.Set;
 import java.util.function.Consumer;
@@ -11,7 +11,7 @@ import simbad.gui.Simbad;
 import simbad.sim.EnvironmentDescription;
 import simbad.sim.Simulator;
 
-public abstract class BetterAbstractSimulatorMonitor<R extends RoboSim> {
+public abstract class BetterAbstractSimulatorMonitor<R extends BetterAbstractRobotSimulator> {
     private Simbad frame;
 
     public Simbad getSimbadFrame() {

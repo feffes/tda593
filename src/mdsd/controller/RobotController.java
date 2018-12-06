@@ -1,5 +1,6 @@
-package mdsd;
+package mdsd.controller;
 
+import mdsd.model.*;
 import project.Point;
 
 import java.util.*;
