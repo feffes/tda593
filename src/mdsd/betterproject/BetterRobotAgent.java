@@ -3,18 +3,19 @@
 // (powered by Fernflower decompiler)
 //
 
-package mdsd;
+package mdsd.BetterProject;
 
 import java.awt.Color;
 import javax.vecmath.Color3f;
 import javax.vecmath.Vector3d;
 
-import project.AbstractSimulatorMonitor;
+import mdsd.BetterProject.BetterAbstractRobotSimulator;
+import mdsd.BetterProject.BetterAbstractSimulatorMonitor;
 import project.Point;
 import simbad.sim.Agent;
 import simbad.sim.RobotFactory;
 
-public class BetterRobotAgent<R extends RoboSim> extends Agent {
+public class BetterRobotAgent<R extends BetterAbstractRobotSimulator> extends Agent {
     private static final Color3f greenColor;
     private static final Color3f cyanColor;
     private Color3f currentColor;
@@ -86,7 +87,7 @@ public class BetterRobotAgent<R extends RoboSim> extends Agent {
         return Math.abs(dest.getZ() - position.z) <= this.MIN_DIST && Math.abs(dest.getX() - position.x) <= this.MIN_DIST;
     }
 
-    protected RoboSim getAgentSimulator() {
+    protected BetterAbstractRobotSimulator getAgentSimulator() {
         return this.agentSimulator;
     }
 
