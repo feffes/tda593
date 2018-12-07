@@ -65,4 +65,25 @@ public class RectangleArea implements Area {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public int hashCode(){
+        return (int)(lower_x + 31*upper_x + 31*31*lower_z + 31*31*31*upper_z);
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(!(o instanceof  RectangleArea))
+            return false;
+
+        RectangleArea a = (RectangleArea)o;
+
+        float sumDiff = 0;
+        sumDiff += Math.abs(lower_x - a.lower_x);
+        sumDiff += Math.abs(lower_z - a.lower_z);
+        sumDiff += Math.abs(upper_x - a.upper_x);
+        sumDiff += Math.abs(upper_z - a.upper_z);
+
+        return sumDiff < .001;
+    }
 }

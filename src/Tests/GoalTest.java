@@ -17,7 +17,10 @@ public class GoalTest {
     @Test
     public void ExitGoalTest(){
         EnvironmentDescription ed = new EnvironmentDescription();
-        IEnvironmentManager environmentManager = TestUtils.initEnvironment(ed);
+        GridManager gm = new GridManager();
+        gm.generateGrid(-10, -10, 10, 10, 0.1);
+
+        IEnvironmentManager environmentManager = TestUtils.initEnvironment(ed, gm);
 
         Robot robot = new Robot(new Point(4, 3), "Robot1", 10);
         Set<Robot> robots = new HashSet<>();

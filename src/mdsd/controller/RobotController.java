@@ -53,6 +53,7 @@ public class RobotController implements RobotObserver, IRobotController {
         try {
 
             IGoal goal = missionMap.get(robot).getNext();
+            goal.setGoalPosition(robot);
             IStrategy strt = strategyMap.get(robot);
             Iterator<Point> pnts = strt.ComputeRoute(goal, robot.getPosition());
             travelMap.put(robot, pnts);
@@ -78,15 +79,12 @@ public class RobotController implements RobotObserver, IRobotController {
     @Override
     public void update(IRobot robot) {
         IMission mission = missionMap.get(robot);
-
         if(!robot.isAtDestination()){
             return;
         }
-
         if(mission.reachedGoal(robot)){
             updateTravelMap(robot);
         }
-
         updateDestination(robot);
     }
 

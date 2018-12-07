@@ -8,10 +8,8 @@ import java.util.*;
 
 public class TestUtils {
 
-    public static IEnvironmentManager initEnvironment(EnvironmentDescription ed) {
+    public static IEnvironmentManager initEnvironment(EnvironmentDescription ed, GridManager gm) {
 
-        GridManager gm = new GridManager();
-        gm.generateGrid(-10, -10, 10, 10, 0.1);
         IEnvironmentManager environmentManager = new EnvironmentManager(ed, gm);
 
         environmentManager.addHorizontalWall(-5f, -1.5f, 1.5f);
@@ -155,6 +153,53 @@ public class TestUtils {
         @Override
         public String getName() {
             return "dummy";
+        }
+    }
+
+    public static class SimpleStrategy implements IStrategy {
+
+        private Set<Point> notDestinationPoints;
+        private String name;
+
+        public SimpleStrategy(Set<Point> notDestinationPoints, String name){
+
+            this.notDestinationPoints = notDestinationPoints;
+            this.name = name;
+        }
+
+        @Override
+        public Iterator<Point> ComputeRoute(IGoal goal, Point robotPosition) {
+            double zDiff = Math.abs(goal.getGoalPosition().getZ() - robotPosition.getZ());
+            double xDiff = Math.abs(goal.getGoalPosition().getX() - robotPosition.getX());
+
+            if(zDiff < .1 || xDiff < .1){
+                return Arrays.asList(goal.getGoalPosition()).iterator();
+            }
+
+            Point closestPoint = null;
+            double minDistance = Double.POSITIVE_INFINITY;
+            for(Point p:notDestinationPoints){
+                double distance = goal.getGoalPosition().dist(p);
+                if(distance < minDistance){
+                    minDistance = distance;
+                    closestPoint = p;
+                }
+            }
+
+            return Arrays.asList(closestPoint, goal.getGoalPosition()).iterator();
+
+
+        }
+
+        @Override
+        public void setName(String name) {
+
+            this.name = name;
+        }
+
+        @Override
+        public String getName() {
+            return name;
         }
     }
 
