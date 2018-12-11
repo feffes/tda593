@@ -9,6 +9,7 @@ public class DijkstraStrategy implements IStrategy {
     DijkstraSolver solver;
     GridManager gm;
     int wallBuffer;
+    private String name;
     public DijkstraStrategy(GridManager gm, int wallBuffer){
         solver = new DijkstraSolver(gm);
         this.gm = gm;
@@ -26,11 +27,11 @@ public class DijkstraStrategy implements IStrategy {
 
     @Override
     public void setName(String name) {
-
+        this.name = name;
     }
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 }

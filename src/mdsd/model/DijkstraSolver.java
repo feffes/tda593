@@ -19,11 +19,16 @@ public class DijkstraSolver {
 
     public DijkstraSolver(GridManager gm){
         this.gm = gm;
-        map =  new HashMap<>();
-        grid = gm.getGrid();
         elems = gm.getAllElements();
+        grid = gm.getGrid();
+
+
+    }
+
+    private void init(){
+        map =  new HashMap<>();
         nodes = new ArrayList<>();
-        unvisited = new ArrayList<DijkstraObject>();
+        unvisited = new ArrayList<>();
         //in beging we have not visited any nodes
         for (GridElement elem : elems){
             DijkstraObject dijObj = new DijkstraObject(INF,elem);
@@ -40,6 +45,7 @@ public class DijkstraSolver {
 
 
     public List<GridElement> solve(GridElement startGE, GridElement endGE, int wallBuffer){
+        init();
         DijkstraObject start = map.get(startGE);
         DijkstraObject end = map.get(endGE);
 

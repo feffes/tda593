@@ -146,8 +146,8 @@ public class MissionTest {
         areas.add(room4);
         Point exitRoom4 = room4.getExits().iterator().next();
 
-        IStrategy simpleStrategy = new TestUtils.SimpleStrategy(new HashSet<>(Arrays.asList(exitRoom2, exitRoom3)), "simple");
-
+        IStrategy simpleStrategy =  new DijkstraStrategy(gm,1);//new TestUtils.SimpleStrategy(new HashSet<>(Arrays.asList(exitRoom2, exitRoom3)), "simple");
+        simpleStrategy.setName("dijkstra");
         Robot robot1 = new Robot(new Point(-7, 2), "Robot1", 10);
         Robot robot2 = new Robot(new Point(-7, 1), "Robot2", 10);
         Robot robot3 = new Robot(new Point(-7, -1), "Robot3", 10);
@@ -170,10 +170,10 @@ public class MissionTest {
             r.addObserver(robotController);
         }
 
-        robotController.setMission(0, Arrays.asList("Room 1", "Room 2", "exit"), "simple");
-        robotController.setMission(1, Arrays.asList("Room 2", "Room 3", "exit"), "simple");
-        robotController.setMission(2, Arrays.asList("Room 3", "Room 4", "exit"), "simple");
-        robotController.setMission(3, Arrays.asList("Room 4", "Room 1", "exit"), "simple");
+        robotController.setMission(0, Arrays.asList("Room 1", "Room 2", "exit"), "dijkstra");
+        robotController.setMission(1, Arrays.asList("Room 2", "Room 3", "exit"), "dijkstra");
+        robotController.setMission(2, Arrays.asList("Room 3", "Room 4", "exit"), "dijkstra");
+        robotController.setMission(3, Arrays.asList("Room 4", "Room 1", "exit"), "dijkstra");
 
         while (!room2.isInside(robot1)) {
             Thread.sleep(200);

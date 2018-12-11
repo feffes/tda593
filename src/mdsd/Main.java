@@ -21,7 +21,7 @@ public class Main {
 		Color color = Color.GRAY;
 
         GridManager gm = new GridManager();
-        gm.generateGrid(-10,-10,10,10,1.0);
+        gm.generateGrid(-10,-10,10,10,0.5);
         IEnvironmentManager env = new EnvironmentManager(e, gm);
 
 
@@ -53,7 +53,7 @@ public class Main {
         env.addHorizontalWall(0f, 3.5f, 5f);
 
         Robot robot1 = new Robot(new Point(2, 2), "Robot 1",100);
-        IStrategy strt = new DijkstraStrategy(gm, 2);
+        IStrategy strt = new DijkstraStrategy(gm, 1);
         IMission mission = new Mission();
         mission.addGoal(new PointGoal(new Point(-7,-7)));
         mission.addGoal(new PointGoal(new Point(7,7)));
