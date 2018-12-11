@@ -7,6 +7,7 @@ import project.Point;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class AreaController implements RobotObserver {
     private Set<Area> areas;
@@ -26,7 +27,7 @@ public class AreaController implements RobotObserver {
     private Map<Area, Queue<IRobot>> initWaitingQueueMap(Set<Area> areas){
         Map<Area, Queue<IRobot>> map = new ConcurrentHashMap<>();
         for (Area a : areas) {
-            map.put(a, new ArrayDeque<IRobot>());
+            map.put(a, new ConcurrentLinkedDeque<>());
         }
         return map;
     }
@@ -45,7 +46,6 @@ public class AreaController implements RobotObserver {
             IRobot robotInQueue = queue.poll();
 
             Point previousDestination = waitingDestinationMap.remove(robotInQueue);
-
             robotInQueue.setDestination(previousDestination);
         }
     }
@@ -54,21 +54,11 @@ public class AreaController implements RobotObserver {
         Point destination = new Point(robot.getDestination().getX(), robot.getDestination().getZ());
 
         waitingDestinationMap.put(robot, destination);
-        System.out.println(robot.toString() + " is set waiting");
-        System.out.println("dest: " + destination.toString());
 
         Queue<IRobot> queue = waitingQueueMap.get(area);
         queue.add(robot);
 
-        printQueue();
-
         robot.setWaiting();
-    }
-
-    private void printQueue(){
-        for(Map.Entry<IRobot, Point> e:waitingDestinationMap.entrySet()){
-            System.out.println(e.getKey().toString() + ": " + e.getValue().toString());
-        }
     }
 
     public void handleLeavingAreas(IRobot robot) {
@@ -79,7 +69,6 @@ public class AreaController implements RobotObserver {
             for (Area a : robotInsideAreas) {
                 if (!a.isInside(robot)) {
                     areasToRemove.add(a);
-                    printQueue();
                 }
             }
 
@@ -116,7 +105,10 @@ public class AreaController implements RobotObserver {
     }
 
     @Override
-    public void update(IRobot robot) {
+    public synchronized void update(IRobot robot) {
+        if (robot.isWaiting()){
+            return;
+        }
         handleLeavingAreas(robot);
         handleEnteringAreas(robot);
     }

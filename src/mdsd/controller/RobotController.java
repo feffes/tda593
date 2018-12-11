@@ -72,7 +72,11 @@ public class RobotController implements RobotObserver, IRobotController {
     }
 
     @Override
-    public void update(IRobot robot) {
+    public synchronized void update(IRobot robot) {
+        if(robot.isWaiting()){
+            return;
+        }
+
         IMission mission = missionMap.get(robot);
         if(!robot.isAtDestination()){
             return;

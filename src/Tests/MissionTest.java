@@ -198,7 +198,7 @@ public class MissionTest {
             assertTrue(room2.isInside(robot2));
             assertTrue(room3.isInside(robot3));
 
-            Thread.sleep(200);
+            Thread.sleep(1000);
         }
         Thread.sleep(1000);
 

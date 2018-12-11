@@ -89,7 +89,7 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 			while (true)
 			{
 				Point newPosition = getPosition();
-				if(dest != null && newPosition != null && !newPosition.equals(lastPosition) && !isWaiting){
+				if(dest != null && newPosition != null && !newPosition.equals(lastPosition)){
 					notifyObservers();
 					lastPosition = newPosition;
 				}
