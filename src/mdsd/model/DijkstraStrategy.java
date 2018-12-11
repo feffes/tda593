@@ -4,6 +4,7 @@ import project.Point;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class DijkstraStrategy implements IStrategy {
     DijkstraSolver solver;
@@ -18,8 +19,12 @@ public class DijkstraStrategy implements IStrategy {
 
     @Override
     public Iterator<Point> ComputeRoute(IGoal goal, Point robotPosition) {
+
         try {
-            return gm.translateToPoints(solver.solve(robotPosition, goal.getGoalPosition(), wallBuffer)).iterator();
+            List<Point> route = gm.translateToPoints(solver.solve(robotPosition, goal.getGoalPosition(), wallBuffer));
+            route.add(goal.getGoalPosition());
+            return route.iterator();
+
         } catch (DijkstraException e){
             return null;
         }
