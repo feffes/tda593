@@ -17,7 +17,7 @@ public class BetterRobotAgent<R extends BetterAbstractRobotSimulator> extends Ag
     private static final Color3f greenColor;
     private static final Color3f cyanColor;
     private Color3f currentColor;
-    private double MIN_DIST = 0.1D;
+    private double MIN_DIST = 0.3D;
     private Point destination;
     private R agentSimulator;
     private BetterAbstractSimulatorMonitor<R> controller;

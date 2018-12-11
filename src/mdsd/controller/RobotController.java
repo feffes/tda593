@@ -15,13 +15,13 @@ public class RobotController implements RobotObserver, IRobotController {
 
     private final String exitGoalKeyword = "exit";
 
-    public RobotController() {
+    /*public RobotController() {
         missionMap = new HashMap<>();
         strategyMap = new HashMap<>();
         travelMap = new HashMap<>();
         this.robots = new ArrayList<>();
 
-    }
+    }*/
 
     public RobotController(List<IRobot> robots, Set<Area> areas, Set<IStrategy> strategies) {
         this.strategies = strategies;
@@ -69,11 +69,6 @@ public class RobotController implements RobotObserver, IRobotController {
         attachStrategy(r, s);
         // updateTravelMap(r);
 
-    }
-
-    public void startUpdater() {
-        RobotUpdater updtr = new RobotUpdater();
-        updtr.start();
     }
 
     @Override
@@ -127,44 +122,6 @@ public class RobotController implements RobotObserver, IRobotController {
         }
 
         return mission;
-    }
-
-
-    class RobotUpdater extends Thread {
-        @Override
-        public void run() {
-            boolean bool = true;
-            while (bool) {
-                for (IRobot robot : robots) {
-                    if (robot.isAtDestination()) {
-                        try {
-                            if (missionMap.get(robot).reachedGoal(robot)) {
-                                updateTravelMap(robot);
-                            }
-                            if (!travelMap.containsKey(robot))
-                                updateTravelMap(robot);
-                            try {
-                                Point p = travelMap.get(robot).next();
-                                System.out.println("####################");
-                                System.out.println(p);
-                                System.out.println("#####################");
-                                robot.setDestination(p);
-                            } catch (NullPointerException e){
-                                System.out.printf("%s: Travel map is empty \n", robot.toString());
-                            }
-                        } catch (NullPointerException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                try {
-                    this.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("one round");
-            }
-        }
     }
 
 }
