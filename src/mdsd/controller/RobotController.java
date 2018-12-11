@@ -15,13 +15,6 @@ public class RobotController implements RobotObserver, IRobotController {
 
     private final String exitGoalKeyword = "exit";
 
-    /*public RobotController() {
-        missionMap = new HashMap<>();
-        strategyMap = new HashMap<>();
-        travelMap = new HashMap<>();
-        this.robots = new ArrayList<>();
-
-    }*/
 
     public RobotController(List<IRobot> robots, Set<Area> areas, Set<IStrategy> strategies) {
         this.strategies = strategies;
@@ -32,21 +25,12 @@ public class RobotController implements RobotObserver, IRobotController {
         travelMap = new HashMap<>();
     }
 
-    public IRobot getRobot(String name) {
-
-        return new Robot(new Point(1, 2), "hej", 10);
-    }
-
-    public void attachStrategy(IRobot robot, IStrategy strategy) {
-        strategyMap.put(robot, strategy);
-    }
-
     public void addRobot(IRobot robot) {
         robots.add(robot);
     }
 
-    public void attachMission(IRobot robot, IMission mission) {
-        missionMap.put(robot, mission);
+    public void addStrategy(IStrategy strategy){
+        strategies.add(strategy);
     }
 
     private void updateTravelMap(IRobot robot) {
@@ -57,40 +41,31 @@ public class RobotController implements RobotObserver, IRobotController {
             IStrategy strt = strategyMap.get(robot);
             Iterator<Point> pnts = strt.ComputeRoute(goal, robot.getPosition());
             travelMap.put(robot, pnts);
-            //    robot.setDestination(travelMap.get(robot).next());
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
-    public void attachAll(IRobot r, IStrategy s, IMission m) {
-        addRobot(r);
-        attachMission(r, m);
-        attachStrategy(r, s);
-        // updateTravelMap(r);
-
-    }
-
     @Override
     public synchronized void update(IRobot robot) {
-        if(robot.isWaiting()){
+        if (robot.isWaiting()) {
             return;
         }
 
         IMission mission = missionMap.get(robot);
-        if(!robot.isAtDestination()){
+        if (!robot.isAtDestination()) {
             return;
         }
-        if(mission.reachedGoal(robot)){
+        if (mission.reachedGoal(robot)) {
             updateTravelMap(robot);
         }
         updateDestination(robot);
     }
 
-    private void updateDestination(IRobot robot){
+    private void updateDestination(IRobot robot) {
         Iterator<Point> travelIterator = travelMap.get(robot);
 
-        if(travelIterator != null && travelIterator.hasNext()){
+        if (travelIterator != null && travelIterator.hasNext()) {
             Point destination = travelIterator.next();
             robot.setDestination(destination);
         }
@@ -102,7 +77,7 @@ public class RobotController implements RobotObserver, IRobotController {
         IRobot robot = robots.get(robotIndex);
 
         Optional<IStrategy> strategyOpt = strategies.stream().filter(s -> s.getName().equals(strategyStr)).findFirst();
-        if(!strategyOpt.isPresent()){
+        if (!strategyOpt.isPresent()) {
             throw new IllegalArgumentException("Strategy does not exist");
         }
 

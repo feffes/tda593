@@ -210,7 +210,7 @@ public class MissionTest {
             Thread.sleep(200);
         }
 
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         assertTrue(robot1.isAtPosition(exitRoom2));
         assertTrue(robot2.isAtPosition(exitRoom3));

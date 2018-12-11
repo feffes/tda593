@@ -61,7 +61,7 @@ public class AreaController implements RobotObserver {
         robot.setWaiting();
     }
 
-    public void handleLeavingAreas(IRobot robot) {
+    private void handleLeavingAreas(IRobot robot) {
         if (robotsInsideMap.containsKey(robot)) {
             Set<Area> areasToRemove = new HashSet<>();
             Set<Area> robotInsideAreas = robotsInsideMap.get(robot);
@@ -85,7 +85,7 @@ public class AreaController implements RobotObserver {
         }
     }
 
-    public void handleEnteringAreas(IRobot robot) {
+    private void handleEnteringAreas(IRobot robot) {
         Set<Area> robotInsideAreas = new HashSet<>();
 
         if (robotsInsideMap.containsKey(robot))

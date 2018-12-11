@@ -10,7 +10,7 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 
 	private Point dest;
 	private Set<RobotObserver> observers;
-	private RobotPositionChecker positionChecker;
+	private RobotNotifier positionChecker;
 	private boolean isWaiting;
 	
 	public Robot(Point position, String name, int updateMillis) {
@@ -18,7 +18,7 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 		observers = new HashSet<>();
 		isWaiting = false;
 
-		positionChecker = new RobotPositionChecker(position, updateMillis);
+		positionChecker = new RobotNotifier(position, updateMillis);
 		positionChecker.start();
 	}
 
@@ -71,15 +71,14 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 
 	public boolean isAtDestination(){
         return dest==null || super.isAtPosition(dest);
-	   // return dest==null || this.getPosition().dist(dest) <= this.getAgent().getRadius()+0.5;
     }
 
-    class RobotPositionChecker extends Thread
+    class RobotNotifier extends Thread
 	{
 		private int updateInterval;
 		private Point lastPosition;
 
-		RobotPositionChecker(Point startPosition, int updateInterval){
+		RobotNotifier(Point startPosition, int updateInterval){
 			this.lastPosition = startPosition;
 			this.updateInterval = updateInterval;
 		}
