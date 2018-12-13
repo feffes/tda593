@@ -11,8 +11,9 @@ public class Procedure implements IProcedure {
     private Set<Area> areas;
     private String name;
 
-    public Procedure(){
+    public Procedure(String name){
         rewardPointMap = new HashMap<>();
+        this.name = name;
         areas = new HashSet<>();
     }
 

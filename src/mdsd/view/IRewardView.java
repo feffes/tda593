@@ -1,5 +1,5 @@
 package mdsd.view;
 
 public interface IRewardView {
-    void updateRewardPoints(int robotID, int rewardPoints);
+    void updateRewardPoints(String robotName, int rewardPoints, String procedurename);
 }
