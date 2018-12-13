@@ -55,6 +55,15 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 		isWaiting = true;
 	}
 
+	//Make robot wait for x (int) seconds. Used when robot enters new room
+	public void setWaiting(int seconds, Point destination) throws InterruptedException{
+	    setDestination(this.getPosition());
+	    isWaiting = true;
+
+	    Thread.sleep(seconds*1000);
+	    setDestination(destination);
+    }
+
 	@Override
 	public boolean isWaiting(){
 		return isWaiting;
