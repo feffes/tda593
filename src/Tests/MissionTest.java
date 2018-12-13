@@ -1,6 +1,7 @@
 
 package Tests;
 
+import demos.UniversityDemo;
 import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
 import mdsd.controller.RobotController;
@@ -123,13 +124,13 @@ public class MissionTest {
     }
 
     @Test
-    public void DoMission() throws InterruptedException {
-        EnvironmentDescription ed = new EnvironmentDescription();
-        GridManager gm = new GridManager();
-        gm.generateGrid(-10, -10, 10, 10, 0.5);
-        IEnvironmentManager environmentManager = TestUtils.initEnvironment(ed, gm);
-        Set<Area> areas = new HashSet<>();
-
+    public void DoMission(){
+        UniversityDemo ud = new UniversityDemo();
+        Robot robot1 = ud.robot1;
+        Robot robot2 = ud.robot2;
+        Robot robot3 = ud.robot3;
+        Robot robot4 = ud.robot4;
+        Set<Area> areas = ud.areas;
         Area room1 = TestUtils.initRoom1();
         areas.add(room1);
         Point exitRoom1 = room1.getExits().iterator().next();
@@ -145,78 +146,51 @@ public class MissionTest {
         Area room4 = TestUtils.initRoom4();
         areas.add(room4);
         Point exitRoom4 = room4.getExits().iterator().next();
+        try {
+            while (!room2.isInside(robot1)) {
+                Thread.sleep(200);
+            }
 
-        IStrategy simpleStrategy =  new DijkstraStrategy(gm,1);//new TestUtils.SimpleStrategy(new HashSet<>(Arrays.asList(exitRoom2, exitRoom3)), "simple");
-        simpleStrategy.setName("dijkstra");
-        Robot robot1 = new Robot(new Point(-7, 2), "Robot1", 10);
-        Robot robot2 = new Robot(new Point(-7, 1), "Robot2", 10);
-        Robot robot3 = new Robot(new Point(-7, -1), "Robot3", 10);
-        Robot robot4 = new Robot(new Point(-7, -2), "Robot4", 10);
+            while (!robot2.isWaiting()) {
+                Thread.sleep(200);
+            }
 
-        Set<Robot> robots = new HashSet<>(Arrays.asList(robot1, robot2, robot3, robot4));
+            while (room2.isInside(robot1)) {
+                assertTrue(room3.isInside(robot4));
+                assertTrue(robot2.isWaiting());
+                assertTrue(robot3.isWaiting());
 
-        BetterAbstractSimulatorMonitor controller = new SimulatorMonitor(robots, ed);
+                Thread.sleep(200);
+            }
 
-        List<IRobot> controlledRobots = Arrays.asList(robot1, robot2, robot3, robot4);
+            Thread.sleep(2000);
 
-        Set<IStrategy> strategies = new HashSet<>(Arrays.asList(simpleStrategy));
+            while (room1.isInside(robot1)) {
+                assertTrue(room4.isInside(robot4));
+                assertTrue(room2.isInside(robot2));
+                assertTrue(room3.isInside(robot3));
 
-        RobotController robotController = new RobotController(controlledRobots, areas, strategies);
-
-        AreaController areaController = new AreaController(areas);
-
-        for (IRobot r : controlledRobots) {
-            r.addObserver(areaController);
-            r.addObserver(robotController);
-        }
-
-        robotController.setMission(0, Arrays.asList("Room 1", "Room 2", "exit"), "dijkstra");
-        robotController.setMission(1, Arrays.asList("Room 2", "Room 3", "exit"), "dijkstra");
-        robotController.setMission(2, Arrays.asList("Room 3", "Room 4", "exit"), "dijkstra");
-        robotController.setMission(3, Arrays.asList("Room 4", "Room 1", "exit"), "dijkstra");
-
-        while (!room2.isInside(robot1)) {
-            Thread.sleep(200);
-        }
-
-        while (!robot2.isWaiting()){
-            Thread.sleep(200);
-        }
-
-        while (room2.isInside(robot1)) {
-            assertTrue(room3.isInside(robot4));
-            assertTrue(robot2.isWaiting());
-            assertTrue(robot3.isWaiting());
-
-            Thread.sleep(200);
-        }
-
-        Thread.sleep(1000);
-
-        while (room1.isInside(robot1)) {
-            assertTrue(room4.isInside(robot4));
-            assertTrue(room2.isInside(robot2));
-            assertTrue(room3.isInside(robot3));
-
+                Thread.sleep(450);
+            }
             Thread.sleep(1000);
+
+            while (room2.isInside(robot1) && robot1.getPosition().dist(exitRoom2) > 1) {
+                assertTrue(room3.isInside(robot2));
+                assertTrue(room2.isInside(robot1));
+                assertTrue(room4.isInside(robot3));
+
+                Thread.sleep(200);
+            }
+
+            Thread.sleep(2000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
         }
-        Thread.sleep(1000);
-
-        while (room2.isInside(robot1) && robot1.getPosition().dist(exitRoom2) > 1) {
-            assertTrue(room3.isInside(robot2));
-            assertTrue(room2.isInside(robot1));
-            assertTrue(room4.isInside(robot3));
-
-            Thread.sleep(200);
-        }
-
-        Thread.sleep(2000);
 
         assertTrue(robot1.isAtPosition(exitRoom2));
         assertTrue(robot2.isAtPosition(exitRoom3));
         assertTrue(robot3.isAtPosition(exitRoom4));
         assertTrue(robot4.isAtPosition(exitRoom1));
-
     }
 
 
