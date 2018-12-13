@@ -40,7 +40,7 @@ public class RewardController implements IRewardControlller, RobotObserver{
 
 
     @Override
-    public void updateProcendure(IProcedure procedure) {
+    public void updateProcedure(IProcedure procedure) {
         if(procedures.contains(procedure)){
             activeProcedure = procedure;
         }
@@ -53,7 +53,7 @@ public class RewardController implements IRewardControlller, RobotObserver{
 
 
 
-    public void updateView(){
+    private void updateView(){
         for(IRobot robot : robots){
             for(IRewardView view : views){
                 view.updateRewardPoints(robot.toString(), activeProcedure.getPoints(robot),activeProcedure.getName());
@@ -75,7 +75,7 @@ public class RewardController implements IRewardControlller, RobotObserver{
     }
 
 
-    class RewardTimer extends Thread{
+    private class RewardTimer extends Thread{
         long sleepTime;
 
         RewardTimer(long sleepTime){

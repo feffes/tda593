@@ -4,7 +4,7 @@ import mdsd.model.IProcedure;
 import mdsd.view.IRewardView;
 
 public interface IRewardControlller {
-    void updateProcendure(IProcedure procedure);
+    void updateProcedure(IProcedure procedure);
 
     void addRewardView(IRewardView view);
 
