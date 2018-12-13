@@ -4,11 +4,11 @@ import mdsd.model.IProcedure;
 import mdsd.model.IRobot;
 import mdsd.model.RobotObserver;
 import mdsd.view.IRewardView;
-import mdsd.view.RewardView;
+
 
 import java.util.*;
 
-public class RewardController implements IRewardControlller{
+public class RewardController implements IRewardControlller, RobotObserver{
 
     private IProcedure activeProcedure;
     private Set<IProcedure> procedures;
@@ -16,11 +16,13 @@ public class RewardController implements IRewardControlller{
     private List<IRobot> robots;
     private RewardTimer timer;
 
+
     public RewardController(List<IRobot> robots){
         views = new HashSet<>();
         this.robots = robots;
         procedures = new HashSet<>();
-        timer = new RewardTimer();
+        timer = new RewardTimer(2000); //2 seconds for testing
+
     }
 
     public void startTimer(){
@@ -34,6 +36,8 @@ public class RewardController implements IRewardControlller{
     public void removeProcedure(IProcedure procedure){
         procedures.remove(procedure);
     }
+
+
 
     @Override
     public void updateProcendure(IProcedure procedure) {
@@ -57,10 +61,26 @@ public class RewardController implements IRewardControlller{
         }
     }
 
+    @Override
+    public void update(IRobot robot) { //Robot update needs to send different updates
+        for(IProcedure procedure : procedures ){
+            if(!activeProcedure.equals(procedure)) {
+                if (procedure.isValid(robot)) {
+                    activeProcedure = procedure;
+                    return;
+                }
+            }
+        }
+
+    }
+
 
     class RewardTimer extends Thread{
+        long sleepTime;
 
-        long sleepTime = 2000; //20 seconds
+        RewardTimer(long sleepTime){
+            this.sleepTime = sleepTime;
+        }
 
         @Override
         public void run() {

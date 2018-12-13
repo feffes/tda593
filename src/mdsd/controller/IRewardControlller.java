@@ -9,4 +9,6 @@ public interface IRewardControlller {
     void addRewardView(IRewardView view);
 
     void addProcedure(IProcedure procedure);
+
+    void startTimer();
 }
