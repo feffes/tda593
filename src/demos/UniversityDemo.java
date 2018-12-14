@@ -4,6 +4,7 @@ import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
+import mdsd.utils.InitializeUtils;
 import mdsd.view.SimulatorMonitor;
 import project.Point;
 
@@ -20,6 +21,7 @@ public class UniversityDemo extends AbstractDemo{
     public Robot robot3;
     public Robot robot4;
     public Set<Area> areas;
+
 
     public UniversityDemo(){
         super();
@@ -56,24 +58,24 @@ public class UniversityDemo extends AbstractDemo{
 
         areas = new HashSet<>();
 
+        Area universityArea = initUniversityArea();
+        areas.add(universityArea);
+
         Area room1 = initRoom1();
         areas.add(room1);
-        Point exitRoom1 = room1.getExits().iterator().next();
 
         Area room2 = initRoom2();
         areas.add(room2);
-        Point exitRoom2 = room2.getExits().iterator().next();
 
         Area room3 = initRoom3();
         areas.add(room3);
-        Point exitRoom3 = room3.getExits().iterator().next();
 
         Area room4 = initRoom4();
         areas.add(room4);
-        Point exitRoom4 = room4.getExits().iterator().next();
 
-        IStrategy simpleStrategy =  new DijkstraStrategy(gm,1);//new SimpleStrategy(new HashSet<>(Arrays.asList(exitRoom2, exitRoom3)), "simple");
+        IStrategy simpleStrategy =  new DijkstraStrategy(gm,1);
         simpleStrategy.setName("dijkstra");
+
         robot1 = new Robot(new Point(-7, 2), "Robot1", 10);
         robot2 = new Robot(new Point(-7, 1), "Robot2", 10);
         robot3 = new Robot(new Point(-7, -1), "Robot3", 10);
@@ -87,7 +89,7 @@ public class UniversityDemo extends AbstractDemo{
 
         Set<IStrategy> strategies = new HashSet<>(Arrays.asList(simpleStrategy));
 
-        RobotController robotController = new RobotController(controlledRobots, areas, strategies);
+        RobotController robotController = new RobotController(controlledRobots, areas, strategies, InitializeUtils.initGoalMap());
 
         AreaController areaController = new AreaController(areas);
 
@@ -96,44 +98,58 @@ public class UniversityDemo extends AbstractDemo{
             r.addObserver(robotController);
         }
 
-        robotController.setMission(0, Arrays.asList("Room 1", "Room 2", "exit"), "dijkstra");
-        robotController.setMission(1, Arrays.asList("Room 2", "Room 3", "exit"), "dijkstra");
-        robotController.setMission(2, Arrays.asList("Room 3", "Room 4", "exit"), "dijkstra");
-        robotController.setMission(3, Arrays.asList("Room 4", "Room 1", "exit"), "dijkstra");
-
+        robotController.setMission(0, Arrays.asList("enter 1", "enter 2", "exit university"), "dijkstra");
+        robotController.setMission(1, Arrays.asList("enter 2", "enter 3", "exit university"), "dijkstra");
+        robotController.setMission(2, Arrays.asList("enter 3", "enter 4", "exit university"), "dijkstra");
+        robotController.setMission(3, Arrays.asList("enter 4", "enter 1", "exit university"), "dijkstra");
 
 
     }
 
-    private Area initRoom1() {
+    public static Area initUniversityArea() {
+        Set<Point> exits = new HashSet<>(Arrays.asList(new Point(5, 2.5), new Point(-5, 2.5),
+                new Point(-5, -2.5), new Point(5, -2.5)));
+
+        return new RectangleArea("university", -5, 5, -5, 5, exits, false);
+    }
+
+    public static Area initRoom1() {
         Set<Point> exits = new HashSet<>();
         exits.add(new Point(5, 2.5));
+        exits.add(new Point(0, 2.5));
+        exits.add(new Point(2.5, 0));
 
-        return new RectangleArea("Room 1", 0, 5, 0, 5, exits);
+        return new RectangleArea("1", 0, 5, 0, 5, exits, true);
 
     }
 
-    private Area initRoom2() {
+    public static Area initRoom2() {
         Set<Point> exits = new HashSet<>();
+        exits.add(new Point(0, 2.5));
+        exits.add(new Point(-2.5, 0));
         exits.add(new Point(-5, 2.5));
 
-        return new RectangleArea("Room 2", -5, 0, 0, 5, exits);
+        return new RectangleArea("2", -5, 0, 0, 5, exits, true);
 
     }
 
-    private Area initRoom3() {
+    public static Area initRoom3() {
         Set<Point> exits = new HashSet<>();
         exits.add(new Point(-5, -2.5));
+        exits.add(new Point(-2.5, 0));
+        exits.add(new Point(0, -2.5));
 
-        return new RectangleArea("Room 3", -5, 0, -5, 0, exits);
+        return new RectangleArea("3", -5, 0, -5, 0, exits, true);
 
     }
 
-    private Area initRoom4() {
+    public static Area initRoom4() {
         Set<Point> exits = new HashSet<>();
+        exits.add(new Point(2.5, 0));
         exits.add(new Point(5, -2.5));
+        exits.add(new Point(0, -2.5));
 
-        return new RectangleArea("Room 4", 0, 5, -5, 0, exits);
+        return new RectangleArea("4", 0, 5, -5, 0, exits, true);
 
     }
 

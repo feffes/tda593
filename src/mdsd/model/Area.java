@@ -14,6 +14,10 @@ public interface Area {
 
     public void setRepresentativePoint(Point point);
 
+    public void setIsLimited(boolean isLimited);
+
+    public boolean isLimited();
+
     public Set<Point> getExits();
 
     public String getName();

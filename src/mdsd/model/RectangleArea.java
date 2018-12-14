@@ -1,7 +1,5 @@
 package mdsd.model;
 
-import mdsd.model.Area;
-import mdsd.model.IRobot;
 import project.Point;
 
 import java.util.Set;
@@ -16,14 +14,17 @@ public class RectangleArea implements Area {
     private Set<Point> exits;
 
     private Point representativePoint;
+    private boolean isLimited;
 
-    public RectangleArea(String name, float lower_x, float upper_x, float lower_z, float upper_z, Set<Point> exits) {
+    public RectangleArea(String name, float lower_x, float upper_x, float lower_z, float upper_z, Set<Point> exits,
+                         boolean isLimited) {
         this.name = name;
         this.lower_x = lower_x;
         this.upper_x = upper_x;
         this.lower_z = lower_z;
         this.upper_z = upper_z;
         this.exits = exits;
+        this.isLimited = isLimited;
 
         representativePoint = new Point((upper_x - lower_x)/2 + lower_x, (upper_z - lower_z)/2 + lower_z);
     }
@@ -49,6 +50,16 @@ public class RectangleArea implements Area {
     @Override
     public void setRepresentativePoint(Point point) {
         representativePoint = point;
+    }
+
+    @Override
+    public void setIsLimited(boolean limit) {
+        this.isLimited = limit;
+    }
+
+    @Override
+    public boolean isLimited() {
+        return isLimited;
     }
 
     @Override

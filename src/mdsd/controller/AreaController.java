@@ -8,6 +8,7 @@ import project.Point;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.stream.Collectors;
 
 public class AreaController implements RobotObserver {
     private Set<Area> areas;
@@ -20,7 +21,7 @@ public class AreaController implements RobotObserver {
         waitingDestinationMap = new ConcurrentHashMap<>();
         waitingQueueMap = initWaitingQueueMap(areas);
         robotsInsideMap = new ConcurrentHashMap<>();
-        this.areas = areas;
+        this.areas = areas.stream().filter(a -> a.isLimited()).collect(Collectors.toSet());
         this.robotsInAreaMap = initRobotsInAreaMap(areas);
     }
 

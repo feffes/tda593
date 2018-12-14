@@ -1,9 +1,11 @@
 package mdsd.controller;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import mdsd.model.*;
 import project.Point;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class RobotController implements RobotObserver, IRobotController {
     private List<IRobot> robots;
@@ -12,14 +14,14 @@ public class RobotController implements RobotObserver, IRobotController {
     private Map<IRobot, Iterator<Point>> travelMap;
     private Set<Area> areas;
     private Set<IStrategy> strategies;
+    private Map<String, Class<? extends IGoal>> goalTypeMap;
 
-    private final String exitGoalKeyword = "exit";
-
-
-    public RobotController(List<IRobot> robots, Set<Area> areas, Set<IStrategy> strategies) {
+    public RobotController(List<IRobot> robots, Set<Area> areas, Set<IStrategy> strategies, Map<String, Class<? extends IGoal>> goalTypeMap) {
         this.strategies = strategies;
         this.robots = robots;
         this.areas = areas;
+        this.goalTypeMap = goalTypeMap;
+
         missionMap = new HashMap<>();
         strategyMap = new HashMap<>();
         travelMap = new HashMap<>();
@@ -76,13 +78,15 @@ public class RobotController implements RobotObserver, IRobotController {
         IMission mission = createMission(missionStr);
         IRobot robot = robots.get(robotIndex);
 
-        Optional<IStrategy> strategyOpt = strategies.stream().filter(s -> s.getName().equals(strategyStr)).findFirst();
-        if (!strategyOpt.isPresent()) {
+        if(!strategies.stream().anyMatch(s -> s.getName().equals(strategyStr))){
             throw new IllegalArgumentException("Strategy does not exist");
         }
 
+        Optional<IStrategy> strategyOpt = strategies.stream().filter(s -> s.getName().equals(strategyStr)).findFirst();
+        IStrategy strategy = strategyOpt.get();
+
         missionMap.put(robot, mission);
-        strategyMap.put(robot, strategyOpt.get());
+        strategyMap.put(robot, strategy);
         updateTravelMap(robot);
         updateDestination(robot);
     }
@@ -90,17 +94,43 @@ public class RobotController implements RobotObserver, IRobotController {
     private IMission createMission(List<String> goalStrings) {
         IMission mission = new Mission();
         for (String gStr : goalStrings) {
-            if (gStr.equals(exitGoalKeyword)) {
-                mission.addGoal(new ExitGoal(areas));
-            } else if (areas.stream().anyMatch(a -> a.getName().equals(gStr))) {
-                Area area = areas.stream().filter(a -> a.getName().equals(gStr)).iterator().next();
-                mission.addGoal(new PointGoal(area.getRepresentativePoint()));
-            } else {
-                throw new IllegalArgumentException("Area in mission does not exist.");
+            String[] args = gStr.split(" ");
+            IGoal goal = null;
+            try {
+                goal = createGoal(args);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
             }
+            mission.addGoal(goal);
         }
 
         return mission;
+    }
+
+    private IGoal createGoal(String[] args) throws IllegalAccessException, InstantiationException {
+        Class<? extends IGoal> goalType = goalTypeMap.get(args[0]);
+
+        if(args.length > 1 && AreaGoal.class.isAssignableFrom(goalType)){
+            if(areas.stream().anyMatch(a -> a.getName().equals(args[1]))){
+                Area area = areas.stream().filter(a -> a.getName().equals(args[1])).findFirst().get();
+
+                AreaGoal areaGoal = (AreaGoal)goalType.newInstance();
+
+                areaGoal.setArea(area);
+                return areaGoal;
+
+            } else {
+                throw new IllegalArgumentException("Area in mission not specified.");
+            }
+        } else if (args.length > 2 && PointGoal.class.isAssignableFrom(goalType)){
+            Point point = new Point(Double.parseDouble(args[1]), Double.parseDouble(args[2]));
+            return new PointGoal(point);
+        }
+
+        throw new IllegalArgumentException("Goal type is not handled");
+
     }
 
 }

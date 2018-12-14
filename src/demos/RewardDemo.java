@@ -26,11 +26,11 @@ public class RewardDemo {
         IRewardControlller rewardControlller = new RewardController(robots);
 
         IProcedure procedureA = new Procedure("A");
-        procedureA.addArea(TestUtils.initRoom3(),2);
+        procedureA.addArea(UniversityDemo.initRoom3(),2);
         rewardControlller.addProcedure(procedureA);
 
         IProcedure procedureB = new Procedure("B");
-        procedureB.addArea(TestUtils.initRoom4(),3);
+        procedureB.addArea(UniversityDemo.initRoom4(),3);
         rewardControlller.addProcedure(procedureB);
 
         rewardControlller.updateProcedure(procedureA);

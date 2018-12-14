@@ -36,39 +36,6 @@ public class TestUtils {
         return environmentManager;
     }
 
-
-    public static Area initRoom1() {
-        Set<Point> exits = new HashSet<>();
-        exits.add(new Point(5, 2.5));
-
-        return new RectangleArea("Room 1", 0, 5, 0, 5, exits);
-
-    }
-
-    public static Area initRoom2() {
-        Set<Point> exits = new HashSet<>();
-        exits.add(new Point(-5, 2.5));
-
-        return new RectangleArea("Room 2", -5, 0, 0, 5, exits);
-
-    }
-
-    public static Area initRoom3() {
-        Set<Point> exits = new HashSet<>();
-        exits.add(new Point(-5, -2.5));
-
-        return new RectangleArea("Room 3", -5, 0, -5, 0, exits);
-
-    }
-
-    public static Area initRoom4() {
-        Set<Point> exits = new HashSet<>();
-        exits.add(new Point(5, -2.5));
-
-        return new RectangleArea("Room 4", 0, 5, -5, 0, exits);
-
-    }
-
     public static class DummyRobot implements IRobot {
         Point destination;
         Point position;
@@ -118,7 +85,7 @@ public class TestUtils {
 
         @Override
         public boolean isAtPosition(Point p) {
-            return false;
+            return position.dist(p) < .0001;
         }
 
         @Override
@@ -136,7 +103,7 @@ public class TestUtils {
 
         private Map<IGoal, List<Point>> iteratorMap;
 
-        public DummyStrategy(Map<IGoal, List<Point>> iteratorMap){
+        public DummyStrategy(Map<IGoal, List<Point>> iteratorMap) {
             this.iteratorMap = iteratorMap;
         }
 
@@ -161,7 +128,7 @@ public class TestUtils {
         private Set<Point> notDestinationPoints;
         private String name;
 
-        public SimpleStrategy(Set<Point> notDestinationPoints, String name){
+        public SimpleStrategy(Set<Point> notDestinationPoints, String name) {
 
             this.notDestinationPoints = notDestinationPoints;
             this.name = name;
@@ -172,15 +139,15 @@ public class TestUtils {
             double zDiff = Math.abs(goal.getGoalPosition().getZ() - robotPosition.getZ());
             double xDiff = Math.abs(goal.getGoalPosition().getX() - robotPosition.getX());
 
-            if(zDiff < .1 || xDiff < .1){
+            if (zDiff < .1 || xDiff < .1) {
                 return Arrays.asList(goal.getGoalPosition()).iterator();
             }
 
             Point closestPoint = null;
             double minDistance = Double.POSITIVE_INFINITY;
-            for(Point p:notDestinationPoints){
+            for (Point p : notDestinationPoints) {
                 double distance = goal.getGoalPosition().dist(p);
-                if(distance < minDistance){
+                if (distance < minDistance) {
                     minDistance = distance;
                     closestPoint = p;
                 }
