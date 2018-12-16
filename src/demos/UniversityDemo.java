@@ -5,6 +5,7 @@ import mdsd.controller.AreaController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
 import mdsd.utils.InitializeUtils;
+import mdsd.view.PanicButton;
 import mdsd.view.SimulatorMonitor;
 import project.Point;
 
@@ -90,6 +91,9 @@ public class UniversityDemo extends AbstractDemo{
         Set<IStrategy> strategies = new HashSet<>(Arrays.asList(simpleStrategy));
 
         RobotController robotController = new RobotController(controlledRobots, areas, strategies, InitializeUtils.initGoalMap());
+
+        PanicButton panicButton = new PanicButton(controller.getSimbadFrame().getDesktopPane(), robotController);
+        panicButton.createButton();
 
         AreaController areaController = new AreaController(areas);
 
