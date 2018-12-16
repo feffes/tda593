@@ -70,6 +70,15 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 	    setWaiting();
     }
 
+    public boolean hasfault(){
+        double random = Math.random() * 10000; //between 0 and 100
+        if(random < 1){ //has X percent to get fault. Just to simulate fault on rover
+            System.out.println("Fault on rover! Stoping the rover");
+            return true;
+        }
+        return false;
+    }
+
     public boolean isAtPosition(Point p){
 	    return super.isAtPosition(p);
     }
@@ -92,6 +101,10 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 		public void run() {
 			while (true)
 			{
+			    if(hasfault()){
+			        stop();
+                }
+
 				Point newPosition = getPosition();
 				if(dest != null && newPosition != null && !newPosition.equals(lastPosition)){
 					notifyObservers();
