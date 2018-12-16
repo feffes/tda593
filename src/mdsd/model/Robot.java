@@ -3,6 +3,7 @@ package mdsd.model;
 import mdsd.betterproject.BetterAbstractRobotSimulator;
 import project.Point;
 
+import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -64,6 +65,10 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 			r.update(this);
 		}
 	}
+
+	public void stop(){
+	    setWaiting();
+    }
 
     public boolean isAtPosition(Point p){
 	    return super.isAtPosition(p);

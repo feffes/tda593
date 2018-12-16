@@ -97,6 +97,11 @@ public class TestUtils {
         public void setWaiting() {
 
         }
+
+        @Override
+        public void stop() {
+            System.out.println("Stop");
+        }
     }
 
     public static class DummyStrategy implements IStrategy {

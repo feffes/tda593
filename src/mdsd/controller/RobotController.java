@@ -1,13 +1,15 @@
 package mdsd.controller;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
+//import com.sun.javaws.exceptions.InvalidArgumentException;
 import mdsd.model.*;
 import project.Point;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class RobotController implements RobotObserver, IRobotController {
+public class RobotController implements RobotObserver, IRobotController,ActionListener {
     private List<IRobot> robots;
     private Map<IRobot, IMission> missionMap;
     private Map<IRobot, IStrategy> strategyMap;
@@ -133,5 +135,11 @@ public class RobotController implements RobotObserver, IRobotController {
 
     }
 
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        for(IRobot robot : robots){
+            robot.stop();
+        }
+    }
 }
 

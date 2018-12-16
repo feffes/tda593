@@ -22,5 +22,7 @@ public interface IRobot {
 
     public void setWaiting();
 
+    public void stop();
+
     String toString();
 }
