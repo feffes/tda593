@@ -52,6 +52,8 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
 
         } catch (NullPointerException e) {
             e.printStackTrace();
+        } catch (NoSuchElementException e){
+            System.out.println("I've got nothin' to do, man");
         }
     }
 
