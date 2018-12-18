@@ -63,6 +63,7 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 		isWaiting = true;
 	}
 
+
 	//Make robot wait for x (int) seconds then continue to destination. Used when robot enters new room
 	public void setTempWaiting(int seconds, Point destination){
 	    savedDestination = destination;
@@ -74,7 +75,7 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
         task = () -> {
             setDestination(savedDestination);
         };
-    }
+	}
 
 	@Override
 	public boolean isWaiting(){
@@ -123,7 +124,7 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 			while (true)
 			{
 			    if(hasfault()){
-			        stop();
+			        //stop();
                 }
 
 				Point newPosition = getPosition();
