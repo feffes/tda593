@@ -97,6 +97,11 @@ public class TestUtils {
         public void setWaiting() {
 
         }
+        
+        @Override
+        public void setTempWaiting(int seconds, Point destination){
+
+        }
 
         @Override
         public void stop() {

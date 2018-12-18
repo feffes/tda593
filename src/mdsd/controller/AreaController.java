@@ -70,6 +70,7 @@ public class AreaController implements RobotObserver {
             for (Area a : robotInsideAreas) {
                 if (!a.isInside(robot)) {
                     areasToRemove.add(a);
+
                 }
             }
 
@@ -89,6 +90,7 @@ public class AreaController implements RobotObserver {
     private void handleEnteringAreas(IRobot robot) {
         Set<Area> robotInsideAreas = new HashSet<>();
 
+
         if (robotsInsideMap.containsKey(robot))
             robotInsideAreas = robotsInsideMap.get(robot);
 
@@ -97,13 +99,17 @@ public class AreaController implements RobotObserver {
                 stopRobot(robot, area);
             } else if (!robotInsideAreas.contains(area) && area.isInside(robot)) {
 
+                robot.setTempWaiting(2,robot.getDestination());
                 robotInsideAreas.add(area);
 
                 robotsInsideMap.put(robot, robotInsideAreas);
                 robotsInAreaMap.put(area, robotsInAreaMap.get(area) + 1);
+
             }
         }
+
     }
+
 
     @Override
     public synchronized void update(IRobot robot) {
