@@ -82,6 +82,10 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
         }
     }
 
+    public int getAmountRobots(){
+        return robots.size();
+    }
+
     @Override
     public void setMission(int robotIndex, List<String> missionStr, String strategyStr) {
         IMission mission = createMission(missionStr);
