@@ -5,6 +5,7 @@ import mdsd.controller.AreaController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
 import mdsd.utils.InitializeUtils;
+import mdsd.view.AreaView;
 import mdsd.view.PanicButton;
 import mdsd.view.SimulatorMonitor;
 import project.Point;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class UniversityDemo extends AbstractDemo{
     private GridManager gm;
@@ -95,7 +97,11 @@ public class UniversityDemo extends AbstractDemo{
         PanicButton panicButton = new PanicButton(controller.getSimbadFrame().getDesktopPane(), robotController);
         panicButton.createButton();
 
+        Set<String> robotNames = controlledRobots.stream().map(r -> r.toString()).collect(Collectors.toSet());
+        AreaView areaView = new AreaView(robotNames);
+
         AreaController areaController = new AreaController(areas);
+        areaController.addAreaView(areaView);
 
         for (IRobot r : controlledRobots) {
             r.addObserver(areaController);

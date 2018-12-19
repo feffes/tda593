@@ -2,7 +2,9 @@ package mdsd.controller;
 
 import mdsd.model.Area;
 import mdsd.model.IRobot;
+import mdsd.model.Robot;
 import mdsd.model.RobotObserver;
+import mdsd.view.IAreaView;
 import project.Point;
 
 import java.util.*;
@@ -10,14 +12,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.stream.Collectors;
 
-public class AreaController implements RobotObserver {
+public class AreaController implements RobotObserver, IAreaController {
     private Set<Area> areas;
     private Map<IRobot, Point> waitingDestinationMap;
     private Map<Area, Queue<IRobot>> waitingQueueMap;
     private Map<IRobot, Set<Area>> robotsInsideMap;
     private Map<Area, Integer> robotsInAreaMap;
+    private Set<IAreaView> views;
 
-    public AreaController(Set<Area> areas) {
+    public AreaController(Set<Area> areas)  {
+        this.views = new HashSet<>();
         waitingDestinationMap = new ConcurrentHashMap<>();
         waitingQueueMap = initWaitingQueueMap(areas);
         robotsInsideMap = new ConcurrentHashMap<>();
@@ -74,6 +78,10 @@ public class AreaController implements RobotObserver {
             }
 
             for (Area a : areasToRemove) {
+                for(IAreaView view:views){
+                    view.robotLeftArea(robot.toString(), a.getName());
+                }
+
                 robotInsideAreas.remove(a);
                 robotsInsideMap.put(robot, robotInsideAreas);
                 robotsInAreaMap.put(a, robotsInAreaMap.get(a) - 1);
@@ -99,6 +107,10 @@ public class AreaController implements RobotObserver {
 
                 robotInsideAreas.add(area);
 
+                for(IAreaView view:views){
+                    view.robotEnteredArea(robot.toString(), area.getName());
+                }
+
                 robotsInsideMap.put(robot, robotInsideAreas);
                 robotsInAreaMap.put(area, robotsInAreaMap.get(area) + 1);
             }
@@ -112,5 +124,15 @@ public class AreaController implements RobotObserver {
         }
         handleLeavingAreas(robot);
         handleEnteringAreas(robot);
+    }
+
+    @Override
+    public void addAreaView(IAreaView view) {
+        views.add(view);
+    }
+
+    @Override
+    public void removeAreaView(IAreaView view) {
+        views.remove(view);
     }
 }
