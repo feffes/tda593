@@ -7,5 +7,7 @@ public interface IMission {
 
     public IGoal getNext();
 
+    Boolean hasNextGoal();
+
     boolean reachedGoal(IRobot robot);
 }

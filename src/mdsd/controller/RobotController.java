@@ -39,12 +39,17 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
 
     private void updateTravelMap(IRobot robot) {
         try {
+            IGoal goal;
+            if(missionMap.get(robot).hasNextGoal()){
+                goal = missionMap.get(robot).getNext();
+                goal.setGoalPosition(robot);
+                IStrategy strt = strategyMap.get(robot);
+                Iterator<Point> pnts = strt.ComputeRoute(goal, robot.getPosition());
+                travelMap.put(robot, pnts);
+            }else{
+                return;
+            }
 
-            IGoal goal = missionMap.get(robot).getNext();
-            goal.setGoalPosition(robot);
-            IStrategy strt = strategyMap.get(robot);
-            Iterator<Point> pnts = strt.ComputeRoute(goal, robot.getPosition());
-            travelMap.put(robot, pnts);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
