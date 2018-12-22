@@ -80,8 +80,8 @@ public class HospitalDemo extends AbstractDemo {
         Area surRoom4 = initSurRoom4();
         areas.add(surRoom4);
 
-        Area confRoom1 = initConfRoom1();
-        areas.add(confRoom1);
+        Area conRoom1 = initConRoom1();
+        areas.add(conRoom1);
 
         IStrategy dijkstraStrategy =  new DijkstraStrategy(gm,1);
         dijkstraStrategy.setName("dijkstra");
@@ -115,10 +115,10 @@ public class HospitalDemo extends AbstractDemo {
             e.printStackTrace();
         }
 
-        robotController.setMission(0, Arrays.asList("enter conf1", "enter sur1"), "dijkstra");
-        robotController.setMission(1, Arrays.asList("enter conf1", "enter sur2", "enter conf1", "enter sur2"), "dijkstra");
-        robotController.setMission(2, Arrays.asList("enter conf1", "enter sur3", "exit hospital"), "dijkstra");
-        robotController.setMission(3, Arrays.asList("enter conf1", "enter sur4", "exit hospital"), "dijkstra");
+        robotController.setMission(0, Arrays.asList("enter con1", "enter sur1"), "dijkstra");
+        robotController.setMission(1, Arrays.asList("enter con1", "enter sur2", "enter con1", "enter sur2"), "dijkstra");
+        robotController.setMission(2, Arrays.asList("enter con1", "enter sur3", "exit hospital"), "dijkstra");
+        robotController.setMission(3, Arrays.asList("enter con1", "enter sur4", "exit hospital"), "dijkstra");
 
     }
 
@@ -171,10 +171,10 @@ public class HospitalDemo extends AbstractDemo {
 
     }
 
-    private static Area initConfRoom1(){
+    private static Area initConRoom1(){
         Set<Point> exits = new HashSet<>();
         exits.add(new Point(3.75, 5));
         exits.add(new Point(-3.75, 5));
-        return new RectangleArea("conf1",-5,5,5,10,exits,true);
+        return new RectangleArea("con1",-5,5,5,10,exits,true);
     }
 }
