@@ -28,7 +28,7 @@ public class HospitalDemo extends AbstractDemo {
         super();
         this.gm = new GridManager();
         IEnvironmentManager env = new EnvironmentManager(this, gm);
-        gm.generateGrid(-10,-10,10,10,0.5);
+        gm.generateGrid(-10,-10,10,10,0.25);
 
         env.addHorizontalBoundary(-10.0f, -10.0f, 10.0f);
         env.addHorizontalBoundary(10.0f, -10.0f, 10.0f);
@@ -115,8 +115,8 @@ public class HospitalDemo extends AbstractDemo {
             e.printStackTrace();
         }
 
-        robotController.setMission(0, Arrays.asList("enter con1", "enter sur1"), "dijkstra");
-        robotController.setMission(1, Arrays.asList("enter con1", "enter sur2", "enter con1", "enter sur2"), "dijkstra");
+        robotController.setMission(0, Arrays.asList("enter con1", "enter sur1", "exit hospital"), "dijkstra");
+        robotController.setMission(1, Arrays.asList("enter con1", "enter sur2", "enter con1", "enter sur2", "exit hospital"), "dijkstra");
         robotController.setMission(2, Arrays.asList("enter con1", "enter sur3", "exit hospital"), "dijkstra");
         robotController.setMission(3, Arrays.asList("enter con1", "enter sur4", "exit hospital"), "dijkstra");
 
@@ -124,10 +124,10 @@ public class HospitalDemo extends AbstractDemo {
 
     private static Area initHospitalArea() {
         Set<Point> exits = new HashSet<>(Arrays.asList(
-                new Point(5, 2.5),
-                new Point(-5, 2.5),
-                new Point(-5, -2.5),
-                new Point(5, -2.5)
+                new Point(5.5, 2.5),
+                new Point(-5.5, 2.5),
+                new Point(-5.5, -2.5),
+                new Point(5.5, -2.5)
         ));
 
         return new RectangleArea("hospital", -5, 5, -5, 10, exits, false);
