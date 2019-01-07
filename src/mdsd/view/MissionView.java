@@ -9,35 +9,40 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandGUI implements ActionListener {
+public class MissionView implements ActionListener ,IMissionView {
     private JDesktopPane desktop;
     private IRobotController cont;
     private List<String> commands;
-    private JTextField text;
-    private JLabel label;
+    private JTextField guiText;
+    private JLabel guiLabel;
+    private List<JLabel> robotInfo;
 
-    public CommandGUI(IRobotController cont, JDesktopPane desktop){
+    public MissionView(IRobotController cont, JDesktopPane desktop){
         this.desktop = desktop;
         this.cont = cont;
-        /*commands.add("robot");
-        commands.add("enter");
-        commands.add("point");
-        commands.add("middle");
-        commands.add("exit");*/
+        robotInfo = new ArrayList<>();
     }
 
     public void createGUI(int x , int z){
-        JInternalFrame frame = new JInternalFrame("CommandGUI",true,false,false,false);
-        frame.setSize(200,100);
+        JInternalFrame frame = new JInternalFrame("MissionView",true,false,false,false);
+        frame.setSize(700,cont.getAmountRobots() * 50 + 100);
         frame.setLocation(x,z);
-        frame.setLayout(new GridLayout(2,1));
+        frame.setLayout(new GridLayout(cont.getAmountRobots() + 2,1));
         frame.setVisible(true);
 
+        for(int i = 0 ; i < cont.getAmountRobots() ; i++){
+            robotInfo.add(new JLabel("Id: " + i + " " + cont.getRobotInfo(i)));
+        }
+
+        for(JLabel l : robotInfo){
+            frame.add(l);
+        }
+
         JTextField text = new JTextField();
-        this.text = text;
+        this.guiText = text;
         text.addActionListener(this);
         JLabel label = new JLabel();
-        this.label = label;
+        this.guiLabel = label;
         frame.add(label);
         frame.add(text);
         desktop.add(frame);
@@ -82,8 +87,8 @@ public class CommandGUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         List<String> commands = new ArrayList<>();
-        label.setText(text.getText());
-        String[] strings = text.getText().split(",");
+        guiLabel.setText(guiText.getText());
+        String[] strings = guiText.getText().split(",");
         for(int i = 1; i < strings.length -1 ; i++){ //dont want the last, which is stratedgy
             strings[i].replace("\\s",""); //remove first whitespace
             if(isValidCommand(strings[i])){
@@ -94,7 +99,12 @@ public class CommandGUI implements ActionListener {
         if(rbtIdx != -1){
             cont.setMission(rbtIdx, commands , strings[strings.length -1]);
         }else{
-            System.out.println("Invalid Command");
+            guiLabel.setText("Invalid Command");
         }
+    }
+
+    @Override
+    public void updateMission(int robotIndex, List<String> mission) {
+        robotInfo.get(robotIndex).setText("Id: " + robotIndex + " " + cont.getRobotInfo(robotIndex));
     }
 }

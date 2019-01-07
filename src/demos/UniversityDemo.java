@@ -94,7 +94,7 @@ public class UniversityDemo extends AbstractDemo{
         Set<IStrategy> strategies = new HashSet<>(Arrays.asList(simpleStrategy));
 
         RobotController robotController = new RobotController(controlledRobots, areas, strategies,
-                InitializeUtils.initGoalMap(), Arrays.asList(new TestUtils.DummyMissionView()));
+                InitializeUtils.initGoalMap());
 
         PanicButton panicButton = new PanicButton(controller.getSimbadFrame().getDesktopPane(), robotController);
         panicButton.createButton();

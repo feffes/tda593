@@ -61,8 +61,7 @@ public class MissionTest {
         List<IRobot> robots = Arrays.asList(robot);
 
 
-        RobotController robotController = new RobotController(robots, areas, strategies, InitializeUtils.initGoalMap(),
-                Arrays.asList(new TestUtils.DummyMissionView()));
+        RobotController robotController = new RobotController(robots, areas, strategies, InitializeUtils.initGoalMap());
 
         robot.addObserver(robotController);
 

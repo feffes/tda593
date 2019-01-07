@@ -21,12 +21,12 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
     private List<IMissionView> views;
 
     public RobotController(List<IRobot> robots, Set<Area> areas, Set<IStrategy> strategies,
-                           Map<String, Class<? extends IGoal>> goalTypeMap, List<IMissionView> views) {
+                           Map<String, Class<? extends IGoal>> goalTypeMap) {
         this.strategies = strategies;
         this.robots = robots;
         this.areas = areas;
         this.goalTypeMap = goalTypeMap;
-        this.views = views;
+        views = new ArrayList<>();
 
         missionMap = new HashMap<>();
         strategyMap = new HashMap<>();
@@ -67,6 +67,15 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
         } catch (NoSuchElementException e){
             System.out.println("I've got nothin' to do, man");
         }
+
+    }
+
+    public String getRobotInfo(int idx){
+        IRobot rbt = robots.get(idx);
+        StringBuilder builder = new StringBuilder();
+        builder.append("Name: " + rbt.toString());
+        builder.append(" " + missionMap.get(rbt).getStringList());
+        return builder.toString();
     }
 
     @Override
