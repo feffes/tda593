@@ -1,18 +1,17 @@
 package demos;
 
+import Tests.TestUtils;
 import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
 import mdsd.utils.InitializeUtils;
+import mdsd.view.IMissionView;
 import mdsd.view.PanicButton;
 import mdsd.view.SimulatorMonitor;
 import project.Point;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class HospitalDemo extends AbstractDemo {
     private GridManager gm;
@@ -99,7 +98,8 @@ public class HospitalDemo extends AbstractDemo {
 
         Set<IStrategy> strategies = new HashSet<>(Arrays.asList(dijkstraStrategy));
 
-        RobotController robotController = new RobotController(controlledRobots, areas, strategies, InitializeUtils.initGoalMap());
+        RobotController robotController = new RobotController(controlledRobots, areas, strategies,
+                InitializeUtils.initGoalMap(), Arrays.asList(new TestUtils.DummyMissionView()));
 
         PanicButton panicButton = new PanicButton(controller.getSimbadFrame().getDesktopPane(), robotController);
         panicButton.createButton();

@@ -1,6 +1,7 @@
 package Tests;
 
 import mdsd.model.*;
+import mdsd.view.IMissionView;
 import project.Point;
 import simbad.sim.EnvironmentDescription;
 
@@ -172,6 +173,15 @@ public class TestUtils {
         @Override
         public String getName() {
             return name;
+        }
+    }
+
+    public static class DummyMissionView implements IMissionView {
+
+        @Override
+        public void updateMission(int robotIndex, List<String> mission) {
+            System.out.println("Robot " + robotIndex);
+            mission.stream().forEach(g -> System.out.println(g));
         }
     }
 
