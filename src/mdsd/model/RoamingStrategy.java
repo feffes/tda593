@@ -40,7 +40,7 @@ public class RoamingStrategy implements IStrategy {
             double k = (yDeltaVal/xDeltaVal);
             double m = robotPosition.getZ() - (k*robotPosition.getX());
 
-        System.out.println("The function k: " + k + " The function m: "+ m);
+            System.out.println("The function k: " + k + " The function m: "+ m);
             int count = 0;
 
             Point nextPoint = robotPosition;
@@ -100,7 +100,6 @@ public class RoamingStrategy implements IStrategy {
     @Override
     public void setName(String name) {
         this.name = name;
-
     }
 
     @Override
