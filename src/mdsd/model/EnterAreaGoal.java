@@ -33,4 +33,9 @@ public class EnterAreaGoal extends AreaGoal {
         EnterAreaGoal other = (EnterAreaGoal) o;
         return area.equals(other.area);
     }
+
+    @Override
+    public String toString(){
+        return "enter area " + area.getName();
+    }
 }
