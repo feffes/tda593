@@ -1,5 +1,6 @@
 package demos;
 
+import Tests.TestUtils;
 import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
 import mdsd.controller.RobotController;
@@ -92,7 +93,8 @@ public class UniversityDemo extends AbstractDemo {
 
         Set<IStrategy> strategies = new HashSet<>(Arrays.asList(simpleStrategy));
 
-        RobotController robotController = new RobotController(controlledRobots, areas, strategies, InitializeUtils.initGoalMap());
+        RobotController robotController = new RobotController(controlledRobots, areas, strategies,
+                InitializeUtils.initGoalMap());
 
         PanicButton panicButton = new PanicButton(controller.getSimbadFrame().getDesktopPane(), robotController);
         panicButton.createButton();

@@ -3,6 +3,7 @@ package mdsd.controller;
 //import com.sun.javaws.exceptions.InvalidArgumentException;
 
 import mdsd.model.*;
+import mdsd.view.IMissionView;
 import project.Point;
 
 import java.awt.event.ActionEvent;
@@ -18,12 +19,15 @@ public class RobotController implements RobotObserver, IRobotController, ActionL
     private Set<Area> areas;
     private Set<IStrategy> strategies;
     private Map<String, Class<? extends IGoal>> goalTypeMap;
+    private List<IMissionView> views;
 
-    public RobotController(List<IRobot> robots, Set<Area> areas, Set<IStrategy> strategies, Map<String, Class<? extends IGoal>> goalTypeMap) {
+    public RobotController(List<IRobot> robots, Set<Area> areas, Set<IStrategy> strategies,
+                           Map<String, Class<? extends IGoal>> goalTypeMap) {
         this.strategies = strategies;
         this.robots = robots;
         this.areas = areas;
         this.goalTypeMap = goalTypeMap;
+        views = new ArrayList<>();
 
         missionMap = new HashMap<>();
         strategyMap = new HashMap<>();
@@ -38,8 +42,18 @@ public class RobotController implements RobotObserver, IRobotController, ActionL
         strategies.add(strategy);
     }
 
+
+    public void addView(IMissionView view){
+        views.add(view);
+    }
+
+    public void removeView(IMissionView view) {
+        views.remove(view);
+    }
+
     public void setStrategy(IRobot robot, IStrategy strategy) {
         strategyMap.put(robot, strategy);
+
     }
 
     private void updateTravelMap(IRobot robot) {
@@ -60,6 +74,15 @@ public class RobotController implements RobotObserver, IRobotController, ActionL
         } catch (NoSuchElementException e) {
             System.out.println("I've got nothin' to do, man");
         }
+
+    }
+
+    public String getRobotInfo(int idx){
+        IRobot rbt = robots.get(idx);
+        StringBuilder builder = new StringBuilder();
+        builder.append("Name: " + rbt.toString());
+        builder.append(" " + missionMap.get(rbt).getStringList());
+        return builder.toString();
     }
 
     @Override
@@ -74,6 +97,7 @@ public class RobotController implements RobotObserver, IRobotController, ActionL
         }
         if (mission.reachedGoal(robot)) {
             updateTravelMap(robot);
+            views.stream().forEach(v -> v.updateMission(robots.indexOf(robot), mission.getStringList()));
         }
         updateDestination(robot);
     }
@@ -93,20 +117,32 @@ public class RobotController implements RobotObserver, IRobotController, ActionL
 
     @Override
     public void setMission(int robotIndex, List<String> missionStr, String strategyStr) {
-        IMission mission = createMission(missionStr);
         IRobot robot = robots.get(robotIndex);
 
-        if (!strategies.stream().anyMatch(s -> s.getName().equals(strategyStr))) {
-            throw new IllegalArgumentException("Strategy does not exist");
+        if (!missionStr.isEmpty()) {
+            IMission mission = createMission(missionStr);
+            missionMap.put(robot, mission);
+
+            views.stream().forEach(v -> v.updateMission(robots.indexOf(robot), mission.getStringList()));
+
+            if (!strategies.stream().anyMatch(s -> s.getName().equals(strategyStr))) {
+                throw new IllegalArgumentException("Strategy does not exist");
+            }
+
+            if (!strategyStr.isEmpty()) {
+                if (!strategies.stream().anyMatch(s -> s.getName().equals(strategyStr))) {
+                    throw new IllegalArgumentException("Strategy does not exist");
+                }
+
+                Optional<IStrategy> strategyOpt = strategies.stream().filter(s -> s.getName().equals(strategyStr)).findFirst();
+                IStrategy strategy = strategyOpt.get();
+
+                strategyMap.put(robot, strategy);
+            }
+
+            updateTravelMap(robot);
+            updateDestination(robot);
         }
-
-        Optional<IStrategy> strategyOpt = strategies.stream().filter(s -> s.getName().equals(strategyStr)).findFirst();
-        IStrategy strategy = strategyOpt.get();
-
-        missionMap.put(robot, mission);
-        strategyMap.put(robot, strategy);
-        updateTravelMap(robot);
-        updateDestination(robot);
     }
 
     private IMission createMission(List<String> goalStrings) {

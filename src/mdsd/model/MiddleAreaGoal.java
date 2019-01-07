@@ -14,4 +14,9 @@ public class MiddleAreaGoal extends AreaGoal {
     public boolean isReached(IRobot robot) {
         return area.isInside(robot) && robot.isAtPosition(goalPosition);
     }
+
+    @Override
+    public String toString(){
+        return "go to middle point in area " + area.getName();
+    }
 }

@@ -23,11 +23,11 @@ public class MissionTest {
     public void TestSetMission() {
         TestUtils.DummyRobot robot = new TestUtils.DummyRobot();
 
-        Area building = UniversityDemo.initUniversityArea();
+        Area university = UniversityDemo.initUniversityArea();
         Area room2 = UniversityDemo.initRoom2();
         Area room3 = UniversityDemo.initRoom3();
         Area room4 = UniversityDemo.initRoom4();
-        Set<Area> areas = new HashSet<>(Arrays.asList(building, room2, room3, room4));
+        Set<Area> areas = new HashSet<>(Arrays.asList(university, room2, room3, room4));
 
         Map<IGoal, List<Point>> dummyStrategyMap = new HashMap<>();
 
@@ -49,7 +49,7 @@ public class MissionTest {
         dummyStrategyMap.put(middleAreaGoal, Arrays.asList(room2.getRepresentativePoint()));
 
         ExitAreaGoal exitAreaGoal = new ExitAreaGoal();
-        exitAreaGoal.setArea(building);
+        exitAreaGoal.setArea(university);
 
         dummyStrategyMap.put(exitAreaGoal, Arrays.asList(new Point(5, -2.5)));
 
@@ -62,9 +62,10 @@ public class MissionTest {
 
 
         RobotController robotController = new RobotController(robots, areas, strategies, InitializeUtils.initGoalMap());
+
         robot.addObserver(robotController);
 
-        robotController.setMission(0, Arrays.asList("point 2.13 3", "enter 3", "middle 2", "exit building"), "dummy");
+        robotController.setMission(0, Arrays.asList("point 2.13 3", "enter 3", "middle 2", "exit university"), "dummy");
 
         assertEquals(0, robot.getDestination().dist(pointGoalPoint), .0001);
 
@@ -87,7 +88,7 @@ public class MissionTest {
         assertEquals(0, robot.getDestination().dist(new Point(5, -2.5)), .0001);
 
         // Restart mission
-        robotController.setMission(0, Arrays.asList("point 2.13 3", "enter 3", "middle 2", "exit building"), "dummy");
+        robotController.setMission(0, Arrays.asList("point 2.13 3", "enter 3", "middle 2", "exit university"), "dummy");
 
         assertEquals(0, robot.getDestination().dist(pointGoalPoint), .0001);
 

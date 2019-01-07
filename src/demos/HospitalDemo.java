@@ -1,18 +1,18 @@
 package demos;
 
+import Tests.TestUtils;
 import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
 import mdsd.utils.InitializeUtils;
+import mdsd.view.IMissionView;
+import mdsd.view.MissionView;
 import mdsd.view.PanicButton;
 import mdsd.view.SimulatorMonitor;
 import project.Point;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class HospitalDemo extends AbstractDemo {
     private GridManager gm;
@@ -99,7 +99,8 @@ public class HospitalDemo extends AbstractDemo {
 
         Set<IStrategy> strategies = new HashSet<>(Arrays.asList(dijkstraStrategy));
 
-        RobotController robotController = new RobotController(controlledRobots, areas, strategies, InitializeUtils.initGoalMap());
+        RobotController robotController = new RobotController(controlledRobots, areas, strategies,
+                InitializeUtils.initGoalMap());
 
         PanicButton panicButton = new PanicButton(controller.getSimbadFrame().getDesktopPane(), robotController);
         panicButton.createButton();
@@ -119,6 +120,13 @@ public class HospitalDemo extends AbstractDemo {
         robotController.setMission(1, Arrays.asList("enter con1", "enter sur2", "enter con1", "enter sur2", "exit hospital"), "dijkstra");
         robotController.setMission(2, Arrays.asList("enter con1", "enter sur3", "exit hospital"), "dijkstra");
         robotController.setMission(3, Arrays.asList("enter con1", "enter sur4", "exit hospital"), "dijkstra");
+
+        MissionView mv = new MissionView(robotController , controller.getSimbadFrame().getDesktopPane());
+        mv.createGUI(50,50);
+
+        robotController.addView(mv);
+
+
 
     }
 

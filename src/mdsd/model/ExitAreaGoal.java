@@ -26,4 +26,9 @@ public class ExitAreaGoal extends AreaGoal {
         return area.equals(other.area);
     }
 
+    @Override
+    public String toString(){
+        return "exit area " + area.getName();
+    }
+
 }

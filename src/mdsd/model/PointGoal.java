@@ -45,4 +45,9 @@ public class PointGoal implements IGoal {
     public boolean isReached(IRobot robot) {
         return robot.isAtPosition(point);
     }
+
+    @Override
+    public String toString(){
+        return "got to point " + point.toString();
+    }
 }

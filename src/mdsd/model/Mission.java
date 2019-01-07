@@ -4,7 +4,9 @@ import mdsd.model.IGoal;
 import mdsd.model.IMission;
 import mdsd.model.IRobot;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Mission implements IMission {
     private LinkedList<IGoal> gls;
@@ -28,6 +30,12 @@ public class Mission implements IMission {
         return false;
     }
 
+    @Override
+    public List<String> getStringList() {
+        List<String> stringList = new ArrayList<>();
+        gls.forEach(g -> stringList.add(g.toString()));
+        return stringList;
+    }
 
     public void addGoal(IGoal goal) {
         gls.addLast(goal);
