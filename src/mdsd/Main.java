@@ -3,6 +3,7 @@ package mdsd;
 import java.util.*;
 
 import Tests.TestUtils;
+import demos.HospitalDemo;
 import demos.RoamingDemo;
 import demos.UniversityDemo;
 import mdsd.betterproject.BetterAbstractSimulatorMonitor;
@@ -20,7 +21,8 @@ public class Main {
     @SuppressWarnings("unused")
     public static void main(String[] args) throws InterruptedException {
 
-       RoamingDemo ud = new RoamingDemo();
+        //RoamingDemo ud = new RoamingDemo();
+        HospitalDemo hd = new HospitalDemo();
 
     }
 
