@@ -176,19 +176,19 @@ public class MissionTest {
 
         boolean allOnExit = false;
 
-        while(!allOnExit){
+        while (!allOnExit) {
             allOnExit = true;
 
-            for(Robot r:robots){
+            for (Robot r : robots) {
                 LinkedList<Area> visited = visitedRooms.get(r);
-                for(Area room:rooms){
-                    if((visited.size() < 1 || !visited.getLast().equals(room)) && room.isInside(r)){
+                for (Area room : rooms) {
+                    if ((visited.size() < 1 || !visited.getLast().equals(room)) && room.isInside(r)) {
                         visited.add(room);
                     }
                 }
 
                 boolean reachedExit = false;
-                for(Point e:universityExits){
+                for (Point e : universityExits) {
                     reachedExit = reachedExit || r.isAtPosition(e);
                 }
 

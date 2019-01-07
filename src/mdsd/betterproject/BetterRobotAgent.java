@@ -64,7 +64,7 @@ public class BetterRobotAgent<R extends BetterAbstractRobotSimulator> extends Ag
     public void performBehavior() {
         Vector3d position = this.getPosition();
         if (!this.isAtPosition(this.destination)) {
-            double angle = -Math.atan2((this.destination.getZ() - position.z), (this.destination.getX() - position.x)) ;//* 180.0D / 3.141592653589793D;
+            double angle = -Math.atan2((this.destination.getZ() - position.z), (this.destination.getX() - position.x));//* 180.0D / 3.141592653589793D;
             this.rotateY(angle);
             this.setTranslationalVelocity(1.0D);
         } else {

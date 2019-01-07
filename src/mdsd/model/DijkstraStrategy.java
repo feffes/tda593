@@ -11,7 +11,8 @@ public class DijkstraStrategy implements IStrategy {
     GridManager gm;
     int wallBuffer;
     private String name;
-    public DijkstraStrategy(GridManager gm, int wallBuffer){
+
+    public DijkstraStrategy(GridManager gm, int wallBuffer) {
         solver = new DijkstraSolver(gm);
         this.gm = gm;
         this.wallBuffer = wallBuffer;
@@ -25,7 +26,7 @@ public class DijkstraStrategy implements IStrategy {
             route.add(goal.getGoalPosition());
             return route.iterator();
 
-        } catch (DijkstraException e){
+        } catch (DijkstraException e) {
             return null;
         }
     }

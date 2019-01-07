@@ -12,32 +12,32 @@ public class PanicButton {
     private JDesktopPane desktop;
     private List<ActionListener> listners;
 
-    public PanicButton(JDesktopPane desktop, ActionListener listner){
+    public PanicButton(JDesktopPane desktop, ActionListener listner) {
         listners = new ArrayList<>();
         this.desktop = desktop;
         listners.add(listner);
     }
 
-    public void addListner(ActionListener listner){
+    public void addListner(ActionListener listner) {
         listners.add(listner);
     }
 
-    public void createButton(){
-        createButton(100,500);
+    public void createButton() {
+        createButton(100, 500);
     }
 
-    public void createButton(int x, int z){
-        JInternalFrame frame = new JInternalFrame("PanicButton",true,false,false,false);
+    public void createButton(int x, int z) {
+        JInternalFrame frame = new JInternalFrame("PanicButton", true, false, false, false);
         frame.setLayout(new FlowLayout());
-        frame.setSize(120,80);
+        frame.setSize(120, 80);
 
-        frame.setLocation(x,z);
+        frame.setLocation(x, z);
 
         JButton button = new JButton();
-        button.setPreferredSize(new Dimension(100,50));
+        button.setPreferredSize(new Dimension(100, 50));
         button.setText("Stop all!");
         button.setBackground(Color.RED);
-        for(ActionListener al : listners){
+        for (ActionListener al : listners) {
             button.addActionListener(al);
         }
 

@@ -7,6 +7,7 @@ package mdsd.betterproject;
 
 import java.util.Set;
 import java.util.function.Consumer;
+
 import simbad.gui.Simbad;
 import simbad.sim.EnvironmentDescription;
 import simbad.sim.Simulator;

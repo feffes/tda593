@@ -8,7 +8,7 @@ import mdsd.view.IRewardView;
 
 import java.util.*;
 
-public class RewardController implements IRewardControlller, RobotObserver{
+public class RewardController implements IRewardControlller, RobotObserver {
 
     private IProcedure activeProcedure;
     private Set<IProcedure> procedures;
@@ -17,7 +17,7 @@ public class RewardController implements IRewardControlller, RobotObserver{
     private RewardTimer timer;
 
 
-    public RewardController(List<IRobot> robots){
+    public RewardController(List<IRobot> robots) {
         views = new HashSet<>();
         this.robots = robots;
         procedures = new HashSet<>();
@@ -25,23 +25,22 @@ public class RewardController implements IRewardControlller, RobotObserver{
 
     }
 
-    public void startTimer(){
+    public void startTimer() {
         timer.start();
     }
 
-    public void addProcedure(IProcedure procedure){
+    public void addProcedure(IProcedure procedure) {
         procedures.add(procedure);
     }
 
-    public void removeProcedure(IProcedure procedure){
+    public void removeProcedure(IProcedure procedure) {
         procedures.remove(procedure);
     }
 
 
-
     @Override
     public void updateProcedure(IProcedure procedure) {
-        if(procedures.contains(procedure)){
+        if (procedures.contains(procedure)) {
             activeProcedure = procedure;
         }
     }
@@ -52,19 +51,18 @@ public class RewardController implements IRewardControlller, RobotObserver{
     }
 
 
-
-    private void updateView(){
-        for(IRobot robot : robots){
-            for(IRewardView view : views){
-                view.updateRewardPoints(robot.toString(), activeProcedure.getPoints(robot),activeProcedure.getName());
+    private void updateView() {
+        for (IRobot robot : robots) {
+            for (IRewardView view : views) {
+                view.updateRewardPoints(robot.toString(), activeProcedure.getPoints(robot), activeProcedure.getName());
             }
         }
     }
 
     @Override
     public void update(IRobot robot) { //Robot update needs to send different updates
-        for(IProcedure procedure : procedures ){
-            if(!activeProcedure.equals(procedure)) {
+        for (IProcedure procedure : procedures) {
+            if (!activeProcedure.equals(procedure)) {
                 if (procedure.isValid(robot)) {
                     activeProcedure = procedure;
                     return;
@@ -75,20 +73,20 @@ public class RewardController implements IRewardControlller, RobotObserver{
     }
 
 
-    private class RewardTimer extends Thread{
+    private class RewardTimer extends Thread {
         long sleepTime;
 
-        RewardTimer(long sleepTime){
+        RewardTimer(long sleepTime) {
             this.sleepTime = sleepTime;
         }
 
         @Override
         public void run() {
-            while (true){
+            while (true) {
                 updateView();
                 try {
                     sleep(sleepTime);
-                }catch(InterruptedException e){
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }

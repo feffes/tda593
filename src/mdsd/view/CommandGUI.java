@@ -16,7 +16,7 @@ public class CommandGUI implements ActionListener {
     private JTextField text;
     private JLabel label;
 
-    public CommandGUI(IRobotController cont, JDesktopPane desktop){
+    public CommandGUI(IRobotController cont, JDesktopPane desktop) {
         this.desktop = desktop;
         this.cont = cont;
         /*commands.add("robot");
@@ -26,11 +26,11 @@ public class CommandGUI implements ActionListener {
         commands.add("exit");*/
     }
 
-    public void createGUI(int x , int z){
-        JInternalFrame frame = new JInternalFrame("CommandGUI",true,false,false,false);
-        frame.setSize(200,100);
-        frame.setLocation(x,z);
-        frame.setLayout(new GridLayout(2,1));
+    public void createGUI(int x, int z) {
+        JInternalFrame frame = new JInternalFrame("CommandGUI", true, false, false, false);
+        frame.setSize(200, 100);
+        frame.setLocation(x, z);
+        frame.setLayout(new GridLayout(2, 1));
         frame.setVisible(true);
 
         JTextField text = new JTextField();
@@ -44,17 +44,16 @@ public class CommandGUI implements ActionListener {
     }
 
 
-
     //return false if incorrect command, otherwise performs the command
-    private boolean isValidCommand(String cmd){
+    private boolean isValidCommand(String cmd) {
         cmd = cmd.toLowerCase();
         String[] splited = cmd.split(" ");
-        for(int i = 0; i < splited.length ; i++){
-            splited[i] = splited[i].replaceAll("\\s","");
+        for (int i = 0; i < splited.length; i++) {
+            splited[i] = splited[i].replaceAll("\\s", "");
         }
-        if(splited[0].equals("enter") || splited[0].equals("middle") || splited[0].equals("exit")){
+        if (splited[0].equals("enter") || splited[0].equals("middle") || splited[0].equals("exit")) {
             return splited.length == 2 ? true : false;
-        }else if(splited[0] == "point"){
+        } else if (splited[0] == "point") {
             return splited.length == 3 ? true : false;
         }
         return false;
@@ -62,17 +61,13 @@ public class CommandGUI implements ActionListener {
 
 
     //should get robot indx from robotcontroller
-    public static  int isOkayInteger(String str, int robotAmount)
-    {
-        try
-        {
+    public static int isOkayInteger(String str, int robotAmount) {
+        try {
             Integer i = Integer.parseInt(str);
-            if( !(i < 0 || i > robotAmount)){
+            if (!(i < 0 || i > robotAmount)) {
                 return i;
             }
-        }
-        catch(NumberFormatException nfe)
-        {
+        } catch (NumberFormatException nfe) {
             return -1;
         }
         return -1;
@@ -84,16 +79,16 @@ public class CommandGUI implements ActionListener {
         List<String> commands = new ArrayList<>();
         label.setText(text.getText());
         String[] strings = text.getText().split(",");
-        for(int i = 1; i < strings.length -1 ; i++){ //dont want the last, which is stratedgy
-            strings[i].replace("\\s",""); //remove first whitespace
-            if(isValidCommand(strings[i])){
+        for (int i = 1; i < strings.length - 1; i++) { //dont want the last, which is stratedgy
+            strings[i].replace("\\s", ""); //remove first whitespace
+            if (isValidCommand(strings[i])) {
                 commands.add(strings[i]);
             }
         }
         int rbtIdx = isOkayInteger(strings[0], cont.getAmountRobots());
-        if(rbtIdx != -1){
-            cont.setMission(rbtIdx, commands , strings[strings.length -1]);
-        }else{
+        if (rbtIdx != -1) {
+            cont.setMission(rbtIdx, commands, strings[strings.length - 1]);
+        } else {
             System.out.println("Invalid Command");
         }
     }

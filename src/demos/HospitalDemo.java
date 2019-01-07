@@ -24,11 +24,11 @@ public class HospitalDemo extends AbstractDemo {
     private Set<Area> areas;
 
 
-    public HospitalDemo(){
+    public HospitalDemo() {
         super();
         this.gm = new GridManager();
         IEnvironmentManager env = new EnvironmentManager(this, gm);
-        gm.generateGrid(-10,-10,10,10,0.25);
+        gm.generateGrid(-10, -10, 10, 10, 0.25);
 
         env.addHorizontalBoundary(-10.0f, -10.0f, 10.0f);
         env.addHorizontalBoundary(10.0f, -10.0f, 10.0f);
@@ -83,7 +83,7 @@ public class HospitalDemo extends AbstractDemo {
         Area conRoom1 = initConRoom1();
         areas.add(conRoom1);
 
-        IStrategy dijkstraStrategy =  new DijkstraStrategy(gm,1);
+        IStrategy dijkstraStrategy = new DijkstraStrategy(gm, 1);
         dijkstraStrategy.setName("dijkstra");
 
         robot1 = new Robot(new Point(-2.5, -2.5), "Robot1", 10);
@@ -111,7 +111,7 @@ public class HospitalDemo extends AbstractDemo {
         }
         try {
             Thread.sleep(1000);
-        } catch (InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -171,10 +171,10 @@ public class HospitalDemo extends AbstractDemo {
 
     }
 
-    private static Area initConRoom1(){
+    private static Area initConRoom1() {
         Set<Point> exits = new HashSet<>();
         exits.add(new Point(3.75, 5));
         exits.add(new Point(-3.75, 5));
-        return new RectangleArea("con1",-5,5,5,10,exits,true);
+        return new RectangleArea("con1", -5, 5, 5, 10, exits, true);
     }
 }

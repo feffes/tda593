@@ -26,7 +26,7 @@ public class RectangleArea implements Area {
         this.exits = exits;
         this.isLimited = isLimited;
 
-        representativePoint = new Point((upper_x - lower_x)/2 + lower_x, (upper_z - lower_z)/2 + lower_z);
+        representativePoint = new Point((upper_x - lower_x) / 2 + lower_x, (upper_z - lower_z) / 2 + lower_z);
     }
 
     @Override
@@ -78,16 +78,16 @@ public class RectangleArea implements Area {
     }
 
     @Override
-    public int hashCode(){
-        return (int)(lower_x + 31*upper_x + 31*31*lower_z + 31*31*31*upper_z);
+    public int hashCode() {
+        return (int) (lower_x + 31 * upper_x + 31 * 31 * lower_z + 31 * 31 * 31 * upper_z);
     }
 
     @Override
-    public boolean equals(Object o){
-        if(!(o instanceof  RectangleArea))
+    public boolean equals(Object o) {
+        if (!(o instanceof RectangleArea))
             return false;
 
-        RectangleArea a = (RectangleArea)o;
+        RectangleArea a = (RectangleArea) o;
 
         float sumDiff = 0;
         sumDiff += Math.abs(lower_x - a.lower_x);

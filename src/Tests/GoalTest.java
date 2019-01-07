@@ -3,6 +3,7 @@ package Tests;
 import demos.UniversityDemo;
 import mdsd.model.*;
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 import project.Point;
@@ -10,11 +11,11 @@ import project.Point;
 public class GoalTest {
 
     @Test
-    public void ExitAreaGoalTest(){
+    public void ExitAreaGoalTest() {
         Area room1 = UniversityDemo.initRoom1();
 
         TestUtils.DummyRobot robot = new TestUtils.DummyRobot();
-        robot.setPosition(new Point(4.5,2.5));
+        robot.setPosition(new Point(4.5, 2.5));
 
         ExitAreaGoal exitGoal = new ExitAreaGoal();
         exitGoal.setArea(room1);
@@ -25,11 +26,11 @@ public class GoalTest {
     }
 
     @Test
-    public void EnterAreaGoalTest(){
+    public void EnterAreaGoalTest() {
         Area room1 = UniversityDemo.initRoom1();
 
         TestUtils.DummyRobot robot = new TestUtils.DummyRobot();
-        robot.setPosition(new Point(-2,2.5));
+        robot.setPosition(new Point(-2, 2.5));
 
         assertFalse(room1.isInside(robot));
 
@@ -44,11 +45,11 @@ public class GoalTest {
     }
 
     @Test
-    public void MiddleAreaGoalTest(){
+    public void MiddleAreaGoalTest() {
         Area room1 = UniversityDemo.initRoom1();
 
         TestUtils.DummyRobot robot = new TestUtils.DummyRobot();
-        robot.setPosition(new Point(0,0));
+        robot.setPosition(new Point(0, 0));
 
         MiddleAreaGoal middleAreaGoal = new MiddleAreaGoal();
         assertNull(middleAreaGoal.getGoalPosition());
@@ -59,12 +60,12 @@ public class GoalTest {
     }
 
     @Test
-    public void PointGoalTest(){
+    public void PointGoalTest() {
 
         TestUtils.DummyRobot robot = new TestUtils.DummyRobot();
-        robot.setPosition(new Point(0,0));
+        robot.setPosition(new Point(0, 0));
 
-        PointGoal pointGoal = new PointGoal(new Point(2,2));
-        assertEquals(0, new Point(2,2).dist(pointGoal.getGoalPosition()), .001);
+        PointGoal pointGoal = new PointGoal(new Point(2, 2));
+        assertEquals(0, new Point(2, 2).dist(pointGoal.getGoalPosition()), .001);
     }
 }

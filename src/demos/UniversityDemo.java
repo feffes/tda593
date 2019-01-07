@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class UniversityDemo extends AbstractDemo{
+public class UniversityDemo extends AbstractDemo {
     private GridManager gm;
 
     public Robot robot1;
@@ -26,11 +26,11 @@ public class UniversityDemo extends AbstractDemo{
     public Set<Area> areas;
 
 
-    public UniversityDemo(){
+    public UniversityDemo() {
         super();
         this.gm = new GridManager();
         IEnvironmentManager env = new EnvironmentManager(this, gm);
-        gm.generateGrid(-10,-10,10,10,0.5);
+        gm.generateGrid(-10, -10, 10, 10, 0.5);
 
         env.addHorizontalBoundary(-10.0f, -10.0f, 10.0f);
         env.addHorizontalBoundary(10.0f, -10.0f, 10.0f);
@@ -45,7 +45,7 @@ public class UniversityDemo extends AbstractDemo{
 
         env.addHorizontalWall(5f, -1.5f, 1.5f);
         env.addHorizontalWall(5f, -5f, -3.5f);
-        env.addHorizontalWall( 5f, 3.5f, 5f);
+        env.addHorizontalWall(5f, 3.5f, 5f);
 
         env.addVerticalWall(5f, -5f, 5f);
         env.addVerticalWall(-5f, -5f, 5f);
@@ -76,7 +76,7 @@ public class UniversityDemo extends AbstractDemo{
         Area room4 = initRoom4();
         areas.add(room4);
 
-        IStrategy simpleStrategy =  new DijkstraStrategy(gm,1);
+        IStrategy simpleStrategy = new DijkstraStrategy(gm, 1);
         simpleStrategy.setName("dijkstra");
 
         robot1 = new Robot(new Point(-7, 2), "Robot1", 10);

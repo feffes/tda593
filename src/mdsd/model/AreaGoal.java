@@ -9,9 +9,10 @@ public abstract class AreaGoal implements IGoal {
     protected Point goalPosition;
     protected Area area;
 
-    public AreaGoal() {}
+    public AreaGoal() {
+    }
 
-    public void setArea(Area area){
+    public void setArea(Area area) {
         this.area = area;
     }
 

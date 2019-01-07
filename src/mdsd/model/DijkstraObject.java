@@ -6,7 +6,7 @@ public class DijkstraObject {
     private DijkstraObject previous;
     private GridElement elem;
 
-    DijkstraObject(double distance,GridElement elem){
+    DijkstraObject(double distance, GridElement elem) {
         this.elem = elem;
         this.distance = distance;
     }
@@ -30,8 +30,6 @@ public class DijkstraObject {
     public void setPrevious(DijkstraObject previous) {
         this.previous = previous;
     }
-
-
 
 
 }

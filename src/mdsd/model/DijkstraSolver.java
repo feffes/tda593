@@ -10,14 +10,14 @@ public class DijkstraSolver {
     private GridManager gm;
     private List<DijkstraObject> unvisited;
     private Map<GridElement, DijkstraObject> map;
-    private List<DijkstraObject> nodes ;
+    private List<DijkstraObject> nodes;
     private GridElement current;
 
     private double opposingDist = 1;
     private double diagonalDist = 1.4142; //good enough???
     private double INF = Double.MAX_VALUE;
 
-    public DijkstraSolver(GridManager gm){
+    public DijkstraSolver(GridManager gm) {
         this.gm = gm;
         elems = gm.getAllElements();
         grid = gm.getGrid();
@@ -25,13 +25,13 @@ public class DijkstraSolver {
 
     }
 
-    private void init(){
-        map =  new HashMap<>();
+    private void init() {
+        map = new HashMap<>();
         nodes = new ArrayList<>();
         unvisited = new ArrayList<>();
         //in beging we have not visited any nodes
-        for (GridElement elem : elems){
-            DijkstraObject dijObj = new DijkstraObject(INF,elem);
+        for (GridElement elem : elems) {
+            DijkstraObject dijObj = new DijkstraObject(INF, elem);
             map.put(elem, dijObj);
             nodes.add(dijObj);
             unvisited.add(dijObj);
@@ -39,12 +39,12 @@ public class DijkstraSolver {
     }
 
     //need to see if start and end is inside grid
-    public List<GridElement> solve (Point start,Point end, int wallBuffer ){
+    public List<GridElement> solve(Point start, Point end, int wallBuffer) {
         return solve(gm.translateToGrid(start), gm.translateToGrid(end), wallBuffer);
     }
 
 
-    public List<GridElement> solve(GridElement startGE, GridElement endGE, int wallBuffer){
+    public List<GridElement> solve(GridElement startGE, GridElement endGE, int wallBuffer) {
         init();
         DijkstraObject start = map.get(startGE);
         DijkstraObject end = map.get(endGE);
@@ -57,16 +57,16 @@ public class DijkstraSolver {
 
         double tempDist;
 
-        while(current != end){ //maybe  a do while is better
+        while (current != end) { //maybe  a do while is better
             for (DijkstraObject prospect : getUnvisitedNeighbors(current, wallBuffer)) {
 
-                if(current.getElem().isDiagonalNeighbor(prospect.getElem())){
+                if (current.getElem().isDiagonalNeighbor(prospect.getElem())) {
                     tempDist = current.getDistance() + diagonalDist;
-                }else{ //opposing
+                } else { //opposing
                     tempDist = current.getDistance() + opposingDist;
 
                 }
-                if(prospect.getDistance() > tempDist){
+                if (prospect.getDistance() > tempDist) {
                     prospect.setPrevious(current);
                     prospect.setDistance(tempDist);
                 }
@@ -77,23 +77,23 @@ public class DijkstraSolver {
         }
         DijkstraObject next = end;
         while (next != start) {
-                try {
-                    path.add(next.getElem());
-                    next = next.getPrevious();
-                } catch (NullPointerException e) {
-                    throw new DijkstraException();
-                }
+            try {
+                path.add(next.getElem());
+                next = next.getPrevious();
+            } catch (NullPointerException e) {
+                throw new DijkstraException();
             }
+        }
         Collections.reverse(path);
 
         return path;
     }
 
 
-    DijkstraObject findShortestUnvisited(){
+    DijkstraObject findShortestUnvisited() {
         DijkstraObject tmp = null;
-        for (DijkstraObject obj : unvisited){
-            if(tmp == null || obj.getDistance() < tmp.getDistance()){
+        for (DijkstraObject obj : unvisited) {
+            if (tmp == null || obj.getDistance() < tmp.getDistance()) {
                 tmp = obj;
             }
         }
@@ -101,7 +101,7 @@ public class DijkstraSolver {
     }
 
     private List<DijkstraObject> getUnvisitedNeighbors(DijkstraObject e, int wallBuffer) {
-       // System.out.println(e.toString());
+        // System.out.println(e.toString());
         List<GridElement> neighors = gm.getNeighbors(e.getElem());
         List<DijkstraObject> unvisitedNeighors = new ArrayList<DijkstraObject>();
 
@@ -115,20 +115,20 @@ public class DijkstraSolver {
         return unvisitedNeighors;
     }
 
-    private Boolean hasNeighborWall(GridElement e, int wallBuffer){
-        if(wallBuffer < 0){
-            return  false;
+    private Boolean hasNeighborWall(GridElement e, int wallBuffer) {
+        if (wallBuffer < 0) {
+            return false;
         }
         List<GridElement> neighors = gm.getNeighbors(e);
 
-        if(neighors.size() == 8 && wallBuffer == 0){
-            return  false;
-        }else if(neighors.size() != 8){
-            return  true;
+        if (neighors.size() == 8 && wallBuffer == 0) {
+            return false;
+        } else if (neighors.size() != 8) {
+            return true;
         }
 
-        for (GridElement elem: neighors) {
-            if(hasNeighborWall(elem , wallBuffer-1)){
+        for (GridElement elem : neighors) {
+            if (hasNeighborWall(elem, wallBuffer - 1)) {
                 return true;
             }
         }

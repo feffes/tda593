@@ -99,7 +99,7 @@ public class TestUtils {
         }
 
         @Override
-        public void setTempWaiting(int seconds, Point destination){
+        public void setTempWaiting(int seconds, Point destination) {
 
         }
 

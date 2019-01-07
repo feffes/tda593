@@ -1,7 +1,7 @@
 package mdsd.model;
 
 public class DijkstraException extends NullPointerException {
-    public DijkstraException(){
+    public DijkstraException() {
         super("Dijkstra could not find a valid path");
     }
 
