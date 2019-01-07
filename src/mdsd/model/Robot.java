@@ -33,7 +33,7 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 
     @Override
     public String toString() {
-        return "Robot " + this.getName();
+        return this.getName();
     }
 
 
@@ -95,11 +95,11 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
     }
 
     public boolean hasfault() {
-        double random = Math.random() * 10000; //between 0 and 100
-        if (random < 1) { //has X percent to get fault. Just to simulate fault on rover
-            System.out.println("Fault on rover! Stoping the rover");
-            return true;
-        }
+        //double random = Math.random() * 10000; //between 0 and 100
+        //if (random < 1) { //has X percent to get fault. Just to simulate fault on rover
+        //    System.out.println("Fault on rover! Stoping the rover");
+         //   return true;
+        //}
         return false;
     }
 

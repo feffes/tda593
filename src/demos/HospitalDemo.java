@@ -6,10 +6,7 @@ import mdsd.controller.AreaController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
 import mdsd.utils.InitializeUtils;
-import mdsd.view.IMissionView;
-import mdsd.view.MissionView;
-import mdsd.view.PanicButton;
-import mdsd.view.SimulatorMonitor;
+import mdsd.view.*;
 import project.Point;
 
 import java.util.*;
@@ -102,9 +99,6 @@ public class HospitalDemo extends AbstractDemo {
         RobotController robotController = new RobotController(controlledRobots, areas, strategies,
                 InitializeUtils.initGoalMap());
 
-        PanicButton panicButton = new PanicButton(controller.getSimbadFrame().getDesktopPane(), robotController);
-        panicButton.createButton();
-
         AreaController areaController = new AreaController(areas);
         for (IRobot r : controlledRobots) {
             r.addObserver(areaController);
@@ -122,9 +116,18 @@ public class HospitalDemo extends AbstractDemo {
         robotController.setMission(3, Arrays.asList("enter con1", "enter sur4", "exit hospital"), "dijkstra");
 
         MissionView mv = new MissionView(robotController , controller.getSimbadFrame().getDesktopPane());
-        mv.createGUI(50,50);
-
+        mv.createGUI(100,340);
         robotController.addView(mv);
+
+        PanicButton panicButton = new PanicButton(controller.getSimbadFrame().getDesktopPane(), robotController);
+        panicButton.createButton(210,170);
+
+        List<String> rbtNames = new ArrayList<>();
+        for(IRobot rbt : robots){
+            rbtNames.add(rbt.toString());
+        }
+        RewardView rv = new RewardView(controller.getSimbadFrame().getDesktopPane(),rbtNames);
+        rv.createPane(10,170);
 
 
 

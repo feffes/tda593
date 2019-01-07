@@ -24,13 +24,12 @@ public class RewardView implements IRewardView {
             mapRewardPoints.put(name, 0);
         }
 
-        createPane();
     }
 
-    private void createPane() {
+    public void createPane(int x, int y) {
         JInternalFrame frame = new JInternalFrame("RewardPoints", true, false, false, false);
-        frame.setSize(200, 100);
-        frame.setLocation(10, 10);
+        frame.setSize(200, 150);
+        frame.setLocation(x,y);
         frame.setLayout(new FlowLayout());
         JLabel procedure = new JLabel("Current procedure: ");
         mapRobotLabel.put("procedure", procedure);
