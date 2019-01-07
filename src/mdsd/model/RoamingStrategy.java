@@ -19,7 +19,7 @@ public class RoamingStrategy implements IStrategy {
     @Override
     public Iterator<Point> ComputeRoute(IGoal goal, Point robotPosition) {
 
-        System.out.println("KOmmer vi hit??");
+        System.out.println("Inside of computeRoute");
 
             List<Point> route = new ArrayList<>();
 
@@ -37,31 +37,36 @@ public class RoamingStrategy implements IStrategy {
 
             double xDeltaVal = (robotPosition.getX() - goal.getGoalPosition().getX());
             double yDeltaVal = (robotPosition.getZ() - goal.getGoalPosition().getZ());
-            double k = (xDeltaVal/yDeltaVal);
+            double k = (yDeltaVal/xDeltaVal);
             double m = robotPosition.getZ() - (k*robotPosition.getX());
+
+        System.out.println("The function k: " + k + " The function m: "+ m);
             int count = 0;
 
             Point nextPoint = robotPosition;
             double newDistance = distance;
 
-            //while(!(nextPoint == goal.getGoalPosition())) {
+            while((newDistance > 0)) {
 
-                while(count != 100){
+                System.out.println("Goal: " + goal.getGoalPosition().toString());
+                System.out.println("Robot: " + robotPosition.toString());
+
 
                     if (robotPosition.getX() > goal.getGoalPosition().getX()) {
-                        xVal--;
+                        xVal = xVal - 0.5;
                     }
-                    else{
-                        xVal++;
+                    else {
+                        xVal = xVal + 0.5;
                     }
-                    System.out.println("OCH HIT????");
                     count++;
                     yVal = calculateFunction(k, m ,xVal);
 
                     nextPoint = new Point(xVal, yVal);
                     route.add(nextPoint);
 
-                    System.out.println("New distance:" + calculateNewDistance(nextPoint, goal));
+                    newDistance = calculateNewDistance(nextPoint,goal);
+
+                    System.out.println("New distance:" + calculateNewDistance(nextPoint, goal)); //avståndet minskar ej, varför inte?
                     System.out.println("This coordinate" + nextPoint.toString());
             }
             route.add(goal.getGoalPosition());
@@ -84,7 +89,9 @@ public class RoamingStrategy implements IStrategy {
         double y1 = robotpos.getZ();
         double x2 = goal.getGoalPosition().getX();
         double y2 = goal.getGoalPosition().getZ();
-        double distance = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+        double a = (x1-x2)*(x1-x2);
+        double b = (y1-y2)*(y1-y2);
+        double distance = Math.sqrt(a+b);
 
         return distance;
 

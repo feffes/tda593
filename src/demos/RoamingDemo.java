@@ -79,7 +79,7 @@ public class RoamingDemo extends AbstractDemo{
 
        roaming.setName("roamingStrategy");
 
-        robot1 = new Robot(new Point(-5, 2), "Robot1", 10);
+        robot1 = new Robot(new Point(-2, 2), "Robot1", 10);
 
 
         Set<Robot> robots = new HashSet<>(Arrays.asList(robot1));
@@ -102,7 +102,7 @@ public class RoamingDemo extends AbstractDemo{
             r.addObserver(robotController);
         }
 
-        robotController.setMission(0, Arrays.asList("enter 3", "enter 2", "exit university"), "roamingStrategy");
+        robotController.setMission(0, Arrays.asList("enter 3"), "roamingStrategy");
 
 
     }
