@@ -106,7 +106,6 @@ public class RoamingDemo extends AbstractDemo{
 
         System.out.println("This room's temperature:" + robotController.checkTemp(robot1));
 
-
     }
 
     public static Area initUniversityArea() {
