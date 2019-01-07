@@ -88,18 +88,25 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
 
     @Override
     public void setMission(int robotIndex, List<String> missionStr, String strategyStr) {
-        IMission mission = createMission(missionStr);
         IRobot robot = robots.get(robotIndex);
 
-        if(!strategies.stream().anyMatch(s -> s.getName().equals(strategyStr))){
-            throw new IllegalArgumentException("Strategy does not exist");
+
+        if (!missionStr.isEmpty()){
+            IMission mission = createMission(missionStr);
+            missionMap.put(robot, mission);
         }
 
-        Optional<IStrategy> strategyOpt = strategies.stream().filter(s -> s.getName().equals(strategyStr)).findFirst();
-        IStrategy strategy = strategyOpt.get();
+        if (!strategyStr.isEmpty()){
+            if(!strategies.stream().anyMatch(s -> s.getName().equals(strategyStr))){
+                throw new IllegalArgumentException("Strategy does not exist");
+            }
 
-        missionMap.put(robot, mission);
-        strategyMap.put(robot, strategy);
+            Optional<IStrategy> strategyOpt = strategies.stream().filter(s -> s.getName().equals(strategyStr)).findFirst();
+            IStrategy strategy = strategyOpt.get();
+
+            strategyMap.put(robot, strategy);
+        }
+
         updateTravelMap(robot);
         updateDestination(robot);
     }
