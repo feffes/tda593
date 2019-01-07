@@ -22,6 +22,8 @@ public interface IRobot {
 
     public void setWaiting();
 
+    void setTempWaiting(int seconds, Point destination);
+
     public void stop();
 
     String toString();

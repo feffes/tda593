@@ -3,16 +3,21 @@ package mdsd.model;
 import mdsd.betterproject.BetterAbstractRobotSimulator;
 import project.Point;
 
-import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.*;
+
 
 public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 
 	private Point dest;
+	private Point savedDestination;
 	private Set<RobotObserver> observers;
 	private RobotNotifier positionChecker;
 	private boolean isWaiting;
+	private ScheduledExecutorService scheduler;
+	private Runnable task;
+
 	
 	public Robot(Point position, String name, int updateMillis) {
 		super(position, name);
@@ -21,7 +26,10 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 
 		positionChecker = new RobotNotifier(position, updateMillis);
 		positionChecker.start();
+		setUpTimerTask();
+
 	}
+
 
 	@Override
 	public String toString() {
@@ -53,6 +61,20 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 	public void setWaiting(){
 		setDestination(this.getPosition());
 		isWaiting = true;
+	}
+
+
+	//Make robot wait for x (int) seconds then continue to destination. Used when robot enters new room
+	public void setTempWaiting(int seconds, Point destination){
+	    savedDestination = destination;
+        setWaiting();
+	    scheduler.schedule(task,seconds,TimeUnit.SECONDS);
+    }
+    private void setUpTimerTask(){
+        scheduler = Executors.newSingleThreadScheduledExecutor();
+        task = () -> {
+            setDestination(savedDestination);
+        };
 	}
 
 	@Override
@@ -102,7 +124,7 @@ public class Robot extends BetterAbstractRobotSimulator implements IRobot {
 			while (true)
 			{
 			    if(hasfault()){
-			        stop();
+			        //stop();
                 }
 
 				Point newPosition = getPosition();

@@ -37,6 +37,10 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
         strategies.add(strategy);
     }
 
+    public void setStrategy(IRobot robot, IStrategy strategy){
+        strategyMap.put(robot,strategy);
+    }
+
     private void updateTravelMap(IRobot robot) {
         try {
             IGoal goal;

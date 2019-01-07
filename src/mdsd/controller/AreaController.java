@@ -74,6 +74,7 @@ public class AreaController implements RobotObserver, IAreaController {
             for (Area a : robotInsideAreas) {
                 if (!a.isInside(robot)) {
                     areasToRemove.add(a);
+
                 }
             }
 
@@ -97,6 +98,7 @@ public class AreaController implements RobotObserver, IAreaController {
     private void handleEnteringAreas(IRobot robot) {
         Set<Area> robotInsideAreas = new HashSet<>();
 
+
         if (robotsInsideMap.containsKey(robot))
             robotInsideAreas = robotsInsideMap.get(robot);
 
@@ -105,6 +107,7 @@ public class AreaController implements RobotObserver, IAreaController {
                 stopRobot(robot, area);
             } else if (!robotInsideAreas.contains(area) && area.isInside(robot)) {
 
+                robot.setTempWaiting(2,robot.getDestination());
                 robotInsideAreas.add(area);
 
                 for(IAreaView view:views){
@@ -113,9 +116,12 @@ public class AreaController implements RobotObserver, IAreaController {
 
                 robotsInsideMap.put(robot, robotInsideAreas);
                 robotsInAreaMap.put(area, robotsInAreaMap.get(area) + 1);
+
             }
         }
+
     }
+
 
     @Override
     public synchronized void update(IRobot robot) {

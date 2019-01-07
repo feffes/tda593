@@ -99,6 +99,11 @@ public class TestUtils {
         }
 
         @Override
+        public void setTempWaiting(int seconds, Point destination){
+
+        }
+
+        @Override
         public void stop() {
             System.out.println("Stop");
         }
