@@ -23,7 +23,7 @@ public class RewardDemo {
     }
 
     public void initDemo1() {
-        IRewardControlller rewardControlller = new RewardController(robots);
+        IRewardControlller rewardControlller = new RewardController(robots,2000);
 
         IProcedure procedureA = new Procedure("A");
         procedureA.addArea(UniversityDemo.initRoom3(), 2);

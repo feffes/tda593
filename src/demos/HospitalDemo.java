@@ -3,6 +3,8 @@ package demos;
 import Tests.TestUtils;
 import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
+import mdsd.controller.IRewardControlller;
+import mdsd.controller.RewardController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
 import mdsd.utils.InitializeUtils;
@@ -19,6 +21,7 @@ public class HospitalDemo extends AbstractDemo {
     private Robot robot3;
     private Robot robot4;
     private Set<Area> areas;
+    private List<IProcedure> procedures;
 
 
     public HospitalDemo() {
@@ -61,24 +64,37 @@ public class HospitalDemo extends AbstractDemo {
         env.addHorizontalWall(5f, 5f, 10f); //bottom wall
 
         areas = new HashSet<>();
+        procedures = new ArrayList<>();
+        procedures.add(new Procedure("A"));
+        procedures.add(new Procedure("B"));
+
 
         Area universityArea = initHospitalArea();
         areas.add(universityArea);
+        procedures.get(0).addArea(universityArea,2);
 
         Area surRoom1 = initSurRoom1();
         areas.add(surRoom1);
+        procedures.get(1).addArea(universityArea,1);
 
         Area surRoom2 = initSurRoom2();
         areas.add(surRoom2);
+        procedures.get(0).addArea(surRoom2,0);
+
 
         Area surRoom3 = initSurRoom3();
         areas.add(surRoom3);
+        procedures.get(0).addArea(surRoom3,1);
+
 
         Area surRoom4 = initSurRoom4();
         areas.add(surRoom4);
+        procedures.get(0).addArea(surRoom4,3);
+
 
         Area conRoom1 = initConRoom1();
         areas.add(conRoom1);
+        procedures.get(0).addArea(conRoom1,5);
 
         IStrategy dijkstraStrategy = new DijkstraStrategy(gm, 1);
         dijkstraStrategy.setName("dijkstra");
@@ -128,6 +144,13 @@ public class HospitalDemo extends AbstractDemo {
         }
         RewardView rv = new RewardView(controller.getSimbadFrame().getDesktopPane(),rbtNames);
         rv.createPane(10,170);
+
+        IRewardControlller rwrdCont = new RewardController(controlledRobots,20000);
+        rwrdCont.addRewardView(rv);
+        rwrdCont.addProcedure(procedures.get(0));
+        rwrdCont.addProcedure(procedures.get(1));
+        rwrdCont.startTimer();
+
 
 
 

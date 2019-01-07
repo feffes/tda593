@@ -11,21 +11,22 @@ import java.util.*;
 public class RewardController implements IRewardControlller, RobotObserver {
 
     private IProcedure activeProcedure;
-    private Set<IProcedure> procedures;
+    private List<IProcedure> procedures;
     private Set<IRewardView> views;
     private List<IRobot> robots;
     private RewardTimer timer;
 
 
-    public RewardController(List<IRobot> robots) {
+    public RewardController(List<IRobot> robots,long sleepTime) {
         views = new HashSet<>();
         this.robots = robots;
-        procedures = new HashSet<>();
-        timer = new RewardTimer(2000); //2 seconds for testing
+        procedures = new ArrayList<>();
+        timer = new RewardTimer(sleepTime); //2 seconds for testing
 
     }
 
     public void startTimer() {
+        updateProcedure(procedures.get(0));
         timer.start();
     }
 
