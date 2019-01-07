@@ -17,25 +17,25 @@ public class RewardDemo {
     private List<IRobot> robots;
     private BetterAbstractSimulatorMonitor monitor;
 
-    public RewardDemo(List<IRobot> robots, BetterAbstractSimulatorMonitor monitor){
+    public RewardDemo(List<IRobot> robots, BetterAbstractSimulatorMonitor monitor) {
         this.robots = robots;
         this.monitor = monitor;
     }
 
-    public void initDemo1(){
+    public void initDemo1() {
         IRewardControlller rewardControlller = new RewardController(robots);
 
         IProcedure procedureA = new Procedure("A");
-        procedureA.addArea(UniversityDemo.initRoom3(),2);
+        procedureA.addArea(UniversityDemo.initRoom3(), 2);
         rewardControlller.addProcedure(procedureA);
 
         IProcedure procedureB = new Procedure("B");
-        procedureB.addArea(UniversityDemo.initRoom4(),3);
+        procedureB.addArea(UniversityDemo.initRoom4(), 3);
         rewardControlller.addProcedure(procedureB);
 
         rewardControlller.updateProcedure(procedureA);
 
-        IRewardView rewardView = new RewardView(monitor.getSimbadFrame().getDesktopPane(),getRobotNames());
+        IRewardView rewardView = new RewardView(monitor.getSimbadFrame().getDesktopPane(), getRobotNames());
         rewardControlller.addRewardView(rewardView);
 
         addObservers((RewardController) rewardControlller);
@@ -43,16 +43,16 @@ public class RewardDemo {
         rewardControlller.startTimer();
     }
 
-    private List<String> getRobotNames (){
+    private List<String> getRobotNames() {
         List<String> strings = new ArrayList<>();
-        for(IRobot ro : robots){
+        for (IRobot ro : robots) {
             strings.add(ro.toString());
         }
         return strings;
     }
 
-    private void addObservers (RewardController rewcont){
-        for(IRobot robot : robots){
+    private void addObservers(RewardController rewcont) {
+        for (IRobot robot : robots) {
             robot.addObserver(rewcont);
         }
     }

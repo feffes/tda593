@@ -1,6 +1,7 @@
 package mdsd.controller;
 
 //import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import mdsd.model.*;
 import mdsd.view.IMissionView;
 import project.Point;
@@ -10,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class RobotController implements RobotObserver, IRobotController,ActionListener {
+public class RobotController implements RobotObserver, IRobotController, ActionListener {
     private List<IRobot> robots;
     private Map<IRobot, IMission> missionMap;
     private Map<IRobot, IStrategy> strategyMap;
@@ -37,34 +38,40 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
         robots.add(robot);
     }
 
-    public void addStrategy(IStrategy strategy){
+    public void addStrategy(IStrategy strategy) {
         strategies.add(strategy);
     }
+
 
     public void addView(IMissionView view){
         views.add(view);
     }
 
-    public void removeView(IMissionView view){
+    public void removeView(IMissionView view) {
         views.remove(view);
+    }
+
+    public void setStrategy(IRobot robot, IStrategy strategy) {
+        strategyMap.put(robot, strategy);
+
     }
 
     private void updateTravelMap(IRobot robot) {
         try {
             IGoal goal;
-            if(missionMap.get(robot).hasNextGoal()){
+            if (missionMap.get(robot).hasNextGoal()) {
                 goal = missionMap.get(robot).getNext();
                 goal.setGoalPosition(robot);
                 IStrategy strt = strategyMap.get(robot);
                 Iterator<Point> pnts = strt.ComputeRoute(goal, robot.getPosition());
                 travelMap.put(robot, pnts);
-            }else{
+            } else {
                 return;
             }
 
         } catch (NullPointerException e) {
             e.printStackTrace();
-        } catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             System.out.println("I've got nothin' to do, man");
         }
 
@@ -104,7 +111,7 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
         }
     }
 
-    public int getAmountRobots(){
+    public int getAmountRobots() {
         return robots.size();
     }
 
@@ -112,27 +119,30 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
     public void setMission(int robotIndex, List<String> missionStr, String strategyStr) {
         IRobot robot = robots.get(robotIndex);
 
-
-        if (!missionStr.isEmpty()){
+        if (!missionStr.isEmpty()) {
             IMission mission = createMission(missionStr);
             missionMap.put(robot, mission);
 
             views.stream().forEach(v -> v.updateMission(robots.indexOf(robot), mission.getStringList()));
-        }
 
-        if (!strategyStr.isEmpty()){
-            if(!strategies.stream().anyMatch(s -> s.getName().equals(strategyStr))){
+            if (!strategies.stream().anyMatch(s -> s.getName().equals(strategyStr))) {
                 throw new IllegalArgumentException("Strategy does not exist");
             }
 
-            Optional<IStrategy> strategyOpt = strategies.stream().filter(s -> s.getName().equals(strategyStr)).findFirst();
-            IStrategy strategy = strategyOpt.get();
+            if (!strategyStr.isEmpty()) {
+                if (!strategies.stream().anyMatch(s -> s.getName().equals(strategyStr))) {
+                    throw new IllegalArgumentException("Strategy does not exist");
+                }
 
-            strategyMap.put(robot, strategy);
+                Optional<IStrategy> strategyOpt = strategies.stream().filter(s -> s.getName().equals(strategyStr)).findFirst();
+                IStrategy strategy = strategyOpt.get();
+
+                strategyMap.put(robot, strategy);
+            }
+
+            updateTravelMap(robot);
+            updateDestination(robot);
         }
-
-        updateTravelMap(robot);
-        updateDestination(robot);
     }
 
     private IMission createMission(List<String> goalStrings) {
@@ -156,11 +166,11 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
     private IGoal createGoal(String[] args) throws IllegalAccessException, InstantiationException {
         Class<? extends IGoal> goalType = goalTypeMap.get(args[0]);
 
-        if(args.length > 1 && AreaGoal.class.isAssignableFrom(goalType)){
-            if(areas.stream().anyMatch(a -> a.getName().equals(args[1]))){
+        if (args.length > 1 && AreaGoal.class.isAssignableFrom(goalType)) {
+            if (areas.stream().anyMatch(a -> a.getName().equals(args[1]))) {
                 Area area = areas.stream().filter(a -> a.getName().equals(args[1])).findFirst().get();
 
-                AreaGoal areaGoal = (AreaGoal)goalType.newInstance();
+                AreaGoal areaGoal = (AreaGoal) goalType.newInstance();
 
                 areaGoal.setArea(area);
                 return areaGoal;
@@ -168,7 +178,7 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
             } else {
                 throw new IllegalArgumentException("Area in mission not specified.");
             }
-        } else if (args.length > 2 && PointGoal.class.isAssignableFrom(goalType)){
+        } else if (args.length > 2 && PointGoal.class.isAssignableFrom(goalType)) {
             Point point = new Point(Double.parseDouble(args[1]), Double.parseDouble(args[2]));
             return new PointGoal(point);
         }
@@ -179,9 +189,20 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        for(IRobot robot : robots){
+        for (IRobot robot : robots) {
             robot.stop();
         }
+    }
+
+    public int checkTemp(Robot robot){
+
+        for(Area a : areas){
+
+            if(a.isInside(robot)){
+                return a.getTemperature();
+            }
+        }
+        return 0;
     }
 }
 

@@ -21,17 +21,15 @@ public class GridManager {
     private int worldZ2;
 
 
-
-
-    GridManager(List<GridElement> allElements){
+    GridManager(List<GridElement> allElements) {
         this.allElements = allElements;
     }
 
-    public GridManager(){
+    public GridManager() {
 
     }
 
-    public void addHorizantalWall(HorizontalWall wall){
+    public void addHorizantalWall(HorizontalWall wall) {
         walls.add(wall);
 
         double x1 = wall.getP1x();
@@ -40,10 +38,10 @@ public class GridManager {
         double x2 = x1 + 0.3;
 
 
-        while(x1 < x2){
+        while (x1 < x2) {
             z1 = wall.getP1z();
-            while (z1 < z2){
-                translateToGrid(x1,z1).occupy();
+            while (z1 < z2) {
+                translateToGrid(x1, z1).occupy();
                 z1 += elementSize;
             }
             x1 += elementSize;
@@ -51,7 +49,7 @@ public class GridManager {
 
     }
 
-    public void addVerticalWall(VerticalWall wall){
+    public void addVerticalWall(VerticalWall wall) {
         walls.add(wall);
 
         double x1 = wall.getP1x();
@@ -59,10 +57,10 @@ public class GridManager {
         double z1 = wall.getP1z();
         double z2 = z1 + 0.3;
 
-        while(x1 < x2){
+        while (x1 < x2) {
             z1 = wall.getP1z();
-            while (z1 < z2){
-                translateToGrid(x1,z1).occupy();
+            while (z1 < z2) {
+                translateToGrid(x1, z1).occupy();
                 z1 += elementSize;
             }
             x1 += elementSize;
@@ -70,43 +68,46 @@ public class GridManager {
 
     }
 
-    public Point translateToPoint (int x, int z){
-        double newX = x * elementSize+worldX1;
-        double newZ = z * elementSize+worldZ1;
-        return new Point(newX,newZ);
+    public Point translateToPoint(int x, int z) {
+        double newX = x * elementSize + worldX1;
+        double newZ = z * elementSize + worldZ1;
+        return new Point(newX, newZ);
     }
-    public Point toCenter(Point p){
-        return new Point(p.getX()+(elementSize/2),p.getZ()+(elementSize/2));
+
+    public Point toCenter(Point p) {
+        return new Point(p.getX() + (elementSize / 2), p.getZ() + (elementSize / 2));
     }
-    public Point translateToPoint (GridElement grd){
+
+    public Point translateToPoint(GridElement grd) {
         return translateToPoint(grd.getX(), grd.getZ());
     }
-    public List<Point> translateToPoints (List<GridElement> grds){
+
+    public List<Point> translateToPoints(List<GridElement> grds) {
         List<Point> pnts = new ArrayList<>();
-        for (GridElement grd: grds) {
+        for (GridElement grd : grds) {
             pnts.add(toCenter(translateToPoint(grd)));
         }
         return pnts;
     }
 
-    public GridElement translateToGrid(double x, double z){
+    public GridElement translateToGrid(double x, double z) {
         int newX = (int) Math.round((x - worldX1) / elementSize);
         int newZ = (int) Math.round((z - worldZ1) / elementSize);
         return grid[newX][newZ];
 
     }
-    public GridElement translateToGrid(Point p){
+
+    public GridElement translateToGrid(Point p) {
         return translateToGrid(p.getX(), p.getZ());
     }
 
 
-
     //Possible imporovement: decide the distance between the points. 1 for now
-    public void generateGrid(int x1, int z1, int x2, int z2, double elementSize){
-            worldX1 = x1;
-            worldX2 = x2;
-            worldZ1 = z1;
-            worldZ2 = z2;
+    public void generateGrid(int x1, int z1, int x2, int z2, double elementSize) {
+        worldX1 = x1;
+        worldX2 = x2;
+        worldZ1 = z1;
+        worldZ2 = z2;
 
         //assuming user knows wtf he's doing
         this.elementSize = elementSize;
@@ -119,27 +120,27 @@ public class GridManager {
         int x;
         int z;
 
-        x=0;
-         while(x <= sizeX-1){
-             z = 0;
-             while(z <= sizeZ-1){
-                 GridElement e = new GridElement(x,z,true);
-                 grid[x][z] = e;
-                 allElements.add(e);
+        x = 0;
+        while (x <= sizeX - 1) {
+            z = 0;
+            while (z <= sizeZ - 1) {
+                GridElement e = new GridElement(x, z, true);
+                grid[x][z] = e;
+                allElements.add(e);
                 z++;
-             }
-             x++;
-         }
+            }
+            x++;
+        }
     }
 
-    public List<GridElement> getNeighbors(GridElement e){
+    public List<GridElement> getNeighbors(GridElement e) {
         List<GridElement> neighbors = new ArrayList<GridElement>();
 
-        for(int i = -1 ;i<2;i++){
-            for(int j = -1; j<2 ;j++){
-                if(! (i==0 && j==0))  {
-                    GridElement n = getFreeNeighbor(e,i,j);
-                    if(n != null){
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                if (!(i == 0 && j == 0)) {
+                    GridElement n = getFreeNeighbor(e, i, j);
+                    if (n != null) {
                         neighbors.add(n);
                     }
                 }
@@ -149,16 +150,16 @@ public class GridManager {
 
     }
 
-    public List<GridElement> getDiagonalNeighbors(GridElement e){
+    public List<GridElement> getDiagonalNeighbors(GridElement e) {
         List<GridElement> neighbors = new ArrayList<GridElement>();
-        int[] offsets = {1,-1};
+        int[] offsets = {1, -1};
 
         for (int i : offsets) {
             for (int j : offsets) {
-                    GridElement n = getFreeNeighbor(e,i,j);
-                    if(n != null){
-                        neighbors.add(n);
-                    }
+                GridElement n = getFreeNeighbor(e, i, j);
+                if (n != null) {
+                    neighbors.add(n);
+                }
             }
         }
 
@@ -166,16 +167,16 @@ public class GridManager {
 
     }
 
-    public List<GridElement> getOpposingNeighbors(GridElement e){
+    public List<GridElement> getOpposingNeighbors(GridElement e) {
         List<GridElement> neighbors = new ArrayList<GridElement>();
-        int[] offsets = {1,-1,0};
+        int[] offsets = {1, -1, 0};
 
         for (int i : offsets) {
             for (int j : offsets) {
-                if(! ( (i==0 && j==0) || (i==1 && j==1) || (i==1 && j==-1)
-                        || (i==-1 && j==1) || (i==-1 && j==-1))) {
-                    GridElement n = getFreeNeighbor(e,i,j);
-                    if(n != null){
+                if (!((i == 0 && j == 0) || (i == 1 && j == 1) || (i == 1 && j == -1)
+                        || (i == -1 && j == 1) || (i == -1 && j == -1))) {
+                    GridElement n = getFreeNeighbor(e, i, j);
+                    if (n != null) {
                         neighbors.add(n);
                     }
                 }
@@ -187,36 +188,36 @@ public class GridManager {
 
     }
 
-    public GridElement getFreeNeighbor(GridElement e , int offsetX, int offsetZ){
-        try{
-            GridElement neighbor = grid[e.getX()+offsetX][e.getZ()+offsetZ];
-            if(neighbor.isFree()){
+    public GridElement getFreeNeighbor(GridElement e, int offsetX, int offsetZ) {
+        try {
+            GridElement neighbor = grid[e.getX() + offsetX][e.getZ() + offsetZ];
+            if (neighbor.isFree()) {
                 return neighbor;
-            }else{
+            } else {
                 return null;
             }
-        }catch(Exception exp){
+        } catch (Exception exp) {
             return null; //maybe imporve this
         }
 
     }
 
-    public GridElement[][] getGrid(){
+    public GridElement[][] getGrid() {
         return grid;
     }
 
-    public void add(GridElement ge){
+    public void add(GridElement ge) {
         allElements.add(ge);
     }
 
-    public List<GridElement> getAllElements(){
+    public List<GridElement> getAllElements() {
         return allElements;
     }
 
     public String gridToString() {
         StringBuilder builder = new StringBuilder();
-        for(int i = 0; i < grid.length ; i++){
-            for( int j = 0; j < grid[i].length ; j++){
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
                 builder.append(grid[j][i].toString());
             }
             builder.append("\n");
@@ -226,11 +227,11 @@ public class GridManager {
 
     public String gridToString(List<GridElement> gridList) {
         StringBuilder builder = new StringBuilder();
-        for(int i = 0; i < grid.length ; i++){
-            for( int j = 0; j < grid[i].length ; j++){
-                if(gridList.contains(grid[j][i])){
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (gridList.contains(grid[j][i])) {
                     builder.append("o");
-                }else{
+                } else {
                     builder.append(grid[j][i].toString());
                 }
 

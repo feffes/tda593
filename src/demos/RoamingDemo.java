@@ -1,12 +1,10 @@
 package demos;
 
-import Tests.TestUtils;
 import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
 import mdsd.utils.InitializeUtils;
-import mdsd.view.AreaView;
 import mdsd.view.PanicButton;
 import mdsd.view.SimulatorMonitor;
 import project.Point;
@@ -15,9 +13,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-public class UniversityDemo extends AbstractDemo {
+public class RoamingDemo extends AbstractDemo{
     private GridManager gm;
 
     public Robot robot1;
@@ -27,11 +24,11 @@ public class UniversityDemo extends AbstractDemo {
     public Set<Area> areas;
 
 
-    public UniversityDemo() {
+    public RoamingDemo(){
         super();
         this.gm = new GridManager();
         IEnvironmentManager env = new EnvironmentManager(this, gm);
-        gm.generateGrid(-10, -10, 10, 10, 0.5);
+        gm.generateGrid(-10,-10,10,10,0.5);
 
         env.addHorizontalBoundary(-10.0f, -10.0f, 10.0f);
         env.addHorizontalBoundary(10.0f, -10.0f, 10.0f);
@@ -46,7 +43,7 @@ public class UniversityDemo extends AbstractDemo {
 
         env.addHorizontalWall(5f, -1.5f, 1.5f);
         env.addHorizontalWall(5f, -5f, -3.5f);
-        env.addHorizontalWall(5f, 3.5f, 5f);
+        env.addHorizontalWall( 5f, 3.5f, 5f);
 
         env.addVerticalWall(5f, -5f, 5f);
         env.addVerticalWall(-5f, -5f, 5f);
@@ -77,44 +74,37 @@ public class UniversityDemo extends AbstractDemo {
         Area room4 = initRoom4();
         areas.add(room4);
 
-        IStrategy simpleStrategy = new DijkstraStrategy(gm, 1);
-        simpleStrategy.setName("dijkstra");
+        //IStrategy simpleStrategy =  new DijkstraStrategy(gm,1);
+        IStrategy roaming = new RoamingStrategy();
 
-        robot1 = new Robot(new Point(-7, 2), "Robot1", 10);
-        robot2 = new Robot(new Point(-7, 1), "Robot2", 10);
-        robot3 = new Robot(new Point(-7, -1), "Robot3", 10);
-        robot4 = new Robot(new Point(-7, -2), "Robot4", 10);
+       roaming.setName("roamingStrategy");
 
-        Set<Robot> robots = new HashSet<>(Arrays.asList(robot1, robot2, robot3, robot4));
+        robot1 = new Robot(new Point(-2, 2), "Robot1", 10);
+
+
+        Set<Robot> robots = new HashSet<>(Arrays.asList(robot1));
 
         BetterAbstractSimulatorMonitor controller = new SimulatorMonitor(robots, this);
 
-        List<IRobot> controlledRobots = Arrays.asList(robot1, robot2, robot3, robot4);
+        List<IRobot> controlledRobots = Arrays.asList(robot1);
 
-        Set<IStrategy> strategies = new HashSet<>(Arrays.asList(simpleStrategy));
+        Set<IStrategy> strategies = new HashSet<>(Arrays.asList(roaming));
 
-        RobotController robotController = new RobotController(controlledRobots, areas, strategies,
-                InitializeUtils.initGoalMap());
+        RobotController robotController = new RobotController(controlledRobots, areas, strategies, InitializeUtils.initGoalMap());
 
         PanicButton panicButton = new PanicButton(controller.getSimbadFrame().getDesktopPane(), robotController);
         panicButton.createButton();
 
-        Set<String> robotNames = controlledRobots.stream().map(r -> r.toString()).collect(Collectors.toSet());
-        AreaView areaView = new AreaView(robotNames);
-
         AreaController areaController = new AreaController(areas);
-        areaController.addAreaView(areaView);
 
         for (IRobot r : controlledRobots) {
             r.addObserver(areaController);
             r.addObserver(robotController);
         }
 
-        robotController.setMission(0, Arrays.asList("enter 1", "enter 2", "exit university"), "dijkstra");
-        robotController.setMission(1, Arrays.asList("enter 2", "enter 3", "exit university"), "dijkstra");
-        robotController.setMission(2, Arrays.asList("enter 3", "enter 4", "exit university"), "dijkstra");
-        robotController.setMission(3, Arrays.asList("enter 4", "enter 1", "exit university"), "dijkstra");
+        robotController.setMission(0, Arrays.asList("enter 3"), "roamingStrategy");
 
+        System.out.println("This room's temperature:" + robotController.checkTemp(robot1));
 
     }
 

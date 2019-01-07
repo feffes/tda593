@@ -20,7 +20,7 @@ public class AreaController implements RobotObserver, IAreaController {
     private Map<Area, Integer> robotsInAreaMap;
     private Set<IAreaView> views;
 
-    public AreaController(Set<Area> areas)  {
+    public AreaController(Set<Area> areas) {
         this.views = new HashSet<>();
         waitingDestinationMap = new ConcurrentHashMap<>();
         waitingQueueMap = initWaitingQueueMap(areas);
@@ -29,7 +29,7 @@ public class AreaController implements RobotObserver, IAreaController {
         this.robotsInAreaMap = initRobotsInAreaMap(areas);
     }
 
-    private Map<Area, Queue<IRobot>> initWaitingQueueMap(Set<Area> areas){
+    private Map<Area, Queue<IRobot>> initWaitingQueueMap(Set<Area> areas) {
         Map<Area, Queue<IRobot>> map = new ConcurrentHashMap<>();
         for (Area a : areas) {
             map.put(a, new ConcurrentLinkedDeque<>());
@@ -47,7 +47,7 @@ public class AreaController implements RobotObserver, IAreaController {
 
     private void activateWaitingRobots(Area a) {
         Queue<IRobot> queue = waitingQueueMap.get(a);
-        if(queue.size() > 0){
+        if (queue.size() > 0) {
             IRobot robotInQueue = queue.poll();
 
             Point previousDestination = waitingDestinationMap.remove(robotInQueue);
@@ -74,11 +74,12 @@ public class AreaController implements RobotObserver, IAreaController {
             for (Area a : robotInsideAreas) {
                 if (!a.isInside(robot)) {
                     areasToRemove.add(a);
+
                 }
             }
 
             for (Area a : areasToRemove) {
-                for(IAreaView view:views){
+                for (IAreaView view : views) {
                     view.robotLeftArea(robot.toString(), a.getName());
                 }
 
@@ -97,6 +98,7 @@ public class AreaController implements RobotObserver, IAreaController {
     private void handleEnteringAreas(IRobot robot) {
         Set<Area> robotInsideAreas = new HashSet<>();
 
+
         if (robotsInsideMap.containsKey(robot))
             robotInsideAreas = robotsInsideMap.get(robot);
 
@@ -105,21 +107,25 @@ public class AreaController implements RobotObserver, IAreaController {
                 stopRobot(robot, area);
             } else if (!robotInsideAreas.contains(area) && area.isInside(robot)) {
 
+                robot.setTempWaiting(2, robot.getDestination());
                 robotInsideAreas.add(area);
 
-                for(IAreaView view:views){
+                for (IAreaView view : views) {
                     view.robotEnteredArea(robot.toString(), area.getName());
                 }
 
                 robotsInsideMap.put(robot, robotInsideAreas);
                 robotsInAreaMap.put(area, robotsInAreaMap.get(area) + 1);
+
             }
         }
+
     }
+
 
     @Override
     public synchronized void update(IRobot robot) {
-        if (robot.isWaiting()){
+        if (robot.isWaiting()) {
             return;
         }
         handleLeavingAreas(robot);

@@ -23,4 +23,6 @@ public interface Area {
     public String getName();
 
     public void setName(String name);
+
+    public int getTemperature();
 }

@@ -49,17 +49,16 @@ public class MissionView implements ActionListener ,IMissionView {
     }
 
 
-
     //return false if incorrect command, otherwise performs the command
-    private boolean isValidCommand(String cmd){
+    private boolean isValidCommand(String cmd) {
         cmd = cmd.toLowerCase();
         String[] splited = cmd.split(" ");
-        for(int i = 0; i < splited.length ; i++){
-            splited[i] = splited[i].replaceAll("\\s","");
+        for (int i = 0; i < splited.length; i++) {
+            splited[i] = splited[i].replaceAll("\\s", "");
         }
-        if(splited[0].equals("enter") || splited[0].equals("middle") || splited[0].equals("exit")){
+        if (splited[0].equals("enter") || splited[0].equals("middle") || splited[0].equals("exit")) {
             return splited.length == 2 ? true : false;
-        }else if(splited[0] == "point"){
+        } else if (splited[0] == "point") {
             return splited.length == 3 ? true : false;
         }
         return false;
@@ -67,17 +66,13 @@ public class MissionView implements ActionListener ,IMissionView {
 
 
     //should get robot indx from robotcontroller
-    public static  int isOkayInteger(String str, int robotAmount)
-    {
-        try
-        {
+    public static int isOkayInteger(String str, int robotAmount) {
+        try {
             Integer i = Integer.parseInt(str);
-            if( !(i < 0 || i > robotAmount)){
+            if (!(i < 0 || i > robotAmount)) {
                 return i;
             }
-        }
-        catch(NumberFormatException nfe)
-        {
+        } catch (NumberFormatException nfe) {
             return -1;
         }
         return -1;

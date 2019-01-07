@@ -23,12 +23,12 @@ public class PointGoal implements IGoal {
     }
 
     @Override
-    public boolean equals(Object o){
-        if(!(o instanceof PointGoal))
+    public boolean equals(Object o) {
+        if (!(o instanceof PointGoal))
             return false;
-        PointGoal p = (PointGoal)o;
+        PointGoal p = (PointGoal) o;
 
-        if(p.point.dist(this.point) < .00001)
+        if (p.point.dist(this.point) < .00001)
             return true;
 
         return false;
@@ -37,7 +37,7 @@ public class PointGoal implements IGoal {
 
     @Override
     public int hashCode() {
-        return 31*(int)point.getX() + (int)point.getZ();
+        return 31 * (int) point.getX() + (int) point.getZ();
     }
 
 
