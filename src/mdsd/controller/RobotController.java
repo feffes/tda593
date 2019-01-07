@@ -157,5 +157,16 @@ public class RobotController implements RobotObserver, IRobotController, ActionL
             robot.stop();
         }
     }
+
+    public int checkTemp(Robot robot){
+
+        for(Area a : areas){
+
+            if(a.isInside(robot)){
+                return a.getTemperature();
+            }
+        }
+        return 0;
+    }
 }
 

@@ -104,6 +104,8 @@ public class RoamingDemo extends AbstractDemo{
 
         robotController.setMission(0, Arrays.asList("enter 3"), "roamingStrategy");
 
+        System.out.println("This room's temperature:" + robotController.checkTemp(robot1));
+
 
     }
 

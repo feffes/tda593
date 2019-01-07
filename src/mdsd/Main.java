@@ -13,14 +13,12 @@ import mdsd.view.SimulatorMonitor;
 import project.Point;
 import simbad.sim.EnvironmentDescription;
 
-import java.awt.Color;
 
 @SuppressWarnings("unused")
 public class Main {
 
     @SuppressWarnings("unused")
     public static void main(String[] args) throws InterruptedException {
-
 
        RoamingDemo ud = new RoamingDemo();
 
