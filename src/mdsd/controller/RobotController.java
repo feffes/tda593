@@ -2,6 +2,7 @@ package mdsd.controller;
 
 //import com.sun.javaws.exceptions.InvalidArgumentException;
 import mdsd.model.*;
+import mdsd.view.IMissionView;
 import project.Point;
 
 import java.awt.event.ActionEvent;
@@ -17,12 +18,15 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
     private Set<Area> areas;
     private Set<IStrategy> strategies;
     private Map<String, Class<? extends IGoal>> goalTypeMap;
+    private List<IMissionView> views;
 
-    public RobotController(List<IRobot> robots, Set<Area> areas, Set<IStrategy> strategies, Map<String, Class<? extends IGoal>> goalTypeMap) {
+    public RobotController(List<IRobot> robots, Set<Area> areas, Set<IStrategy> strategies,
+                           Map<String, Class<? extends IGoal>> goalTypeMap, List<IMissionView> views) {
         this.strategies = strategies;
         this.robots = robots;
         this.areas = areas;
         this.goalTypeMap = goalTypeMap;
+        this.views = views;
 
         missionMap = new HashMap<>();
         strategyMap = new HashMap<>();
@@ -35,6 +39,14 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
 
     public void addStrategy(IStrategy strategy){
         strategies.add(strategy);
+    }
+
+    public void addView(IMissionView view){
+        views.add(view);
+    }
+
+    public void removeView(IMissionView view){
+        views.remove(view);
     }
 
     private void updateTravelMap(IRobot robot) {
@@ -69,6 +81,7 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
         }
         if (mission.reachedGoal(robot)) {
             updateTravelMap(robot);
+            views.stream().forEach(v -> v.updateMission(robots.indexOf(robot), mission.getStringList()));
         }
         updateDestination(robot);
     }
@@ -94,6 +107,8 @@ public class RobotController implements RobotObserver, IRobotController,ActionLi
         if (!missionStr.isEmpty()){
             IMission mission = createMission(missionStr);
             missionMap.put(robot, mission);
+
+            views.stream().forEach(v -> v.updateMission(robots.indexOf(robot), mission.getStringList()));
         }
 
         if (!strategyStr.isEmpty()){
