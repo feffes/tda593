@@ -6,7 +6,7 @@ import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
-import mdsd.utils.InitializeUtils;
+import demos.utils.InitializeUtils;
 import mdsd.view.SimulatorMonitor;
 import org.junit.*;
 

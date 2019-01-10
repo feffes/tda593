@@ -1,20 +1,20 @@
 package demos;
 
-import Tests.TestUtils;
 import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
 import mdsd.controller.IRewardControlller;
 import mdsd.controller.RewardController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
-import mdsd.utils.InitializeUtils;
+import demos.utils.InitializeUtils;
 import mdsd.view.*;
 import project.Point;
+import simbad.demo.Demo;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class UniversityDemo extends AbstractDemo {
+public class UniversityDemo extends Demo {
     private GridManager gm;
 
     public Robot robot1;

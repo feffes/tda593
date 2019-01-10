@@ -1,4 +1,4 @@
-package mdsd.utils;
+package demos.utils;
 
 import mdsd.model.*;
 

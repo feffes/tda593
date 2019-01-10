@@ -4,17 +4,18 @@ import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
-import mdsd.utils.InitializeUtils;
+import demos.utils.InitializeUtils;
 import mdsd.view.PanicButton;
 import mdsd.view.SimulatorMonitor;
 import project.Point;
+import simbad.demo.Demo;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class RoamingDemo extends AbstractDemo{
+public class RoamingDemo extends Demo {
     private GridManager gm;
 
     public Robot robot1;
