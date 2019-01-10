@@ -4,10 +4,7 @@ import project.Point;
 import simbad.sim.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.awt.Color;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.*;
 import java.util.Set;
 
 public class EnvironmentManager implements IEnvironmentManager {

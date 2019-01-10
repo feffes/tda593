@@ -2,12 +2,14 @@ package mdsd.controller;
 
 import mdsd.model.Area;
 import mdsd.model.IRobot;
-import mdsd.model.Robot;
 import mdsd.model.RobotObserver;
 import mdsd.view.IAreaView;
 import project.Point;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.stream.Collectors;

@@ -2,20 +2,19 @@
 package Tests;
 
 import demos.UniversityDemo;
+import demos.utils.InitializeUtils;
 import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
-import demos.utils.InitializeUtils;
 import mdsd.view.SimulatorMonitor;
-import org.junit.*;
-
-import static org.junit.Assert.*;
-
+import org.junit.Test;
 import project.Point;
 import simbad.sim.EnvironmentDescription;
 
 import java.util.*;
+
+import static org.junit.Assert.*;
 
 public class MissionTest {
 

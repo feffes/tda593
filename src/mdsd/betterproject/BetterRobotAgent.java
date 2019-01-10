@@ -5,13 +5,13 @@
 
 package mdsd.betterproject;
 
-import java.awt.Color;
-import javax.vecmath.Color3f;
-import javax.vecmath.Vector3d;
-
 import project.Point;
 import simbad.sim.Agent;
 import simbad.sim.RobotFactory;
+
+import javax.vecmath.Color3f;
+import javax.vecmath.Vector3d;
+import java.awt.*;
 
 public class BetterRobotAgent<R extends BetterAbstractRobotSimulator> extends Agent {
     private static final Color3f greenColor;

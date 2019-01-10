@@ -5,15 +5,12 @@
 
 package mdsd.betterproject;
 
-import java.awt.*;
-import java.util.Set;
-import java.util.function.Consumer;
-
 import simbad.gui.Simbad;
 import simbad.sim.EnvironmentDescription;
 import simbad.sim.Simulator;
 
 import javax.swing.*;
+import java.util.Set;
 
 public abstract class BetterAbstractSimulatorMonitor<R extends BetterAbstractRobotSimulator> {
     private Simbad frame;

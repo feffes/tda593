@@ -2,7 +2,8 @@ package Tests;
 
 import mdsd.model.GridElement;
 import mdsd.model.GridManager;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import project.Point;
 
 public class GridTest {

@@ -1,7 +1,5 @@
 package mdsd.view;
 
-import mdsd.controller.RewardController;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;

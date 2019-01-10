@@ -1,9 +1,5 @@
 package mdsd.model;
 
-import mdsd.model.IGoal;
-import mdsd.model.IMission;
-import mdsd.model.IRobot;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

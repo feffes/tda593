@@ -2,11 +2,10 @@ package Tests;
 
 import demos.UniversityDemo;
 import mdsd.model.*;
-import org.junit.*;
+import org.junit.Test;
+import project.Point;
 
 import static org.junit.Assert.*;
-
-import project.Point;
 
 public class GoalTest {
 

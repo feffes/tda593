@@ -1,12 +1,12 @@
 package demos;
 
+import demos.utils.InitializeUtils;
 import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
 import mdsd.controller.IRewardControlller;
 import mdsd.controller.RewardController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
-import demos.utils.InitializeUtils;
 import mdsd.view.*;
 import project.Point;
 import simbad.demo.Demo;

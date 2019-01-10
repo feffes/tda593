@@ -1,6 +1,5 @@
 package demos;
 
-import Tests.TestUtils;
 import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.IRewardControlller;
 import mdsd.controller.RewardController;

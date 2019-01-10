@@ -1,6 +1,5 @@
 package mdsd.model;
 
-import mdsd.model.IGoal;
 import project.Point;
 
 import java.util.Iterator;

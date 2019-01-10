@@ -1,10 +1,10 @@
 package demos;
 
+import demos.utils.InitializeUtils;
 import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
-import demos.utils.InitializeUtils;
 import mdsd.view.PanicButton;
 import mdsd.view.SimulatorMonitor;
 import project.Point;

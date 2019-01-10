@@ -3,7 +3,7 @@ package Tests;
 import mdsd.model.DijkstraSolver;
 import mdsd.model.GridElement;
 import mdsd.model.GridManager;
-import org.junit.*;
+import org.junit.Test;
 import simbad.sim.EnvironmentDescription;
 import simbad.sim.HorizontalWall;
 
