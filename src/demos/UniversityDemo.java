@@ -3,18 +3,15 @@ package demos;
 import Tests.TestUtils;
 import mdsd.betterproject.BetterAbstractSimulatorMonitor;
 import mdsd.controller.AreaController;
+import mdsd.controller.IRewardControlller;
+import mdsd.controller.RewardController;
 import mdsd.controller.RobotController;
 import mdsd.model.*;
 import mdsd.utils.InitializeUtils;
-import mdsd.view.AreaView;
-import mdsd.view.PanicButton;
-import mdsd.view.SimulatorMonitor;
+import mdsd.view.*;
 import project.Point;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class UniversityDemo extends AbstractDemo {
@@ -62,20 +59,29 @@ public class UniversityDemo extends AbstractDemo {
 
         areas = new HashSet<>();
 
+        List<IProcedure> procedures = new ArrayList<>();
+        procedures.add(new Procedure("A"));
+        procedures.add(new Procedure("B"));
+
         Area universityArea = initUniversityArea();
         areas.add(universityArea);
+        procedures.get(1).addArea(universityArea, 1);
 
         Area room1 = initRoom1();
         areas.add(room1);
+        procedures.get(0).addArea(room1, 1);
 
         Area room2 = initRoom2();
         areas.add(room2);
+        procedures.get(0).addArea(room2, 2);
 
         Area room3 = initRoom3();
         areas.add(room3);
+        procedures.get(0).addArea(room3, 1);
 
         Area room4 = initRoom4();
         areas.add(room4);
+        procedures.get(0).addArea(room4, 1);
 
         IStrategy simpleStrategy = new DijkstraStrategy(gm, 1);
         simpleStrategy.setName("dijkstra");
@@ -96,8 +102,19 @@ public class UniversityDemo extends AbstractDemo {
         RobotController robotController = new RobotController(controlledRobots, areas, strategies,
                 InitializeUtils.initGoalMap());
 
+        MissionView mv = new MissionView(robotController , controller.getSimbadFrame().getDesktopPane());
+        mv.createGUI(100,340);
+        robotController.addView(mv);
+
         PanicButton panicButton = new PanicButton(controller.getSimbadFrame().getDesktopPane(), robotController);
-        panicButton.createButton();
+        panicButton.createButton(210,170);
+
+        List<String> rbtNames = new ArrayList<>();
+        for(IRobot rbt : robots){
+            rbtNames.add(rbt.toString());
+        }
+        RewardView rv = new RewardView(controller.getSimbadFrame().getDesktopPane(),rbtNames);
+        rv.createPane(10,170);
 
         Set<String> robotNames = controlledRobots.stream().map(r -> r.toString()).collect(Collectors.toSet());
         AreaView areaView = new AreaView(robotNames);
@@ -114,6 +131,12 @@ public class UniversityDemo extends AbstractDemo {
         robotController.setMission(1, Arrays.asList("enter 2", "enter 3", "exit university"), "dijkstra");
         robotController.setMission(2, Arrays.asList("enter 3", "enter 4", "exit university"), "dijkstra");
         robotController.setMission(3, Arrays.asList("enter 4", "enter 1", "exit university"), "dijkstra");
+
+        IRewardControlller rwrdCont = new RewardController(controlledRobots,20000);
+        rwrdCont.addRewardView(rv);
+        rwrdCont.addProcedure(procedures.get(0));
+        rwrdCont.addProcedure(procedures.get(1));
+        rwrdCont.startTimer();
 
 
     }
