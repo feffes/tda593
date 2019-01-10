@@ -12,6 +12,7 @@ import mdsd.view.*;
 import project.Point;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class HospitalDemo extends AbstractDemo {
     private GridManager gm;
@@ -75,7 +76,7 @@ public class HospitalDemo extends AbstractDemo {
 
         Area surRoom1 = initSurRoom1();
         areas.add(surRoom1);
-        procedures.get(1).addArea(universityArea,1);
+        procedures.get(0).addArea(universityArea,1);
 
         Area surRoom2 = initSurRoom2();
         areas.add(surRoom2);
@@ -95,6 +96,14 @@ public class HospitalDemo extends AbstractDemo {
         Area conRoom1 = initConRoom1();
         areas.add(conRoom1);
         procedures.get(0).addArea(conRoom1,5);
+
+        Area eatingArea = initEatingArea();
+        areas.add(eatingArea);
+        procedures.get(1).addArea(eatingArea, 20);
+
+        Area wifiZone = initWiFiZone();
+        areas.add(wifiZone);
+        procedures.get(1).addArea(wifiZone, 10);
 
         IStrategy dijkstraStrategy = new DijkstraStrategy(gm, 1);
         dijkstraStrategy.setName("dijkstra");
@@ -145,6 +154,10 @@ public class HospitalDemo extends AbstractDemo {
         RewardView rv = new RewardView(controller.getSimbadFrame().getDesktopPane(),rbtNames);
         rv.createPane(10,170);
 
+        Set<String> robotNames = controlledRobots.stream().map(r -> r.toString()).collect(Collectors.toSet());
+        AreaView areaView = new AreaView(robotNames);
+        areaController.addAreaView(areaView);
+
         IRewardControlller rwrdCont = new RewardController(controlledRobots,20000);
         rwrdCont.addRewardView(rv);
         rwrdCont.addProcedure(procedures.get(0));
@@ -154,6 +167,24 @@ public class HospitalDemo extends AbstractDemo {
 
 
 
+    }
+
+    private static Area initEatingArea(){
+        Set<Point> exits = new HashSet<>();
+        exits.add(new Point(3.75, 5));
+
+        return new RectangleArea("eating", 0, 5, 5, 10, exits, true);
+    }
+
+    private static Area initWiFiZone(){
+        Set<Point> exits = new HashSet<>(Arrays.asList(
+                new Point(2.5, 2.5),
+                new Point(-2.5, 2.5),
+                new Point(-2.5, -2.5),
+                new Point(2.5, -2.5)
+        ));
+
+        return new RectangleArea("wifi", -2.5f, 2.5f, -2.5f, 2.5f, exits, false);
     }
 
     private static Area initHospitalArea() {

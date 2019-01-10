@@ -9,6 +9,7 @@ import project.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 public class RobotController implements RobotObserver, IRobotController, ActionListener {
@@ -29,9 +30,9 @@ public class RobotController implements RobotObserver, IRobotController, ActionL
         this.goalTypeMap = goalTypeMap;
         views = new ArrayList<>();
 
-        missionMap = new HashMap<>();
-        strategyMap = new HashMap<>();
-        travelMap = new HashMap<>();
+        missionMap = new ConcurrentHashMap<>();
+        strategyMap = new ConcurrentHashMap<>();
+        travelMap = new ConcurrentHashMap<>();
     }
 
     public void addRobot(IRobot robot) {
@@ -56,7 +57,7 @@ public class RobotController implements RobotObserver, IRobotController, ActionL
 
     }
 
-    private void updateTravelMap(IRobot robot) {
+    private synchronized void updateTravelMap(IRobot robot) {
         try {
             IGoal goal;
             if (missionMap.get(robot).hasNextGoal()) {
@@ -81,7 +82,9 @@ public class RobotController implements RobotObserver, IRobotController, ActionL
         IRobot rbt = robots.get(idx);
         StringBuilder builder = new StringBuilder();
         builder.append("Name: " + rbt.toString());
-        builder.append(" " + missionMap.get(rbt).getStringList());
+        if(missionMap.containsKey(rbt)){
+            builder.append(" " + missionMap.get(rbt).getStringList());
+        }
         return builder.toString();
     }
 
@@ -102,7 +105,7 @@ public class RobotController implements RobotObserver, IRobotController, ActionL
         updateDestination(robot);
     }
 
-    private void updateDestination(IRobot robot) {
+    private synchronized void updateDestination(IRobot robot) {
         Iterator<Point> travelIterator = travelMap.get(robot);
 
         if (travelIterator != null && travelIterator.hasNext()) {
